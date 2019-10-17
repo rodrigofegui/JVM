@@ -1,0 +1,21 @@
+digraph "TabSimbolo::TabSimbolo"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="TabSimbolo::TabSimbolo",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="TabSimbolo::decodificar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_simbolo.html#a33922075ec403d8000eb853e8a47f595",tooltip="Decodificador do arquivo binário .class para a tabela de símbolos. "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ler_u1",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#acb1c5d428b9c780736056cab1dd45242",tooltip="Leitura de 1 byte de um arquivo, considerado como binário. "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="InterCPDado::decodificar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_inter_c_p_dado.html#a2b500ab516a328fcf88e9775f2456dd8",tooltip="Decodificador do arquivo binário .class para um dado da tabela de símbolos, extraindo todos os seus c..."];
+  Node0 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="TabSimbolo::exibir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_simbolo.html#aaf940b6cb46d8274b5d92c5540001f1e",tooltip="Exibição da tabela na saída padrão com controle de tabulação. "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="get_padding",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#acae530d83a13e0d407569e117a35cec8",tooltip="Recuperação do padding a ser utilizado na numeração de tabelas, conforme as potências de 10..."];
+  Node0 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="TabSimbolo::get_string",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_simbolo.html#a0e2f0b4d7960dc28931232f69a9bf2fe",tooltip="Recuperação da descrição do item da tabela na posição requisitada, podendo ser um campo UTF-8..."];
+  Node0 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="TabSimbolo::deletar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_simbolo.html#a72a8aa073d2751f5334ccc0b318ee4e5",tooltip="Destrutor da tabela e suas dependências. "];
+}

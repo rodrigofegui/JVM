@@ -1,0 +1,15 @@
+digraph "Representação gráfica da hiearquia da classe"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="InterAtributo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_inter_atributo.html",tooltip="Interface para todos os tipos de atributos de um arquivo .class. "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="AttrArqFonte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_attr_arq_fonte.html",tooltip="Atributo do tipo <<SourceFile>> "];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="AttrCode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_attr_code.html",tooltip="Atributo do tipo <>, presente somente nos métodos. "];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="AttrLinhaNum",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_attr_linha_num.html",tooltip="Atributo do tipo <<LineNumberTable>>, comulmente associados aos atributos <> "];
+  Node0 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="AttrSilenciado",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_attr_silenciado.html",tooltip="Atributo sem tipo tratável. "];
+}

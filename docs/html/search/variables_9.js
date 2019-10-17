@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['tag',['tag',['../structinfo__classe.html#a8a2a07c936aa0747f9bf1e564b4598e0',1,'info_classe::tag()'],['../structinfo__ref__campo.html#abd3be03d6edf450c2c967af832835b36',1,'info_ref_campo::tag()'],['../structinfo__nome__tipo.html#a836bccab46fbe5606cd015135cd9aaaa',1,'info_nome_tipo::tag()'],['../structinfo__utf8.html#a6149e0a4262011fd62ccf350bb13d1bb',1,'info_utf8::tag()'],['../structinfo__mtd.html#ad77f9e07f69df7783234e97596fcc763',1,'info_mtd::tag()'],['../structinfo__mtd__itf.html#ad041570bb033b84db93d82165af3f597',1,'info_mtd_itf::tag()'],['../structinfo__string.html#afee8a3cb5fbba3ecbe9c8fc0fe0e19ae',1,'info_string::tag()'],['../structinfo__int.html#a68d4997279e0d30c518b4c9ab799a624',1,'info_int::tag()'],['../structinfo__float.html#a7a41580b63637d90db1111531817cc2b',1,'info_float::tag()'],['../structinfo__long.html#a562806e1cbfeb3cb5f8c4a5f7e674f7b',1,'info_long::tag()'],['../structinfo__double.html#ab73938b00dc5f97e08f7c5a029fa43f7',1,'info_double::tag()'],['../structcp__info.html#a045b8801a6e96a2a31d3b62ea684f141',1,'cp_info::tag()']]],
+  ['tam',['tam',['../structinfo__utf8.html#a5484ccf48c7ae0c20a49337ee2b4682e',1,'info_utf8']]]
+];

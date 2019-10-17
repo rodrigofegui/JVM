@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM: Código-Fonte de lib/Tipos/Campo.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('_campo_8hpp_source.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Campo.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_campo_8hpp.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef TIPOS_CAMPO_HPP</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">    #define TIPOS_CAMPO_HPP</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">    #include &lt;vector&gt;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">    #include &quot;../Interfaces/InterTabela.hpp&quot;</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="class_campo.html">   15</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_campo.html">Campo</a> {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">private</span>:</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <a class="code" href="class_inter_tabela.html">InterTabela</a> *tab_simbolos = <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">public</span>:</div><div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_campo.html#a00f232983f1b5be6ffaa4cc9ca306a70">   22</a></span>&#160;            <a class="code" href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> <a class="code" href="class_campo.html#a00f232983f1b5be6ffaa4cc9ca306a70">flag_acesso</a> = 0;</div><div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_campo.html#a8830eb3135c0e6b36f83d9c1e9f012b4">   23</a></span>&#160;            <a class="code" href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> <a class="code" href="class_campo.html#a8830eb3135c0e6b36f83d9c1e9f012b4">ind_nome</a> = 0;</div><div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_campo.html#aba2137d501dd30ddcbddc2e384bb4cee">   24</a></span>&#160;            <a class="code" href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> <a class="code" href="class_campo.html#aba2137d501dd30ddcbddc2e384bb4cee">ind_descritor</a> = 0;</div><div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class_campo.html#aa2b91eb886fe76af2e97d586770eb786">   25</a></span>&#160;            <a class="code" href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> <a class="code" href="class_campo.html#aa2b91eb886fe76af2e97d586770eb786">tam_tab_atributos</a> = 0;</div><div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="class_campo.html#ab66dfead11cf25cdc5d8f002a6be139d">   26</a></span>&#160;            <a class="code" href="class_inter_tabela.html">InterTabela</a> *<a class="code" href="class_campo.html#ab66dfead11cf25cdc5d8f002a6be139d">tab_atributos</a> = <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_campo.html#a7d275e6320f677fecafbf0b5cf99e762">   29</a></span>&#160;            <a class="code" href="class_campo.html#a7d275e6320f677fecafbf0b5cf99e762">Campo</a> (){};</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keyword">explicit</span> <a class="code" href="class_campo.html#a7d275e6320f677fecafbf0b5cf99e762">Campo</a> (<a class="code" href="class_inter_tabela.html">InterTabela</a> *<span class="keyword">const</span> tab_simbolos);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="class_campo.html#a0ba7eeb27bd81c8355190edad70ac680">decodificar</a> (FILE *<span class="keyword">const</span> arq);</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="class_campo.html#a9027198247156ceb17c5be74ed4a0814">exibir</a> (<span class="keyword">const</span> <a class="code" href="_basicos_8hpp.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> qnt_tabs);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="class_campo.html#a1aeff798dfdea3df29c98cbf6a747b06">deletar</a> ();</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    };</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div><div class="ttc" id="class_campo_html_a00f232983f1b5be6ffaa4cc9ca306a70"><div class="ttname"><a href="class_campo.html#a00f232983f1b5be6ffaa4cc9ca306a70">Campo::flag_acesso</a></div><div class="ttdeci">u2 flag_acesso</div><div class="ttdoc">Estrutura de um campo. </div><div class="ttdef"><b>Definition:</b> <a href="_campo_8hpp_source.html#l00022">Campo.hpp:22</a></div></div>
+<div class="ttc" id="class_campo_html_aa2b91eb886fe76af2e97d586770eb786"><div class="ttname"><a href="class_campo.html#aa2b91eb886fe76af2e97d586770eb786">Campo::tam_tab_atributos</a></div><div class="ttdeci">u2 tam_tab_atributos</div><div class="ttdef"><b>Definition:</b> <a href="_campo_8hpp_source.html#l00025">Campo.hpp:25</a></div></div>
+<div class="ttc" id="_basicos_8hpp_html_a732cde1300aafb73b0ea6c2558a7a54f"><div class="ttname"><a href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a></div><div class="ttdeci">uint16_t u2</div><div class="ttdoc">Tipo básico para 2 bytes sem sinal. </div><div class="ttdef"><b>Definition:</b> <a href="_basicos_8hpp_source.html#l00014">Basicos.hpp:14</a></div></div>
+<div class="ttc" id="class_inter_tabela_html"><div class="ttname"><a href="class_inter_tabela.html">InterTabela</a></div><div class="ttdoc">Interface para as tabelas de um arquivo .class. </div><div class="ttdef"><b>Definition:</b> <a href="_inter_tabela_8hpp_source.html#l00015">InterTabela.hpp:15</a></div></div>
+<div class="ttc" id="_basicos_8hpp_html_ad9f4cdb6757615aae2fad89dab3c5470"><div class="ttname"><a href="_basicos_8hpp.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a></div><div class="ttdeci">uint8_t u1</div><div class="ttdoc">Tipo básico para 1 byte sem sinal. </div><div class="ttdef"><b>Definition:</b> <a href="_basicos_8hpp_source.html#l00012">Basicos.hpp:12</a></div></div>
+<div class="ttc" id="class_campo_html_a8830eb3135c0e6b36f83d9c1e9f012b4"><div class="ttname"><a href="class_campo.html#a8830eb3135c0e6b36f83d9c1e9f012b4">Campo::ind_nome</a></div><div class="ttdeci">u2 ind_nome</div><div class="ttdef"><b>Definition:</b> <a href="_campo_8hpp_source.html#l00023">Campo.hpp:23</a></div></div>
+<div class="ttc" id="class_campo_html_a0ba7eeb27bd81c8355190edad70ac680"><div class="ttname"><a href="class_campo.html#a0ba7eeb27bd81c8355190edad70ac680">Campo::decodificar</a></div><div class="ttdeci">void decodificar(FILE *const arq)</div><div class="ttdoc">Decodificador do arquivo binário .class para um campo, extraindo todos os seus dados específicos...</div><div class="ttdef"><b>Definition:</b> <a href="_campo_8cpp_source.html#l00013">Campo.cpp:13</a></div></div>
+<div class="ttc" id="class_campo_html"><div class="ttname"><a href="class_campo.html">Campo</a></div><div class="ttdoc">Campo presente tanto na tabela de campos quanto na de métodos. </div><div class="ttdef"><b>Definition:</b> <a href="_campo_8hpp_source.html#l00015">Campo.hpp:15</a></div></div>
+<div class="ttc" id="class_campo_html_a9027198247156ceb17c5be74ed4a0814"><div class="ttname"><a href="class_campo.html#a9027198247156ceb17c5be74ed4a0814">Campo::exibir</a></div><div class="ttdeci">void exibir(const u1 qnt_tabs)</div><div class="ttdoc">Exibição de um campo na saída padrão, com controle de tabulação. </div><div class="ttdef"><b>Definition:</b> <a href="_campo_8cpp_source.html#l00027">Campo.cpp:27</a></div></div>
+<div class="ttc" id="class_campo_html_ab66dfead11cf25cdc5d8f002a6be139d"><div class="ttname"><a href="class_campo.html#ab66dfead11cf25cdc5d8f002a6be139d">Campo::tab_atributos</a></div><div class="ttdeci">InterTabela * tab_atributos</div><div class="ttdef"><b>Definition:</b> <a href="_campo_8hpp_source.html#l00026">Campo.hpp:26</a></div></div>
+<div class="ttc" id="class_campo_html_a7d275e6320f677fecafbf0b5cf99e762"><div class="ttname"><a href="class_campo.html#a7d275e6320f677fecafbf0b5cf99e762">Campo::Campo</a></div><div class="ttdeci">Campo()</div><div class="ttdoc">Construtor padrão. </div><div class="ttdef"><b>Definition:</b> <a href="_campo_8hpp_source.html#l00029">Campo.hpp:29</a></div></div>
+<div class="ttc" id="class_campo_html_a1aeff798dfdea3df29c98cbf6a747b06"><div class="ttname"><a href="class_campo.html#a1aeff798dfdea3df29c98cbf6a747b06">Campo::deletar</a></div><div class="ttdeci">void deletar()</div><div class="ttdoc">Destrutor de um campo e suas dependências. </div><div class="ttdef"><b>Definition:</b> <a href="_campo_8cpp_source.html#l00044">Campo.cpp:44</a></div></div>
+<div class="ttc" id="class_campo_html_aba2137d501dd30ddcbddc2e384bb4cee"><div class="ttname"><a href="class_campo.html#aba2137d501dd30ddcbddc2e384bb4cee">Campo::ind_descritor</a></div><div class="ttdeci">u2 ind_descritor</div><div class="ttdef"><b>Definition:</b> <a href="_campo_8hpp_source.html#l00024">Campo.hpp:24</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="dir_ffc3271e8ef812ad256a88e75a8b242c.html">Tipos</a></li><li class="navelem"><a class="el" href="_campo_8hpp.html">Campo.hpp</a></li>
+    <li class="footer">Gerado por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+digraph "lib/Tabelas/TabAtributos.hpp"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node7 [label="lib/Tabelas/TabAtributos.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="lib/Tipos/Atributos.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_atributos_8hpp.html"];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="src/Tabelas/TabAtributos.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_tab_atributos_8cpp.html"];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="src/Tipos/Atributos.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_atributos_8cpp.html"];
+  Node7 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="src/Tipos/ArqClass.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arq_class_8cpp.html"];
+  Node7 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="src/Tipos/Campo.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_campo_8cpp.html"];
+}

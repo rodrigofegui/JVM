@@ -1,0 +1,11 @@
+digraph "src/Tipos" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_68267d1309a1af8e8297ef4c3efbcdba {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_68267d1309a1af8e8297ef4c3efbcdba.html"]
+  dir_f9da17d37c2025d6f6bf7d587dac3aef [shape=box, label="Tipos", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f9da17d37c2025d6f6bf7d587dac3aef.html"];
+  }
+  dir_97aefd0d527b934f1d99a682da8fe6a9 [shape=box label="lib" fillcolor="white" style="filled" color="red" URL="dir_97aefd0d527b934f1d99a682da8fe6a9.html"];
+  dir_f9da17d37c2025d6f6bf7d587dac3aef->dir_97aefd0d527b934f1d99a682da8fe6a9 [headlabel="23", labeldistance=1.5 headhref="dir_000008_000000.html"];
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM: Referência à estrutura bc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('structbc.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Atributos Públicos</a> &#124;
+<a href="structbc-members.html">Mostrar lista completa dos membros</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência à estrutura bc</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Estrutura de um item da tabela de bytecodes.  
+ <a href="structbc.html#details">Mais...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_byte_code_8hpp_source.html">ByteCode.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Atributos Públicos</h2></td></tr>
+<tr class="memitem:ace0020c25f17082586a5095397b4150e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbc.html#ace0020c25f17082586a5095397b4150e">mnemonico</a></td></tr>
+<tr class="memdesc:ace0020c25f17082586a5095397b4150e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nome que indentifica o bytecode.  <a href="#ace0020c25f17082586a5095397b4150e">Mais...</a><br /></td></tr>
+<tr class="separator:ace0020c25f17082586a5095397b4150e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaebdfbccab1e0cca9e9f280d5d0d225"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbc.html#abaebdfbccab1e0cca9e9f280d5d0d225">manipulador</a> )(const std::vector&lt; <a class="el" href="_basicos_8hpp.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> &gt; codigo, const <a class="el" href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> c_pos, const <a class="el" href="_basicos_8hpp.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> e_interpretador)</td></tr>
+<tr class="memdesc:abaebdfbccab1e0cca9e9f280d5d0d225"><td class="mdescLeft">&#160;</td><td class="mdescRight">Função manipuladora do bytecode.  <a href="#abaebdfbccab1e0cca9e9f280d5d0d225">Mais...</a><br /></td></tr>
+<tr class="separator:abaebdfbccab1e0cca9e9f280d5d0d225"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Estrutura de um item da tabela de bytecodes. </p>
+
+<p class="definition">Definido na linha <a class="el" href="_byte_code_8hpp_source.html#l00019">19</a> do ficheiro <a class="el" href="_byte_code_8hpp_source.html">ByteCode.hpp</a>.</p>
+</div><h2 class="groupheader">Documentação dos dados membro</h2>
+<a id="abaebdfbccab1e0cca9e9f280d5d0d225"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaebdfbccab1e0cca9e9f280d5d0d225">&#9670;&nbsp;</a></span>manipulador</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int(* bc::manipulador) (const std::vector&lt; <a class="el" href="_basicos_8hpp.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> &gt; codigo, const <a class="el" href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> c_pos, const <a class="el" href="_basicos_8hpp.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> e_interpretador)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Função manipuladora do bytecode. </p>
+
+<p class="definition">Definido na linha <a class="el" href="_byte_code_8hpp_source.html#l00023">23</a> do ficheiro <a class="el" href="_byte_code_8hpp_source.html">ByteCode.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ace0020c25f17082586a5095397b4150e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace0020c25f17082586a5095397b4150e">&#9670;&nbsp;</a></span>mnemonico</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string bc::mnemonico</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Nome que indentifica o bytecode. </p>
+
+<p class="definition">Definido na linha <a class="el" href="_byte_code_8hpp_source.html#l00021">21</a> do ficheiro <a class="el" href="_byte_code_8hpp_source.html">ByteCode.hpp</a>.</p>
+
+</div>
+</div>
+<hr/>A documentação para esta estrutura foi gerada a partir do seguinte ficheiro:<ul>
+<li>lib/Tipos/<a class="el" href="_byte_code_8hpp_source.html">ByteCode.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="structbc.html">bc</a></li>
+    <li class="footer">Gerado por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
+</body>
+</html>

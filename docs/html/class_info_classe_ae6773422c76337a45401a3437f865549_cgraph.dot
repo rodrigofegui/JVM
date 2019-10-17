@@ -1,0 +1,9 @@
+digraph "InfoClasse::decodificar"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node7 [label="InfoClasse::decodificar",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="ler_u2",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#a03c0b303e6ae10d2faa53a91ca574aa0",tooltip="Leitura de 2 bytes de um arquivo, considerado como binário. "];
+}

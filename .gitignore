@@ -1,0 +1,15 @@
+# Editor de código
+.vscode
+
+# Arquivos executáveis
+bin/
+*.out
+
+# Arquivos objeto
+*.o
+
+# Materiais auxiliares diversos
+Referências/*
+
+# Makefile
+Makefile

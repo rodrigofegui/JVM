@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM: Código-Fonte de src/Uteis/Flags_Tags.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('_flags___tags_8cpp_source.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Flags_Tags.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_flags___tags_8cpp.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;../../lib/Uteis/Arquivos.hpp&quot;</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../../lib/Uteis/Flags_Tags.hpp&quot;</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div><div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="_flags___tags_8cpp.html#acc4df61f3853d5eba5b684ebb999d89f">    6</a></span>&#160;std::string <a class="code" href="_flags___tags_8cpp.html#acc4df61f3853d5eba5b684ebb999d89f">get_flag</a>(<a class="code" href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> a_verificar){</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    std::string flag;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#afd1116ea7d042fe7c9deea414f5549f2">FLG_PBC</a>)</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        flag += <span class="stringliteral">&quot;pública &quot;</span>;</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#a69f9f1466f3f46dd76ffd8e21df5d72c">FLG_PVD</a>)</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        flag += <span class="stringliteral">&quot;privada &quot;</span>;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#ad8cb97986d66064fd9571565a858dced">FLG_PTD</a>)</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        flag += <span class="stringliteral">&quot;protegida &quot;</span>;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#a16e0f34a4357c69714c2c419019b0b49">FLG_STC</a>)</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        flag += <span class="stringliteral">&quot;estática &quot;</span>;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#aeef9d2230e0edf9eb708fc0cf3b0d01e">FLG_FNL</a>)</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        flag += <span class="stringliteral">&quot;final &quot;</span>;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#aeff4bad0c0fa3a4f82c36d5407fe7808">FLG_SPR</a>)</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        flag += <span class="stringliteral">&quot;super &quot;</span>;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#a0a6d0c09cf33ebeb3425c641d6757072">FLG_VLT</a>)</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        flag += <span class="stringliteral">&quot;volátil &quot;</span>;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#a00b6b223f7f21c78c8aa904659e953a1">FLG_TST</a>)</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        flag += <span class="stringliteral">&quot;transiente &quot;</span>;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#a9489ffbcb5ed47f2d2038036b0cc1896">FLG_NTV</a>)</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        flag += <span class="stringliteral">&quot;nativo &quot;</span>;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#a72fff1018bb480584f56782c87a65ed3">FLG_ITF</a>)</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        flag += <span class="stringliteral">&quot;interface &quot;</span>;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#ae8e3b1bf694b8fe88e80e3671f86b9aa">FLG_ABS</a>)</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        flag += <span class="stringliteral">&quot;abstrata &quot;</span>;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span> (a_verificar &amp; <a class="code" href="_flags___tags_8hpp.html#a22d583dcc1e8992185fb8e46d4659f95">FLG_STT</a>)</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        flag += <span class="stringliteral">&quot;estrito &quot;</span>;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span> (!flag.length())</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Sem expecificação&quot;</span>;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    flag += <span class="stringliteral">&quot;[&quot;</span> + <a class="code" href="_arquivos_8hpp.html#a784ed1cfd09c35189303cce7da318b16">get_hex_2</a>(a_verificar) + <span class="stringliteral">&quot;]&quot;</span>;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">return</span> flag;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div><div class="ttc" id="_flags___tags_8cpp_html_acc4df61f3853d5eba5b684ebb999d89f"><div class="ttname"><a href="_flags___tags_8cpp.html#acc4df61f3853d5eba5b684ebb999d89f">get_flag</a></div><div class="ttdeci">std::string get_flag(u2 a_verificar)</div><div class="ttdoc">Recuperação de uma flag traduzida. </div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8cpp_source.html#l00006">Flags_Tags.cpp:6</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_afd1116ea7d042fe7c9deea414f5549f2"><div class="ttname"><a href="_flags___tags_8hpp.html#afd1116ea7d042fe7c9deea414f5549f2">FLG_PBC</a></div><div class="ttdeci">#define FLG_PBC</div><div class="ttdoc">Flags de acesso. </div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00042">Flags_Tags.hpp:42</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_a69f9f1466f3f46dd76ffd8e21df5d72c"><div class="ttname"><a href="_flags___tags_8hpp.html#a69f9f1466f3f46dd76ffd8e21df5d72c">FLG_PVD</a></div><div class="ttdeci">#define FLG_PVD</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00043">Flags_Tags.hpp:43</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_aeff4bad0c0fa3a4f82c36d5407fe7808"><div class="ttname"><a href="_flags___tags_8hpp.html#aeff4bad0c0fa3a4f82c36d5407fe7808">FLG_SPR</a></div><div class="ttdeci">#define FLG_SPR</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00047">Flags_Tags.hpp:47</a></div></div>
+<div class="ttc" id="_basicos_8hpp_html_a732cde1300aafb73b0ea6c2558a7a54f"><div class="ttname"><a href="_basicos_8hpp.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a></div><div class="ttdeci">uint16_t u2</div><div class="ttdoc">Tipo básico para 2 bytes sem sinal. </div><div class="ttdef"><b>Definition:</b> <a href="_basicos_8hpp_source.html#l00014">Basicos.hpp:14</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_ae8e3b1bf694b8fe88e80e3671f86b9aa"><div class="ttname"><a href="_flags___tags_8hpp.html#ae8e3b1bf694b8fe88e80e3671f86b9aa">FLG_ABS</a></div><div class="ttdeci">#define FLG_ABS</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00052">Flags_Tags.hpp:52</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_a72fff1018bb480584f56782c87a65ed3"><div class="ttname"><a href="_flags___tags_8hpp.html#a72fff1018bb480584f56782c87a65ed3">FLG_ITF</a></div><div class="ttdeci">#define FLG_ITF</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00051">Flags_Tags.hpp:51</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_ad8cb97986d66064fd9571565a858dced"><div class="ttname"><a href="_flags___tags_8hpp.html#ad8cb97986d66064fd9571565a858dced">FLG_PTD</a></div><div class="ttdeci">#define FLG_PTD</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00044">Flags_Tags.hpp:44</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_a00b6b223f7f21c78c8aa904659e953a1"><div class="ttname"><a href="_flags___tags_8hpp.html#a00b6b223f7f21c78c8aa904659e953a1">FLG_TST</a></div><div class="ttdeci">#define FLG_TST</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00049">Flags_Tags.hpp:49</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_a9489ffbcb5ed47f2d2038036b0cc1896"><div class="ttname"><a href="_flags___tags_8hpp.html#a9489ffbcb5ed47f2d2038036b0cc1896">FLG_NTV</a></div><div class="ttdeci">#define FLG_NTV</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00050">Flags_Tags.hpp:50</a></div></div>
+<div class="ttc" id="_arquivos_8hpp_html_a784ed1cfd09c35189303cce7da318b16"><div class="ttname"><a href="_arquivos_8hpp.html#a784ed1cfd09c35189303cce7da318b16">get_hex_2</a></div><div class="ttdeci">std::string get_hex_2(const u2 fonte)</div><div class="ttdoc">Recuperação da representação em hexadecimal de um número de 2 bytes. </div><div class="ttdef"><b>Definition:</b> <a href="_arquivos_8cpp_source.html#l00067">Arquivos.cpp:67</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_aeef9d2230e0edf9eb708fc0cf3b0d01e"><div class="ttname"><a href="_flags___tags_8hpp.html#aeef9d2230e0edf9eb708fc0cf3b0d01e">FLG_FNL</a></div><div class="ttdeci">#define FLG_FNL</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00046">Flags_Tags.hpp:46</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_a22d583dcc1e8992185fb8e46d4659f95"><div class="ttname"><a href="_flags___tags_8hpp.html#a22d583dcc1e8992185fb8e46d4659f95">FLG_STT</a></div><div class="ttdeci">#define FLG_STT</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00053">Flags_Tags.hpp:53</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_a0a6d0c09cf33ebeb3425c641d6757072"><div class="ttname"><a href="_flags___tags_8hpp.html#a0a6d0c09cf33ebeb3425c641d6757072">FLG_VLT</a></div><div class="ttdeci">#define FLG_VLT</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00048">Flags_Tags.hpp:48</a></div></div>
+<div class="ttc" id="_flags___tags_8hpp_html_a16e0f34a4357c69714c2c419019b0b49"><div class="ttname"><a href="_flags___tags_8hpp.html#a16e0f34a4357c69714c2c419019b0b49">FLG_STC</a></div><div class="ttdeci">#define FLG_STC</div><div class="ttdef"><b>Definition:</b> <a href="_flags___tags_8hpp_source.html#l00045">Flags_Tags.hpp:45</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8df5b1563d359b27a9ebde39528d124e.html">Uteis</a></li><li class="navelem"><a class="el" href="_flags___tags_8cpp.html">Flags_Tags.cpp</a></li>
+    <li class="footer">Gerado por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
+</body>
+</html>

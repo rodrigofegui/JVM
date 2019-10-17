@@ -1,0 +1,8 @@
+digraph "InterCPDado"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node12 [label="InterCPDado",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node13 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" tab_simbolos" ,fontname="Helvetica"];
+  Node13 [label="InterTabela",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_inter_tabela.html",tooltip="Interface para as tabelas de um arquivo .class. "];
+}

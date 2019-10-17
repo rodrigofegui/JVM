@@ -1,0 +1,13 @@
+digraph "AttrCode::exibir"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node40 [label="AttrCode::exibir",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node40 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="get_hex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#a7a7638c7b0fe45eed3bc5574949c1858",tooltip="Recuperação da representação em hexadecimal de um número de 1 byte. "];
+  Node40 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="TabAtributos::exibir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_atributos.html#a75160c5672309233b36ced5146b794f7",tooltip="Exibição da tabela na saída padrão com controle de tabulação. "];
+  Node42 -> Node43 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="get_padding",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#acae530d83a13e0d407569e117a35cec8",tooltip="Recuperação do padding a ser utilizado na numeração de tabelas, conforme as potências de 10..."];
+}

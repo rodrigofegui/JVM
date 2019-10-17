@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM: Referência ao ficheiro lib/Basicos/tipos.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('tipos_8h.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Estruturas de Dados</a> &#124;
+<a href="#typedef-members">Definições de tipos</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência ao ficheiro tipos.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Definição dos tipos básicos a serem utilizados.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+</div>
+<p><a href="tipos_8h_source.html">Ir para o código fonte deste ficheiro.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Estruturas de Dados</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__classe.html">info_classe</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de uma classe JAVA na <code>constante_pool</code>  <a href="structinfo__classe.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__ref__campo.html">info_ref_campo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um campo <code>constante_pool</code>  <a href="structinfo__ref__campo.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__nome__tipo.html">info_nome_tipo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um nome e de um tipo na <code>constante_pool</code>  <a href="structinfo__nome__tipo.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__utf8.html">info_utf8</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de uma string codificada em UTF-8 na <code>constante_pool</code>  <a href="structinfo__utf8.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__mtd.html">info_mtd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um método na <code>constante_pool</code>  <a href="structinfo__mtd.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__mtd__itf.html">info_mtd_itf</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um método de interface na <code>constante_pool</code>  <a href="structinfo__mtd__itf.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__string.html">info_string</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de uma referência para uma string na <code>constante_pool</code>  <a href="structinfo__string.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__int.html">info_int</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>int</code> na <code>constante_pool</code>  <a href="structinfo__int.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__float.html">info_float</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>float</code> na <code>constante_pool</code>  <a href="structinfo__float.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__long.html">info_long</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>long</code> na <code>constante_pool</code>  <a href="structinfo__long.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__double.html">info_double</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>double</code> na <code>constante_pool</code>  <a href="structinfo__double.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcp__info.html">cp_info</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados lidos a partir da <code>constante_pool</code>  <a href="structcp__info.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unioncp__info_1_1dados__cp__info.html">cp_info::dados_cp_info</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Definições de tipos</h2></td></tr>
+<tr class="memitem:ad9f4cdb6757615aae2fad89dab3c5470"><td class="memItemLeft" align="right" valign="top">typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a></td></tr>
+<tr class="memdesc:ad9f4cdb6757615aae2fad89dab3c5470"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tipo básico para 1 byte sem sinal.  <a href="#ad9f4cdb6757615aae2fad89dab3c5470">Mais...</a><br /></td></tr>
+<tr class="separator:ad9f4cdb6757615aae2fad89dab3c5470"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a732cde1300aafb73b0ea6c2558a7a54f"><td class="memItemLeft" align="right" valign="top">typedef uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a></td></tr>
+<tr class="memdesc:a732cde1300aafb73b0ea6c2558a7a54f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tipo básico para 2 bytes sem sinal.  <a href="#a732cde1300aafb73b0ea6c2558a7a54f">Mais...</a><br /></td></tr>
+<tr class="separator:a732cde1300aafb73b0ea6c2558a7a54f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b9d6b6157a817864c0bf017a60679ad"><td class="memItemLeft" align="right" valign="top">typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a0b9d6b6157a817864c0bf017a60679ad">u4</a></td></tr>
+<tr class="memdesc:a0b9d6b6157a817864c0bf017a60679ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tipo básico para 4 bytes sem sinal.  <a href="#a0b9d6b6157a817864c0bf017a60679ad">Mais...</a><br /></td></tr>
+<tr class="separator:a0b9d6b6157a817864c0bf017a60679ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bc43833d062c677b0e86ea975a5db89"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__classe.html">info_classe</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a6bc43833d062c677b0e86ea975a5db89">InfoClasse</a></td></tr>
+<tr class="memdesc:a6bc43833d062c677b0e86ea975a5db89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de uma classe JAVA na <code>constante_pool</code>  <a href="#a6bc43833d062c677b0e86ea975a5db89">Mais...</a><br /></td></tr>
+<tr class="separator:a6bc43833d062c677b0e86ea975a5db89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c7a4da936b282387afe7bb6d73d99cd"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__ref__campo.html">info_ref_campo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a9c7a4da936b282387afe7bb6d73d99cd">InfoRefCampo</a></td></tr>
+<tr class="memdesc:a9c7a4da936b282387afe7bb6d73d99cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um campo <code>constante_pool</code>  <a href="#a9c7a4da936b282387afe7bb6d73d99cd">Mais...</a><br /></td></tr>
+<tr class="separator:a9c7a4da936b282387afe7bb6d73d99cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9dbed85636bcbf09143e06d9962ed4c"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__nome__tipo.html">info_nome_tipo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#ab9dbed85636bcbf09143e06d9962ed4c">InfoNomeTipo</a></td></tr>
+<tr class="memdesc:ab9dbed85636bcbf09143e06d9962ed4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um nome e de um tipo na <code>constante_pool</code>  <a href="#ab9dbed85636bcbf09143e06d9962ed4c">Mais...</a><br /></td></tr>
+<tr class="separator:ab9dbed85636bcbf09143e06d9962ed4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d71620ddf5962f9e7ed44f35e28411d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__utf8.html">info_utf8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a5d71620ddf5962f9e7ed44f35e28411d">InfoUTF8</a></td></tr>
+<tr class="memdesc:a5d71620ddf5962f9e7ed44f35e28411d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de uma string codificada em UTF-8 na <code>constante_pool</code>  <a href="#a5d71620ddf5962f9e7ed44f35e28411d">Mais...</a><br /></td></tr>
+<tr class="separator:a5d71620ddf5962f9e7ed44f35e28411d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b94660438a7098097430895212e78b2"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__mtd.html">info_mtd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a0b94660438a7098097430895212e78b2">InfoMetodo</a></td></tr>
+<tr class="memdesc:a0b94660438a7098097430895212e78b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um método na <code>constante_pool</code>  <a href="#a0b94660438a7098097430895212e78b2">Mais...</a><br /></td></tr>
+<tr class="separator:a0b94660438a7098097430895212e78b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b614a2907dd7346b189b3f1262a59f2"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__mtd__itf.html">info_mtd_itf</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a6b614a2907dd7346b189b3f1262a59f2">InfoMetodoInterface</a></td></tr>
+<tr class="memdesc:a6b614a2907dd7346b189b3f1262a59f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um método de interface na <code>constante_pool</code>  <a href="#a6b614a2907dd7346b189b3f1262a59f2">Mais...</a><br /></td></tr>
+<tr class="separator:a6b614a2907dd7346b189b3f1262a59f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6d891523433d10adfdc06c2e0f1ebb"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__string.html">info_string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a9c6d891523433d10adfdc06c2e0f1ebb">InfoString</a></td></tr>
+<tr class="memdesc:a9c6d891523433d10adfdc06c2e0f1ebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de uma referência para uma string na <code>constante_pool</code>  <a href="#a9c6d891523433d10adfdc06c2e0f1ebb">Mais...</a><br /></td></tr>
+<tr class="separator:a9c6d891523433d10adfdc06c2e0f1ebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0f832a75a5e6f9157dec1407044b06d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__int.html">info_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#ae0f832a75a5e6f9157dec1407044b06d">InfoInt</a></td></tr>
+<tr class="memdesc:ae0f832a75a5e6f9157dec1407044b06d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>int</code> na <code>constante_pool</code>  <a href="#ae0f832a75a5e6f9157dec1407044b06d">Mais...</a><br /></td></tr>
+<tr class="separator:ae0f832a75a5e6f9157dec1407044b06d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6a03d60252d9a844a4448c29ad07c18"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__float.html">info_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#ae6a03d60252d9a844a4448c29ad07c18">InfoFloat</a></td></tr>
+<tr class="memdesc:ae6a03d60252d9a844a4448c29ad07c18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>float</code> na <code>constante_pool</code>  <a href="#ae6a03d60252d9a844a4448c29ad07c18">Mais...</a><br /></td></tr>
+<tr class="separator:ae6a03d60252d9a844a4448c29ad07c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fabc9ce2bfaa2d85cf8e7f444ebf865"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__long.html">info_long</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a6fabc9ce2bfaa2d85cf8e7f444ebf865">InfoLong</a></td></tr>
+<tr class="memdesc:a6fabc9ce2bfaa2d85cf8e7f444ebf865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>long</code> na <code>constante_pool</code>  <a href="#a6fabc9ce2bfaa2d85cf8e7f444ebf865">Mais...</a><br /></td></tr>
+<tr class="separator:a6fabc9ce2bfaa2d85cf8e7f444ebf865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ded9428bf69f9a7455608ed849eb75a"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structinfo__double.html">info_double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a0ded9428bf69f9a7455608ed849eb75a">InfoDouble</a></td></tr>
+<tr class="memdesc:a0ded9428bf69f9a7455608ed849eb75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados identificadores de um <code>double</code> na <code>constante_pool</code>  <a href="#a0ded9428bf69f9a7455608ed849eb75a">Mais...</a><br /></td></tr>
+<tr class="separator:a0ded9428bf69f9a7455608ed849eb75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b027d86a1711f03eb6364fab4a99c8"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structcp__info.html">cp_info</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tipos_8h.html#a50b027d86a1711f03eb6364fab4a99c8">CPInfo</a></td></tr>
+<tr class="memdesc:a50b027d86a1711f03eb6364fab4a99c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dados lidos a partir da <code>constante_pool</code>  <a href="#a50b027d86a1711f03eb6364fab4a99c8">Mais...</a><br /></td></tr>
+<tr class="separator:a50b027d86a1711f03eb6364fab4a99c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Definição dos tipos básicos a serem utilizados. </p>
+<dl class="section author"><dt>Autor</dt><dd>Rodrigo F. Guimarães </dd></dl>
+</div><h2 class="groupheader">Documentação dos tipos</h2>
+<a id="a50b027d86a1711f03eb6364fab4a99c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b027d86a1711f03eb6364fab4a99c8">&#9670;&nbsp;</a></span>CPInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structcp__info.html">cp_info</a>  <a class="el" href="tipos_8h.html#a50b027d86a1711f03eb6364fab4a99c8">CPInfo</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados lidos a partir da <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a6bc43833d062c677b0e86ea975a5db89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bc43833d062c677b0e86ea975a5db89">&#9670;&nbsp;</a></span>InfoClasse</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__classe.html">info_classe</a>  <a class="el" href="tipos_8h.html#a6bc43833d062c677b0e86ea975a5db89">InfoClasse</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de uma classe JAVA na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a0ded9428bf69f9a7455608ed849eb75a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ded9428bf69f9a7455608ed849eb75a">&#9670;&nbsp;</a></span>InfoDouble</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__double.html">info_double</a>  <a class="el" href="tipos_8h.html#a0ded9428bf69f9a7455608ed849eb75a">InfoDouble</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um <code>double</code> na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="ae6a03d60252d9a844a4448c29ad07c18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6a03d60252d9a844a4448c29ad07c18">&#9670;&nbsp;</a></span>InfoFloat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__float.html">info_float</a>  <a class="el" href="tipos_8h.html#ae6a03d60252d9a844a4448c29ad07c18">InfoFloat</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um <code>float</code> na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="ae0f832a75a5e6f9157dec1407044b06d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0f832a75a5e6f9157dec1407044b06d">&#9670;&nbsp;</a></span>InfoInt</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__int.html">info_int</a>  <a class="el" href="tipos_8h.html#ae0f832a75a5e6f9157dec1407044b06d">InfoInt</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um <code>int</code> na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a6fabc9ce2bfaa2d85cf8e7f444ebf865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fabc9ce2bfaa2d85cf8e7f444ebf865">&#9670;&nbsp;</a></span>InfoLong</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__long.html">info_long</a>  <a class="el" href="tipos_8h.html#a6fabc9ce2bfaa2d85cf8e7f444ebf865">InfoLong</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um <code>long</code> na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a0b94660438a7098097430895212e78b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b94660438a7098097430895212e78b2">&#9670;&nbsp;</a></span>InfoMetodo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__mtd.html">info_mtd</a>  <a class="el" href="tipos_8h.html#a0b94660438a7098097430895212e78b2">InfoMetodo</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um método na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a6b614a2907dd7346b189b3f1262a59f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b614a2907dd7346b189b3f1262a59f2">&#9670;&nbsp;</a></span>InfoMetodoInterface</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__mtd__itf.html">info_mtd_itf</a>  <a class="el" href="tipos_8h.html#a6b614a2907dd7346b189b3f1262a59f2">InfoMetodoInterface</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um método de interface na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="ab9dbed85636bcbf09143e06d9962ed4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9dbed85636bcbf09143e06d9962ed4c">&#9670;&nbsp;</a></span>InfoNomeTipo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__nome__tipo.html">info_nome_tipo</a>  <a class="el" href="tipos_8h.html#ab9dbed85636bcbf09143e06d9962ed4c">InfoNomeTipo</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um nome e de um tipo na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a9c7a4da936b282387afe7bb6d73d99cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c7a4da936b282387afe7bb6d73d99cd">&#9670;&nbsp;</a></span>InfoRefCampo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__ref__campo.html">info_ref_campo</a>  <a class="el" href="tipos_8h.html#a9c7a4da936b282387afe7bb6d73d99cd">InfoRefCampo</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de um campo <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a9c6d891523433d10adfdc06c2e0f1ebb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c6d891523433d10adfdc06c2e0f1ebb">&#9670;&nbsp;</a></span>InfoString</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__string.html">info_string</a>  <a class="el" href="tipos_8h.html#a9c6d891523433d10adfdc06c2e0f1ebb">InfoString</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de uma referência para uma string na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="a5d71620ddf5962f9e7ed44f35e28411d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d71620ddf5962f9e7ed44f35e28411d">&#9670;&nbsp;</a></span>InfoUTF8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structinfo__utf8.html">info_utf8</a>  <a class="el" href="tipos_8h.html#a5d71620ddf5962f9e7ed44f35e28411d">InfoUTF8</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dados identificadores de uma string codificada em UTF-8 na <code>constante_pool</code> </p>
+
+</div>
+</div>
+<a id="ad9f4cdb6757615aae2fad89dab3c5470"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9f4cdb6757615aae2fad89dab3c5470">&#9670;&nbsp;</a></span>u1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint8_t <a class="el" href="tipos_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Tipo básico para 1 byte sem sinal. </p>
+
+</div>
+</div>
+<a id="a732cde1300aafb73b0ea6c2558a7a54f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a732cde1300aafb73b0ea6c2558a7a54f">&#9670;&nbsp;</a></span>u2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint16_t <a class="el" href="tipos_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Tipo básico para 2 bytes sem sinal. </p>
+
+</div>
+</div>
+<a id="a0b9d6b6157a817864c0bf017a60679ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b9d6b6157a817864c0bf017a60679ad">&#9670;&nbsp;</a></span>u4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint64_t <a class="el" href="tipos_8h.html#a0b9d6b6157a817864c0bf017a60679ad">u4</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Tipo básico para 4 bytes sem sinal. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="dir_ea8b14bb65502ebf11eb22512a40fda9.html">Basicos</a></li><li class="navelem"><a class="el" href="tipos_8h.html">tipos.h</a></li>
+    <li class="footer">Gerado por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
+</body>
+</html>

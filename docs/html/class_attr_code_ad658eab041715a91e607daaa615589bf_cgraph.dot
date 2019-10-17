@@ -1,0 +1,40 @@
+digraph "AttrCode::AttrCode"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="AttrCode::AttrCode",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="AttrCode::decodificar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_attr_code.html#a986a3c8407f8cd3a13a0bf2260b1ffca",tooltip="Decodificador do arquivo binário .class para o atributo <>, extraindo todos os seus campos..."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="InterAtributo::decodificar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_inter_atributo.html#a91ed2a4ee96bb6a0d248c56e1a02c84d",tooltip="Decodificador do arquivo binário .class para um atributo, extraindo todos os seus campos específicos..."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ler_u2",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#a03c0b303e6ae10d2faa53a91ca574aa0",tooltip="Leitura de 2 bytes de um arquivo, considerado como binário. "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ler_u4",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#a4ec5f26aa79c35415ffc7955566d8ac6",tooltip="Leitura de 4 bytes de um arquivo, considerado como binário. "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="ler_u1",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#acb1c5d428b9c780736056cab1dd45242",tooltip="Leitura de 1 byte de um arquivo, considerado como binário. "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Excessao::decodificar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_excessao.html#af9a9cea3951d8a72c283512c4b2a2b6e",tooltip="Decodificador do arquivo binário .class para uma excessão, extraindo todos os seus campos..."];
+  Node6 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="TabAtributos::decodificar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_atributos.html#abe76c6a2c6d30284aba6fb9de2f05437",tooltip="Decodificador do arquivo binário .class para a tabela de atributos. "];
+  Node7 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="AttrCode::exibir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_attr_code.html#a8c03ddf700ba3c6a22518e1b700615d2",tooltip="Exibição do atributo <> na saída padrão, conhecendo-se a tabela de símbolos do arquivo corrente..."];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="get_hex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#a7a7638c7b0fe45eed3bc5574949c1858",tooltip="Recuperação da representação em hexadecimal de um número de 1 byte. "];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="TabAtributos::exibir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_atributos.html#a75160c5672309233b36ced5146b794f7",tooltip="Exibição da tabela na saída padrão com controle de tabulação. "];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="get_padding",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_arquivos_8hpp.html#acae530d83a13e0d407569e117a35cec8",tooltip="Recuperação do padding a ser utilizado na numeração de tabelas, conforme as potências de 10..."];
+  Node0 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="AttrCode::deletar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_attr_code.html#a1768bfe574fe427204ce1420fe1a03c2",tooltip="Destrutor do atributo <> e suas dependências. "];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="TabAtributos::deletar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tab_atributos.html#a66b6fac3c5ec09d53c965fdd7a134207",tooltip="Destrutor da tabela e suas dependências. "];
+  Node12 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="InterAtributo::deletar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_inter_atributo.html#a65e1d2172c46f207e5ef406dd57ef06b",tooltip="Destrutor de um atributo e suas eventuais dependências. "];
+}
