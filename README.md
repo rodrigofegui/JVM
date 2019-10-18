@@ -29,3 +29,5 @@ sudo make install
 # Testando se foi instalado
 valgrind --version
 ```
+
+O Leitor/Exibidor utilizado foi o [jclasslib](https://github.com/ingokegel/jclasslib/releases/tag/5.3.2) na versão 5.3.2 (a mais recente no início do projeto), para poder comparar com o sistema desenvolvido.
