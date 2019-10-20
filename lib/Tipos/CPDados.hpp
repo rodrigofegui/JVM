@@ -3,7 +3,6 @@
 
     /**
      *  @file   CPDados.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <string>
     #include <vector>

@@ -3,7 +3,6 @@
 
     /**
      *  @file   ArqClass.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <string>
     #include "../Interfaces/InterTabela.hpp"

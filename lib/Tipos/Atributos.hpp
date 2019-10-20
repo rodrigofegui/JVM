@@ -3,7 +3,6 @@
 
     /**
      *  @file   Atributos.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <vector>
     #include "../Tabelas/TabAtributos.hpp"

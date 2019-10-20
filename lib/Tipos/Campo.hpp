@@ -3,7 +3,6 @@
 
     /**
      *  @file   Campo.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <vector>
     #include "../Interfaces/InterTabela.hpp"

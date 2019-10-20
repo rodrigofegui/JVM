@@ -3,7 +3,6 @@
 
     /**
      *  @file   TabCampos.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include "../Interfaces/InterTabela.hpp"
     #include "../Tipos/Campo.hpp"

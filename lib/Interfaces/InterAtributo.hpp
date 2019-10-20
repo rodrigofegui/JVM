@@ -3,7 +3,6 @@
 
     /**
      *  @file   InterAtributo.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <stdio.h>
     #include "InterTabela.hpp"

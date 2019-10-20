@@ -3,7 +3,6 @@
 
     /**
      *  @file   Status.hpp
-     *  @author Rodrigo F. Guimarães
      *  @brief  Códigos de erros e avisos considerados neste projeto
      */
     enum erros {

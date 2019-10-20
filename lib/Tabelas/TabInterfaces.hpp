@@ -1,31 +1,33 @@
-#ifndef TABELA_ATRIBUTOS_HPP
-    #define TABELA_ATRIBUTOS_HPP
+#ifndef TABELA_INTERFACE_HPP
+    #define TABELA_INTERFACE_HPP
 
     /**
-     *  @file   TabAtributos.hpp
+     *  @file   TabInterface.hpp
      */
     #include <vector>
-    #include "../Interfaces/InterAtributo.hpp"
+    #include <string>
     #include "../Interfaces/InterTabela.hpp"
+    #include "../Tipos/CPDados.hpp"
 
     /**
-     *  @class TabAtributos
-     *  Tabela de atributos, sejam os do arquivo .class em si quanto os de um método
+     *  @class TabInterfaces
+     *  Tabela de interfaces do arquivo .class
      */
-    class TabAtributos : public InterTabela {
+    class TabInterfaces : public InterTabela {
         private:
             /** Conteúdo da tabela em si */
-            std::vector<InterAtributo*> registros;
+            std::vector<u2> registros;
 
         public:
             /* Herdando método já implementado */
-            explicit TabAtributos (u2 *const tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
+            explicit TabInterfaces (u2 *const tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
+
 
             /**
-             *  Decodificador do arquivo binário .class para a tabela de atributos
+             *  Decodificador do arquivo binário .class para a tabela de interfaces
              *  @param arq Arquivo .class sob análise
-             *  @returns 0 se não aconteceu problemas na decodificação, caso contrário
-             *  outro número
+             *  @returns 1 se houver a string `main` definida, 0 se não aconteceu
+             *  problemas na decodificação, caso contrário outro número
              */
             u1 decodificar (FILE *const arq) override;
 
