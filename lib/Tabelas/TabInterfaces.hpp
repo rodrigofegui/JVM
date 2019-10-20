@@ -26,8 +26,8 @@
             /**
              *  Decodificador do arquivo binário .class para a tabela de interfaces
              *  @param arq Arquivo .class sob análise
-             *  @returns 1 se houver a string `main` definida, 0 se não aconteceu
-             *  problemas na decodificação, caso contrário outro número
+             *  @returns Retorna 0 para demonstrar que não aconteceu
+             *  problemas na decodificação
              */
             u1 decodificar (FILE *const arq) override;
 

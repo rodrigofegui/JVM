@@ -21,7 +21,7 @@ void TabInterfaces::exibir (const u1 qnt_tabs){
     int tam = *this->tam;
 
     if (!tam){
-        std::cout << tabs + "Não há itens na tabela de campos" << std::endl;
+        std::cout << tabs + "Não há itens na tabela de interfaces" << std::endl;
         return;
     }
 
