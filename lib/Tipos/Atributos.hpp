@@ -7,7 +7,39 @@
     #include <vector>
     #include "../Tabelas/TabAtributos.hpp"
     #include "../Tipos/Excessao.hpp"
+    /**
+     *  @class AttrCnst
+     *  Atributo do tipo __Code__, presente somente nos métodos
+     */
+    class AttrCnst : public InterAtributo {
+        private:
+            /* Estrutura de um atributo __ConstantValue__ */
+            u2 cnst_id = 0;
 
+        public:
+            /* Herdando método já implementado */
+            explicit AttrCnst (const u2 ind_nome, InterTabela *const tab_simbolos);
+
+            /**
+             *  Decodificador do arquivo binário .class para o atributo __ConstantValue__,
+             *  extraindo todos os seus campos, além do índice do nome e do seu tamanho,
+             *  caso já não os tenha extraído
+             *  @param arq Arquivo .class sob análise
+             */
+            void decodificar (FILE *const arq) override;
+
+            /**
+             *  Exibição do atributo __ConstantValue__ na saída padrão, conhecendo-se o controle de tabulação
+             *  @param qnt_tabs Quantidade de TABs
+             */
+            void exibir (const u1 qnt_tabs) override;
+
+            /**
+             *  Destrutor do atributo __ConstantValue__ e suas dependências
+             */
+            void deletar () override;
+    };
+    
     /**
      *  @class AttrCode
      *  Atributo do tipo __Code__, presente somente nos métodos

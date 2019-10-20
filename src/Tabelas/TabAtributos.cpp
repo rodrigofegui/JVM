@@ -25,6 +25,8 @@ u1 TabAtributos::decodificar (FILE *const arq){
             attr = new AttrLinhaNum(temp);
         else if (!nome.compare("SourceFile"))
             attr = new AttrArqFonte(temp, this->tab_simbolos);
+        else if (!nome.compare("ConstantValue"))
+            attr = new AttrCnst(temp, this->tab_simbolos);
         else
             attr = new AttrSilenciado(temp, this->tab_simbolos);
 

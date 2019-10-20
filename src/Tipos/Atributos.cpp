@@ -5,6 +5,30 @@
 #include "../../lib/Uteis/Arquivos.hpp"
 #include "../../lib/Tipos/ByteCode.hpp"
 
+AttrCnst::AttrCnst (const u2 ind_nome, InterTabela *const tab_simbolos) :
+    InterAtributo(ind_nome, tab_simbolos){
+};
+
+void AttrCnst::decodificar (FILE *const arq){
+    InterAtributo::decodificar(arq);
+
+    ler_u2(arq, &this->cnst_id);
+
+}
+
+void AttrCnst::exibir (const u1 qnt_tabs){
+    std::string tabs(qnt_tabs, '\t');
+
+    std::cout << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome) << std::endl;
+
+    std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
+    std::cout << tabs + "Tamanho do atributo: " << this->tam << std::endl;
+    std::cout << tabs + "Índice para valor da constante: " << this->cnst_id << std::endl;
+}
+
+void AttrCnst::deletar (){
+    InterAtributo::deletar();
+}
 
 AttrCode::AttrCode (const u2 ind_nome, InterTabela *const tab_simbolos) :
     InterAtributo(ind_nome, tab_simbolos){
