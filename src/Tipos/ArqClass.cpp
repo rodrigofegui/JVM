@@ -148,6 +148,9 @@ void ArqClass::deletar (){
     if (this->tab_simbolo)
         this->tab_simbolo->deletar();
 
+    if (this->tab_interfaces)
+        this->tab_interfaces->deletar();
+
     if (this->tab_campos)
         this->tab_campos->deletar();
 
