@@ -9,7 +9,7 @@
     #include "../Tipos/Excessao.hpp"
     /**
      *  @class AttrCnst
-     *  Atributo do tipo __Code__, presente somente nos métodos
+     *  Atributo do tipo __ConstantValue__, presente somente nos campos
      */
     class AttrCnst : public InterAtributo {
         private:
@@ -36,6 +36,40 @@
 
             /**
              *  Destrutor do atributo __ConstantValue__ e suas dependências
+             */
+            void deletar () override;
+    };
+
+    /**
+     *  @class AttrExcp
+     *  Atributo do tipo __Exception__, presente somente nos métodos
+     */
+    class AttrExcp : public InterAtributo {
+        private:
+            /* Estrutura de um atributo __Exception__ */
+            u2 num_excp = 0;
+            std::vector<u2> exceptions;
+
+        public:
+            /* Herdando método já implementado */
+            explicit AttrExcp (const u2 ind_nome, InterTabela *const tab_simbolos);
+
+            /**
+             *  Decodificador do arquivo binário .class para o atributo __Exception__,
+             *  extraindo todos os seus campos, além do índice do nome e do seu tamanho,
+             *  caso já não os tenha extraído
+             *  @param arq Arquivo .class sob análise
+             */
+            void decodificar (FILE *const arq) override;
+
+            /**
+             *  Exibição do atributo __Exception__ na saída padrão, conhecendo-se o controle de tabulação
+             *  @param qnt_tabs Quantidade de TABs
+             */
+            void exibir (const u1 qnt_tabs) override;
+
+            /**
+             *  Destrutor do atributo __Exception__ e suas dependências
              */
             void deletar () override;
     };

@@ -13,7 +13,6 @@ void AttrCnst::decodificar (FILE *const arq){
     InterAtributo::decodificar(arq);
 
     ler_u2(arq, &this->cnst_id);
-
 }
 
 void AttrCnst::exibir (const u1 qnt_tabs){
@@ -27,6 +26,41 @@ void AttrCnst::exibir (const u1 qnt_tabs){
 }
 
 void AttrCnst::deletar (){
+    InterAtributo::deletar();
+}
+
+AttrExcp::AttrExcp (const u2 ind_nome, InterTabela *const tab_simbolos) :
+    InterAtributo(ind_nome, tab_simbolos){
+};
+
+void AttrExcp::decodificar (FILE *const arq){
+    InterAtributo::decodificar(arq);
+    ler_u2(arq, &this->num_excp);
+    u2 temp;
+    for (int cnt = 0; cnt < this->num_excp; cnt++){
+        ler_u2(arq, &temp);
+        this->exceptions.push_back(temp);
+    }
+}
+
+void AttrExcp::exibir (const u1 qnt_tabs){
+    std::string tabs(qnt_tabs, '\t');
+
+    std::cout << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome) << std::endl;
+
+    std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
+    std::cout << tabs + "Tamanho do atributo: " << this->tam << std::endl;
+    std::cout << tabs + "Número de exceções: " << this->num_excp << std::endl;
+    for(int i=0; i<this->num_excp; i++) {
+        std::cout << tabs << "Execção número " << i << ": " << std::endl;
+        std::cout << tabs + '\t' << "Índice para exceção: " << this->exceptions[i]
+        << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->exceptions[i])
+        << std::endl;
+    }
+}
+
+void AttrExcp::deletar (){
+    std::vector<u2>().swap(this->exceptions);
     InterAtributo::deletar();
 }
 
