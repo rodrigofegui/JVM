@@ -73,7 +73,50 @@
              */
             void deletar () override;
     };
-    
+
+    /**
+     *  @class AttrClass
+     *  Atributo do tipo __InnerClass__, presente somente na tabela de atributos com estrutura ClassFile
+     */
+    class AttrClass : public InterAtributo {
+        private:
+
+            /** Estrutura do array de classes de um atributo __InnerClass__ */
+            typedef struct info_classe {
+                u2 classe_interna_id;
+                u2 classe_externa_id;
+                u2 nome_interna_id;
+                u2 classe_interna_flag_acesso;
+            } InfoClasse;
+
+            /* Estrutura de um atributo __InnerClass__ */
+            u2 num_classes = 0;
+            std::vector<InfoClasse> classes;
+
+        public:
+            /* Herdando método já implementado */
+            explicit AttrClass (const u2 ind_nome, InterTabela *const tab_simbolos);
+
+            /**
+             *  Decodificador do arquivo binário .class para o atributo __InnerClass__,
+             *  extraindo todos os seus campos, além do índice do nome e do seu tamanho,
+             *  caso já não os tenha extraído
+             *  @param arq Arquivo .class sob análise
+             */
+            void decodificar (FILE *const arq) override;
+
+            /**
+             *  Exibição do atributo __InnerClass__ na saída padrão, conhecendo-se o controle de tabulação
+             *  @param qnt_tabs Quantidade de TABs
+             */
+            void exibir (const u1 qnt_tabs) override;
+
+            /**
+             *  Destrutor do atributo __InnerClass__ e suas dependências
+             */
+            void deletar () override;
+    };
+
     /**
      *  @class AttrCode
      *  Atributo do tipo __Code__, presente somente nos métodos

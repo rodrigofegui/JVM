@@ -64,6 +64,53 @@ void AttrExcp::deletar (){
     InterAtributo::deletar();
 }
 
+// InnerClass
+
+AttrClass::AttrClass (const u2 ind_nome, InterTabela *const tab_simbolos) :
+    InterAtributo(ind_nome, tab_simbolos){
+};
+
+void AttrClass::decodificar (FILE *const arq){
+    InterAtributo::decodificar(arq);
+    ler_u2(arq, &this->num_classes);
+    for (int cnt = 0; cnt < this->num_classes; cnt++){
+        InfoClasse temp;
+        
+        ler_u2(arq, &temp.classe_interna_id);
+        ler_u2(arq, &temp.classe_externa_id);
+        ler_u2(arq, &temp.nome_interna_id);
+        ler_u2(arq, &temp.classe_interna_flag_acesso);
+        
+        this->classes.push_back(temp);
+    }
+}
+
+void AttrClass::exibir (const u1 qnt_tabs){
+    std::string tabs(qnt_tabs, '\t');
+
+    std::cout << "InnerClass" << std::endl;
+
+    std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
+    std::cout << tabs + "Tamanho do atributo: " << this->tam << std::endl;
+    std::cout << tabs + "Número de classes: " << this->num_classes << std::endl;
+    int i = 0;
+    for (auto &temp : this->classes){
+        std::cout << tabs << "Classe número " << i << ": " << std::endl;
+        std::cout << tabs + '\t' << "Índice para classe interna: " << temp.classe_interna_id << std::endl;
+        std::cout << tabs + '\t' << "Índice para classe externa: " << temp.classe_externa_id << std::endl;
+        std::cout << tabs + '\t' << "Índice nome interno: " << temp.nome_interna_id << std::endl;       
+        std::cout << tabs + '\t' << "Flag acesso classe interna: " << temp.classe_interna_flag_acesso <<std::endl;
+        i++;
+    }
+}
+
+void AttrClass::deletar (){
+    std::vector<InfoClasse>().swap(this->classes);
+    InterAtributo::deletar();
+}
+
+
+
 AttrCode::AttrCode (const u2 ind_nome, InterTabela *const tab_simbolos) :
     InterAtributo(ind_nome, tab_simbolos){
 };

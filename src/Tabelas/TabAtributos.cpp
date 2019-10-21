@@ -29,6 +29,8 @@ u1 TabAtributos::decodificar (FILE *const arq){
             attr = new AttrCnst(temp, this->tab_simbolos);
         else if (!nome.compare("Exceptions"))
             attr = new AttrExcp(temp, this->tab_simbolos);
+        else if (!nome.compare("InnerClasses"))
+            attr = new AttrClass(temp, this->tab_simbolos);
         else
             attr = new AttrSilenciado(temp, this->tab_simbolos);
 
