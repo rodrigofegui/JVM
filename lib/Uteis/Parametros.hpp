@@ -3,7 +3,6 @@
 
     /**
      *  @file   Parametros.hpp
-     *  @author Rodrigo F. Guimarães
      *  @brief  Verificação dos parâmetros para a execução deste projeto
      */
     #include <iostream>

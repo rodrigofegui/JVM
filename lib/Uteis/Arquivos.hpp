@@ -3,7 +3,6 @@
 
     /**
      *  @file   Arquivos.hpp
-     *  @author Rodrigo F. Guimarães
      *  @brief  Junção de funções para manipulação de arquivos ou relacionados
      *  a estes úteis para este projeto
      */

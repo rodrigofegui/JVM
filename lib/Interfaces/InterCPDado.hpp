@@ -3,7 +3,6 @@
 
     /**
      *  @file   InterCPDado.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <stdio.h>
     #include <iostream>

@@ -3,7 +3,6 @@
 
     /**
      *  @file   Flags_Tags.hpp
-     *  @author Rodrigo F. Guimarães
      *  @brief  Catálogo de todas as flags e tags utilizadas neste projeto
      */
     #include <string>

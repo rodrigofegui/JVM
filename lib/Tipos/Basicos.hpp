@@ -3,7 +3,6 @@
 
     /**
      *  @file   Basicos.hpp
-     *  @author Rodrigo F. Guimarães
      *  @brief Definição dos tipos básicos a serem utilizados
      */
     #include <stdint.h>

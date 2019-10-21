@@ -3,7 +3,6 @@
 
     /**
      *  @file   InterTabela.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <stdio.h>
     #include "../Tipos/Basicos.hpp"

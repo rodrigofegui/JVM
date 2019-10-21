@@ -3,7 +3,6 @@
 
     /**
      *  @file   ByteCode.hpp
-     *  @author Rodrigo F. Guimarães
      *  @brief  Definição dos mnemônicos e dos manipuladores dos bytecodes da JVM, considerando tanto o
      *  [site oficial da JVM](https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html) quanto os slides da
      *  matéria quanto o site

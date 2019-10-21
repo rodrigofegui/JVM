@@ -3,6 +3,7 @@
 #include "../../lib/Tabelas/TabCampos.hpp"
 #include "../../lib/Tabelas/TabMetodos.hpp"
 #include "../../lib/Tabelas/TabSimbolos.hpp"
+#include "../../lib/Tabelas/TabInterfaces.hpp"
 #include "../../lib/Tipos/ArqClass.hpp"
 #include "../../lib/Uteis/Arquivos.hpp"
 #include "../../lib/Uteis/Flags_Tags.hpp"
@@ -66,7 +67,8 @@ void ArqClass::decodificar (){
     ler_u2(this->arq, &this->tam_tab_interfaces);
 
     if (this->tam_tab_interfaces){
-        // A DESENVOLVER
+        this->tab_interfaces = new TabInterfaces(&this->tam_tab_interfaces, this-> tab_simbolo);
+        this->tab_interfaces->decodificar(this->arq);
     }
 
     ler_u2(this->arq, &this->tam_tab_campos);
@@ -145,6 +147,9 @@ void ArqClass::exibir (){
 void ArqClass::deletar (){
     if (this->tab_simbolo)
         this->tab_simbolo->deletar();
+
+    if (this->tab_interfaces)
+        this->tab_interfaces->deletar();
 
     if (this->tab_campos)
         this->tab_campos->deletar();

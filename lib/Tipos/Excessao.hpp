@@ -3,7 +3,6 @@
 
     /**
      *  @file   Excessao.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include "../Interfaces/InterTabela.hpp"
 

@@ -3,7 +3,6 @@
 
     /**
      *  @file   TabSimbolos.hpp
-     *  @author Rodrigo F. Guimarães
      */
     #include <vector>
     #include <string>
