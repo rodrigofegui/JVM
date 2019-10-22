@@ -265,7 +265,26 @@ void AttrArqFonte::deletar (){
     InterAtributo::deletar();
 }
 
+AttrSynthetic::AttrSynthetic (const u2 ind_nome, InterTabela *const tab_simbolos) :
+    InterAtributo(ind_nome, tab_simbolos){
+};
 
+void AttrSynthetic::decodificar (FILE *const arq){
+    InterAtributo::decodificar (arq);
+}
+
+void AttrSynthetic::exibir (const u1 qnt_tabs){
+    std::string tabs(qnt_tabs, '\t');
+    
+    std::cout << "Synthetic" << std::endl;
+
+    std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
+    std::cout << tabs + "Tamanho do atributo: " << this->tam << std::endl;
+}
+
+void AttrSynthetic::deletar (){
+    InterAtributo::deletar();
+}
 
 AttrSilenciado::AttrSilenciado (const u2 ind_nome, InterTabela *const tab_simbolos) :
     InterAtributo(ind_nome, tab_simbolos){

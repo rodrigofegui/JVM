@@ -233,6 +233,39 @@
     };
 
     /**
+     *  @class AttrSynthetic
+     *  Atributo do tipo __Synthetic__ 
+     */
+    class AttrSynthetic : public InterAtributo {
+        private:
+            u2 ind = 0;
+            u4 tam = 0;
+
+        public:
+            /* Herdando método já implementado */
+            explicit AttrSynthetic (const u2 ind_nome, InterTabela *const tab_simbolos);
+
+            /**
+             *  Decodificador do arquivo binário .class para o atributo __Synthetic__,
+             *  extraindo todos os seus campos, além do índice do nome e do seu tamanho,
+             *  caso já não os tenha extraído
+             *  @param arq Arquivo .class sob análise
+             */
+            void decodificar (FILE *const arq) override;
+
+            /**
+             *  Exibição do atributo __Synthetic__ na saída padrão, conhecendo-se o controle de tabulação
+             *  @param qnt_tabs Quantidade de TABs
+             */
+            void exibir (const u1 qnt_tabs) override;
+
+            /**
+             *  Destrutor do atributo __Synthetic__ e suas dependências
+             */
+            void deletar () override;
+    };
+
+    /**
      *  @class AttrSilenciado
      *  Atributo sem tipo tratável
      */
