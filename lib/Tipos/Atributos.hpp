@@ -7,18 +7,20 @@
     #include <vector>
     #include "../Tabelas/TabAtributos.hpp"
     #include "../Tipos/Excessao.hpp"
+
+
     /**
-     *  @class AttrCnst
+     *  @class AttrVlrConst
      *  Atributo do tipo __ConstantValue__, presente somente nos campos
      */
-    class AttrCnst : public InterAtributo {
+    class AttrVlrConst : public InterAtributo {
         private:
             /* Estrutura de um atributo __ConstantValue__ */
             u2 cnst_id = 0;
 
         public:
             /* Herdando método já implementado */
-            explicit AttrCnst (const u2 ind_nome, InterTabela *const tab_simbolos);
+            explicit AttrVlrConst (const u2 ind_nome, InterTabela *const tab_simbolos);
 
             /**
              *  Decodificador do arquivo binário .class para o atributo __ConstantValue__,
@@ -80,7 +82,6 @@
      */
     class AttrClass : public InterAtributo {
         private:
-
             /** Estrutura do array de classes de um atributo __InnerClass__ */
             typedef struct info_classe {
                 u2 classe_interna_id;
@@ -118,10 +119,10 @@
     };
 
     /**
-     *  @class AttrCode
+     *  @class AttrCodigo
      *  Atributo do tipo __Code__, presente somente nos métodos
      */
-    class AttrCode : public InterAtributo {
+    class AttrCodigo : public InterAtributo {
         private:
             /* Estrutura de um atributo __Code__ */
             u2 max_pilha = 0;
@@ -135,7 +136,7 @@
 
         public:
             /* Herdando método já implementado */
-            explicit AttrCode (const u2 ind_nome, InterTabela *const tab_simbolos);
+            explicit AttrCodigo (const u2 ind_nome, InterTabela *const tab_simbolos);
 
             /**
              *  Decodificador do arquivo binário .class para o atributo __Code__,
@@ -233,17 +234,13 @@
     };
 
     /**
-     *  @class AttrSynthetic
-     *  Atributo do tipo __Synthetic__ 
+     *  @class AttrSintetico
+     *  Atributo do tipo __Synthetic__
      */
-    class AttrSynthetic : public InterAtributo {
-        private:
-            u2 ind = 0;
-            u4 tam = 0;
-
-        public:
+    class AttrSintetico : public InterAtributo {
+       public:
             /* Herdando método já implementado */
-            explicit AttrSynthetic (const u2 ind_nome, InterTabela *const tab_simbolos);
+            explicit AttrSintetico (const u2 ind_nome, InterTabela *const tab_simbolos);
 
             /**
              *  Decodificador do arquivo binário .class para o atributo __Synthetic__,

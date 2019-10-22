@@ -20,19 +20,19 @@ u1 TabAtributos::decodificar (FILE *const arq){
         if (nome.empty()) continue;
 
         if (!nome.compare("Code"))
-            attr = new AttrCode(temp, this->tab_simbolos);
+            attr = new AttrCodigo(temp, this->tab_simbolos);
         else if (!nome.compare("LineNumberTable"))
             attr = new AttrLinhaNum(temp);
         else if (!nome.compare("SourceFile"))
             attr = new AttrArqFonte(temp, this->tab_simbolos);
         else if (!nome.compare("ConstantValue"))
-            attr = new AttrCnst(temp, this->tab_simbolos);
+            attr = new AttrVlrConst(temp, this->tab_simbolos);
         else if (!nome.compare("Exceptions"))
             attr = new AttrExcp(temp, this->tab_simbolos);
         else if (!nome.compare("InnerClasses"))
             attr = new AttrClass(temp, this->tab_simbolos);
         else if (!nome.compare("Synthetic"))
-            attr = new AttrSynthetic(temp, this->tab_simbolos);
+            attr = new AttrSintetico(temp, this->tab_simbolos);
         else
             attr = new AttrSilenciado(temp, this->tab_simbolos);
 
