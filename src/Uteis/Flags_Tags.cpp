@@ -31,7 +31,7 @@ std::string get_flag(u2 a_verificar){
         flag += "transiente ";
 
     if (a_verificar & FLG_NTV)
-        flag += "nativo ";
+        flag += "nativa ";
 
     if (a_verificar & FLG_ITF)
         flag += "interface ";
@@ -40,7 +40,10 @@ std::string get_flag(u2 a_verificar){
         flag += "abstrata ";
 
     if (a_verificar & FLG_STT)
-        flag += "estrito ";
+        flag += "estrita ";
+
+    if (a_verificar & FLG_SNT)
+        flag += "sintética ";
 
     if (!flag.length())
         return "Sem expecificação";

@@ -20,7 +20,7 @@
 
         public:
             /* Herdando método já implementado */
-            explicit TabInterfaces (u2 *const tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
+            explicit TabInterfaces (const u2 tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
 
 
             /**

@@ -19,7 +19,7 @@ void Campo::decodificar (FILE *const arq){
     ler_u2(arq, &this->tam_tab_atributos);
 
     if(this->tam_tab_atributos){
-        this->tab_atributos = new TabAtributos(&this->tam_tab_atributos, this->tab_simbolos);
+        this->tab_atributos = new TabAtributos(this->tam_tab_atributos, this->tab_simbolos);
         this->tab_atributos->decodificar(arq);
     }
 }

@@ -14,7 +14,7 @@ ESTATICO_FLAGS = --platform=unix64 --enable=warning,style,performance,portabilit
 # Responsável pela análise dinâmica do programa
 DINAMICO = valgrind
 # Flags do analisador dinâmico
-DINAMICO_FLAGS = --tool=memcheck --leak-check=summary --show-leak-kinds=all --track-origins=yes -s
+DINAMICO_FLAGS = --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 
 ###################
 # Manipuladores de arquivos
@@ -46,7 +46,11 @@ arq1 = CasosTestes/double_aritmetica.class
 arq2 = CasosTestes/ControladorMidi.class
 arq3 = CasosTestes/ControladorEstoque.class
 arq4 = CasosTestes/Instrumento.class
-arqs = $(arq1)
+arq5 = CasosTestes/Pig.class
+arq6 = CasosTestes/Outer.class
+arq7 = CasosTestes/OtherClass.class
+arq8 = CasosTestes/ThrowExcep.class
+arqs = $(arq5) $(arq6) $(arq8)
 
 ###################
 # Regras
@@ -70,7 +74,7 @@ help:
 	@echo "    modo=e|i          Controle de como o programa tratará os arquivos .class:"
 	@echo "                      e = leitor e exibidor <default>"
 	@echo "                      i = leitor e interpretador"
-	@echo "    arqs=arq1,arq2    Arquivos a serem manipulados pelo programa, separados por ','"
+	@echo "    arqs=arq1 arq2    Arquivos a serem manipulados pelo programa, separados por ' '"
 
 
 limpar_obj:

@@ -7,18 +7,20 @@
     #include <vector>
     #include "../Tabelas/TabAtributos.hpp"
     #include "../Tipos/Excessao.hpp"
+
+
     /**
-     *  @class AttrCnst
+     *  @class AttrVlrConst
      *  Atributo do tipo __ConstantValue__, presente somente nos campos
      */
-    class AttrCnst : public InterAtributo {
+    class AttrVlrConst : public InterAtributo {
         private:
             /* Estrutura de um atributo __ConstantValue__ */
             u2 cnst_id = 0;
 
         public:
             /* Herdando método já implementado */
-            explicit AttrCnst (const u2 ind_nome, InterTabela *const tab_simbolos);
+            explicit AttrVlrConst (const u2 ind_nome, InterTabela *const tab_simbolos);
 
             /**
              *  Decodificador do arquivo binário .class para o atributo __ConstantValue__,
@@ -73,12 +75,54 @@
              */
             void deletar () override;
     };
-    
+
     /**
-     *  @class AttrCode
+     *  @class AttrClass
+     *  Atributo do tipo __InnerClass__, presente somente na tabela de atributos com estrutura ClassFile
+     */
+    class AttrClass : public InterAtributo {
+        private:
+            /** Estrutura do array de classes de um atributo __InnerClass__ */
+            typedef struct info_classe {
+                u2 classe_interna_id;
+                u2 classe_externa_id;
+                u2 nome_interna_id;
+                u2 classe_interna_flag_acesso;
+            } InfoClasse;
+
+            /* Estrutura de um atributo __InnerClass__ */
+            u2 num_classes = 0;
+            std::vector<InfoClasse> classes;
+
+        public:
+            /* Herdando método já implementado */
+            explicit AttrClass (const u2 ind_nome, InterTabela *const tab_simbolos);
+
+            /**
+             *  Decodificador do arquivo binário .class para o atributo __InnerClass__,
+             *  extraindo todos os seus campos, além do índice do nome e do seu tamanho,
+             *  caso já não os tenha extraído
+             *  @param arq Arquivo .class sob análise
+             */
+            void decodificar (FILE *const arq) override;
+
+            /**
+             *  Exibição do atributo __InnerClass__ na saída padrão, conhecendo-se o controle de tabulação
+             *  @param qnt_tabs Quantidade de TABs
+             */
+            void exibir (const u1 qnt_tabs) override;
+
+            /**
+             *  Destrutor do atributo __InnerClass__ e suas dependências
+             */
+            void deletar () override;
+    };
+
+    /**
+     *  @class AttrCodigo
      *  Atributo do tipo __Code__, presente somente nos métodos
      */
-    class AttrCode : public InterAtributo {
+    class AttrCodigo : public InterAtributo {
         private:
             /* Estrutura de um atributo __Code__ */
             u2 max_pilha = 0;
@@ -92,7 +136,7 @@
 
         public:
             /* Herdando método já implementado */
-            explicit AttrCode (const u2 ind_nome, InterTabela *const tab_simbolos);
+            explicit AttrCodigo (const u2 ind_nome, InterTabela *const tab_simbolos);
 
             /**
              *  Decodificador do arquivo binário .class para o atributo __Code__,
@@ -185,6 +229,35 @@
 
             /**
              *  Destrutor do atributo __SourceFile__ e suas dependências
+             */
+            void deletar () override;
+    };
+
+    /**
+     *  @class AttrSintetico
+     *  Atributo do tipo __Synthetic__
+     */
+    class AttrSintetico : public InterAtributo {
+       public:
+            /* Herdando método já implementado */
+            explicit AttrSintetico (const u2 ind_nome, InterTabela *const tab_simbolos);
+
+            /**
+             *  Decodificador do arquivo binário .class para o atributo __Synthetic__,
+             *  extraindo todos os seus campos, além do índice do nome e do seu tamanho,
+             *  caso já não os tenha extraído
+             *  @param arq Arquivo .class sob análise
+             */
+            void decodificar (FILE *const arq) override;
+
+            /**
+             *  Exibição do atributo __Synthetic__ na saída padrão, conhecendo-se o controle de tabulação
+             *  @param qnt_tabs Quantidade de TABs
+             */
+            void exibir (const u1 qnt_tabs) override;
+
+            /**
+             *  Destrutor do atributo __Synthetic__ e suas dependências
              */
             void deletar () override;
     };

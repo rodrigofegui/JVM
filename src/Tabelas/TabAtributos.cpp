@@ -7,9 +7,9 @@
 
 
 u1 TabAtributos::decodificar (FILE *const arq){
-    for (int cnt = 0; cnt < *this->tam; cnt++){
+    for (int cnt = 0; cnt < this->tam; cnt++){
         std::string nome("");
-        InterAtributo *attr;
+        InterAtributo *attr = nullptr;
         u2 temp = 0xFFFF;
 
         ler_u2(arq, &temp);
@@ -20,15 +20,26 @@ u1 TabAtributos::decodificar (FILE *const arq){
         if (nome.empty()) continue;
 
         if (!nome.compare("Code"))
-            attr = new AttrCode(temp, this->tab_simbolos);
+            attr = new AttrCodigo(temp, this->tab_simbolos);
+
         else if (!nome.compare("LineNumberTable"))
             attr = new AttrLinhaNum(temp);
+
         else if (!nome.compare("SourceFile"))
             attr = new AttrArqFonte(temp, this->tab_simbolos);
+
         else if (!nome.compare("ConstantValue"))
-            attr = new AttrCnst(temp, this->tab_simbolos);
+            attr = new AttrVlrConst(temp, this->tab_simbolos);
+
         else if (!nome.compare("Exceptions"))
             attr = new AttrExcp(temp, this->tab_simbolos);
+
+        else if (!nome.compare("InnerClasses"))
+            attr = new AttrClass(temp, this->tab_simbolos);
+
+        else if (!nome.compare("Synthetic"))
+            attr = new AttrSintetico(temp, this->tab_simbolos);
+
         else
             attr = new AttrSilenciado(temp, this->tab_simbolos);
 
@@ -42,16 +53,15 @@ u1 TabAtributos::decodificar (FILE *const arq){
 
 void TabAtributos::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
-    int tam = this->registros.size();
 
-    if (!tam){
+    if (!this->tam){
         std::cout << tabs + "Não há itens na tabela de atributos" << std::endl;
         return;
     }
 
-    u1 padding = get_padding(tam);
+    u1 padding = get_padding(this->tam);
 
-    for (int cnt = 0; cnt < tam; cnt++){
+    for (int cnt = 0; cnt < this->tam; cnt++){
         std::cout << tabs + "[";
         std::cout << std::setfill('0') << std::setw(padding) << cnt;
         std::cout << "] ";

@@ -5,7 +5,7 @@
 
 
 u1 TabCampos::decodificar (FILE *const arq){
-    for (int cnt = 0; cnt < *this->tam; cnt++){
+    for (int cnt = 0; cnt < this->tam; cnt++){
         Campo c_campo(this->tab_simbolos);
 
         c_campo.decodificar(arq);
@@ -18,16 +18,14 @@ u1 TabCampos::decodificar (FILE *const arq){
 
 void TabCampos::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
-    int tam = *this->tam;
-
-    if (!tam){
+    if (!this->tam){
         std::cout << tabs + "Não há itens na tabela de campos" << std::endl;
         return;
     }
 
-    u1 padding = get_padding(tam);
+    u1 padding = get_padding(this->tam);
 
-    for (int cnt = 0; cnt < tam; cnt++){
+    for (int cnt = 0; cnt < this->tam; cnt++){
         std::cout << tabs + "[";
         std::cout << std::setfill('0') << std::setw(padding) << cnt;
         std::cout << "] ";

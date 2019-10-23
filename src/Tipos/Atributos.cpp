@@ -5,17 +5,18 @@
 #include "../../lib/Uteis/Arquivos.hpp"
 #include "../../lib/Tipos/ByteCode.hpp"
 
-AttrCnst::AttrCnst (const u2 ind_nome, InterTabela *const tab_simbolos) :
+
+AttrVlrConst::AttrVlrConst (const u2 ind_nome, InterTabela *const tab_simbolos) :
     InterAtributo(ind_nome, tab_simbolos){
 };
 
-void AttrCnst::decodificar (FILE *const arq){
+void AttrVlrConst::decodificar (FILE *const arq){
     InterAtributo::decodificar(arq);
 
     ler_u2(arq, &this->cnst_id);
 }
 
-void AttrCnst::exibir (const u1 qnt_tabs){
+void AttrVlrConst::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
     std::cout << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome) << std::endl;
@@ -25,9 +26,11 @@ void AttrCnst::exibir (const u1 qnt_tabs){
     std::cout << tabs + "Índice para valor da constante: " << this->cnst_id << std::endl;
 }
 
-void AttrCnst::deletar (){
+void AttrVlrConst::deletar (){
     InterAtributo::deletar();
 }
+
+
 
 AttrExcp::AttrExcp (const u2 ind_nome, InterTabela *const tab_simbolos) :
     InterAtributo(ind_nome, tab_simbolos){
@@ -52,7 +55,7 @@ void AttrExcp::exibir (const u1 qnt_tabs){
     std::cout << tabs + "Tamanho do atributo: " << this->tam << std::endl;
     std::cout << tabs + "Número de exceções: " << this->num_excp << std::endl;
     for(int i=0; i<this->num_excp; i++) {
-        std::cout << tabs << "Execção número " << i << ": " << std::endl;
+        std::cout << tabs << "Exceção número " << i << ": " << std::endl;
         std::cout << tabs + '\t' << "Índice para exceção: " << this->exceptions[i]
         << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->exceptions[i])
         << std::endl;
@@ -61,14 +64,63 @@ void AttrExcp::exibir (const u1 qnt_tabs){
 
 void AttrExcp::deletar (){
     std::vector<u2>().swap(this->exceptions);
+
     InterAtributo::deletar();
 }
 
-AttrCode::AttrCode (const u2 ind_nome, InterTabela *const tab_simbolos) :
+
+
+AttrClass::AttrClass (const u2 ind_nome, InterTabela *const tab_simbolos) :
     InterAtributo(ind_nome, tab_simbolos){
 };
 
-void AttrCode::decodificar (FILE *const arq){
+void AttrClass::decodificar (FILE *const arq){
+    InterAtributo::decodificar(arq);
+    ler_u2(arq, &this->num_classes);
+    for (int cnt = 0; cnt < this->num_classes; cnt++){
+        InfoClasse temp;
+
+        ler_u2(arq, &temp.classe_interna_id);
+        ler_u2(arq, &temp.classe_externa_id);
+        ler_u2(arq, &temp.nome_interna_id);
+        ler_u2(arq, &temp.classe_interna_flag_acesso);
+
+        this->classes.push_back(temp);
+    }
+}
+
+void AttrClass::exibir (const u1 qnt_tabs){
+    std::string tabs(qnt_tabs, '\t');
+
+    std::cout << "InnerClass" << std::endl;
+
+    std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
+    std::cout << tabs + "Tamanho do atributo: " << this->tam << std::endl;
+    std::cout << tabs + "Número de classes: " << this->num_classes << std::endl;
+    int i = 0;
+    for (auto &temp : this->classes){
+        std::cout << tabs << "Classe número " << i << ": " << std::endl;
+        std::cout << tabs + '\t' << "Índice para classe interna: " << temp.classe_interna_id << std::endl;
+        std::cout << tabs + '\t' << "Índice para classe externa: " << temp.classe_externa_id << std::endl;
+        std::cout << tabs + '\t' << "Índice nome interno: " << temp.nome_interna_id << std::endl;
+        std::cout << tabs + '\t' << "Flag acesso classe interna: " << temp.classe_interna_flag_acesso <<std::endl;
+        i++;
+    }
+}
+
+void AttrClass::deletar (){
+    std::vector<InfoClasse>().swap(this->classes);
+
+    InterAtributo::deletar();
+}
+
+
+
+AttrCodigo::AttrCodigo (const u2 ind_nome, InterTabela *const tab_simbolos) :
+    InterAtributo(ind_nome, tab_simbolos){
+};
+
+void AttrCodigo::decodificar (FILE *const arq){
     u1 temp;
 
     InterAtributo::decodificar(arq);
@@ -97,12 +149,12 @@ void AttrCode::decodificar (FILE *const arq){
     ler_u2(arq, &this->tam_tab_atributos);
 
     if (this->tam_tab_atributos){
-        this->tab_atributos = new TabAtributos(&this->tam_tab_atributos, this->tab_simbolos);
+        this->tab_atributos = new TabAtributos(this->tam_tab_atributos, this->tab_simbolos);
         this->tab_atributos->decodificar(arq);
     }
 }
 
-void AttrCode::exibir (const u1 qnt_tabs){
+void AttrCodigo::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
     std::cout << "Code" << std::endl;
@@ -128,7 +180,7 @@ void AttrCode::exibir (const u1 qnt_tabs){
      if (this->tab_atributos) this->tab_atributos->exibir(qnt_tabs + 1);
 }
 
-void AttrCode::exibir_bytecodes (const u1 qnt_tabs){
+void AttrCodigo::exibir_bytecodes (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
     for (int cnt = 0; cnt < this->codigo.size(); cnt++){
@@ -141,7 +193,7 @@ void AttrCode::exibir_bytecodes (const u1 qnt_tabs){
     }
 }
 
-void AttrCode::deletar (){
+void AttrCodigo::deletar (){
     std::vector<u1>().swap(this->codigo);
 
     std::vector<Excessao>().swap(tab_excessao);
@@ -215,6 +267,29 @@ void AttrArqFonte::exibir (const u1 qnt_tabs){
 }
 
 void AttrArqFonte::deletar (){
+    InterAtributo::deletar();
+}
+
+
+
+AttrSintetico::AttrSintetico (const u2 ind_nome, InterTabela *const tab_simbolos) :
+    InterAtributo(ind_nome, tab_simbolos){
+};
+
+void AttrSintetico::decodificar (FILE *const arq){
+    InterAtributo::decodificar (arq);
+}
+
+void AttrSintetico::exibir (const u1 qnt_tabs){
+    std::string tabs(qnt_tabs, '\t');
+
+    std::cout << "Synthetic" << std::endl;
+
+    std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
+    std::cout << tabs + "Tamanho do atributo: " << this->tam << std::endl;
+}
+
+void AttrSintetico::deletar (){
     InterAtributo::deletar();
 }
 
