@@ -7,7 +7,7 @@
 
 
 u1 TabSimbolos::decodificar (FILE *const arq){
-    int tam = *this->tam;
+    int tam = this->tam;
     if (!tam) return 2;
 
     u1 temp = 0, ignora = 0, tem_main = 0;
@@ -53,14 +53,13 @@ u1 TabSimbolos::decodificar (FILE *const arq){
 
 void TabSimbolos::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
-    int tam = this->registros.size();
 
-    if (!tam){
+    if (!this->tam){
         std::cout << tabs + "Não há itens na tabela de símbolos" << std::endl;
         return;
     }
 
-    int padding = get_padding(tam);
+    int padding = get_padding(this->tam);
     int cnt = 0;
 
     for (auto &registro : this->registros){
@@ -73,7 +72,7 @@ void TabSimbolos::exibir (const u1 qnt_tabs){
 }
 
 std::string TabSimbolos::get_string (u2 ind_nome){
-    u2 tam = this->tam ? *this->tam : 0;
+    u2 tam = this->tam ? this->tam : 0;
 
     if (!tam) return "";
 

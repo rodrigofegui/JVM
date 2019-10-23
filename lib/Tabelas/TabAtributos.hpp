@@ -19,7 +19,7 @@
 
         public:
             /* Herdando método já implementado */
-            explicit TabAtributos (u2 *const tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
+            explicit TabAtributos (const u2 tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
 
             /**
              *  Decodificador do arquivo binário .class para a tabela de atributos

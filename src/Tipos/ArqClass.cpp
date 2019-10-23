@@ -56,7 +56,7 @@ void ArqClass::decodificar (){
     ler_u2(this->arq, &this->tam_tab_simbolo);
 
     if (this->tam_tab_simbolo){
-        this->tab_simbolo = new TabSimbolos(&this->tam_tab_simbolo);
+        this->tab_simbolo = new TabSimbolos(this->tam_tab_simbolo);
         if (this->tab_simbolo->decodificar(this->arq))
             ArqClass::set_arq_main(this);
     }
@@ -67,28 +67,28 @@ void ArqClass::decodificar (){
     ler_u2(this->arq, &this->tam_tab_interfaces);
 
     if (this->tam_tab_interfaces){
-        this->tab_interfaces = new TabInterfaces(&this->tam_tab_interfaces, this-> tab_simbolo);
+        this->tab_interfaces = new TabInterfaces(this->tam_tab_interfaces, this-> tab_simbolo);
         this->tab_interfaces->decodificar(this->arq);
     }
 
     ler_u2(this->arq, &this->tam_tab_campos);
 
     if (this->tam_tab_campos){
-        this->tab_campos = new TabCampos(&this->tam_tab_campos, this->tab_simbolo);
+        this->tab_campos = new TabCampos(this->tam_tab_campos, this->tab_simbolo);
         this->tab_campos->decodificar(this->arq);
     }
 
     ler_u2(this->arq, &this->tam_tab_metodos);
 
     if (this->tam_tab_metodos){
-        this->tab_metodos = new TabMetodos(&this->tam_tab_metodos, this->tab_simbolo);
+        this->tab_metodos = new TabMetodos(this->tam_tab_metodos, this->tab_simbolo);
         this->tab_metodos->decodificar(this->arq);
     }
 
     ler_u2(this->arq, &this->tam_tab_atributos);
 
     if (this->tam_tab_atributos){
-        this->tab_atributos = new TabAtributos(&this->tam_tab_atributos, this->tab_simbolo);
+        this->tab_atributos = new TabAtributos(this->tam_tab_atributos, this->tab_simbolo);
         this->tab_atributos->decodificar(this->arq);
     }
 

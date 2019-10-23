@@ -6,7 +6,7 @@
 
 
 u1 TabMetodos::decodificar (FILE *const arq){
-    for (int cnt = 0; cnt < *this->tam; cnt++){
+    for (int cnt = 0; cnt < this->tam; cnt++){
         Campo c_campo(this->tab_simbolos);
 
         c_campo.decodificar(arq);
@@ -19,14 +19,13 @@ u1 TabMetodos::decodificar (FILE *const arq){
 
 void TabMetodos::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
-    int tam = this->registros.size();
 
-    if (!tam){
+    if (!this->tam){
         std::cout << tabs + "Não há itens na tabela de métodos" << std::endl;
         return;
     }
 
-    int padding = get_padding(tam);
+    int padding = get_padding(this->tam);
     int cnt = 0;
 
     for (auto &registro : this->registros){

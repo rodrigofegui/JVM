@@ -50,6 +50,7 @@
     #define FLG_ITF 0x0200
     #define FLG_ABS 0x0400
     #define FLG_STT 0x0800
+    #define FLG_SNT 0X1000
 
     /**
      *  Recuperação de uma flag traduzida

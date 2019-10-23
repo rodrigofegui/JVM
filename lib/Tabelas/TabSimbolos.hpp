@@ -20,7 +20,7 @@
 
         public:
             /* Herdando método já implementado */
-            explicit TabSimbolos (u2 *const tam) : InterTabela(tam){};
+            explicit TabSimbolos (const u2 tam) : InterTabela(tam){};
 
             /**
              *  Decodificador do arquivo binário .class para a tabela de símbolos

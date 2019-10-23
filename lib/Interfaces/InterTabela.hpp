@@ -17,7 +17,7 @@
             InterTabela *tab_simbolos = nullptr;
 
             /** Ref. para o tamanho da tabela */
-            u2 *tam = nullptr;
+            u2 tam = 0;
 
         public:
             /** Construtor padrão */
@@ -27,14 +27,14 @@
              *  Construtor com o conhecimento prévio do seu tamanho
              *  @param tam Tamanho a ser atribuido à tabela
              */
-            explicit InterTabela (u2 *const tam) : tam(tam) {};
+            explicit InterTabela (const u2 tam) : tam(tam) {};
 
             /**
              *  Construtor com o conhecimento prévio tanto do seu tamanho quanto da tabela de símbolos que está vinculada
              *  @param tam Tamanho a ser atribuido à tabela
              *  @param tab_simbolos Tabela de símbolos que está vinculada
              */
-            explicit InterTabela (u2 *const tam, InterTabela *const tab_simbolos) : tam(tam), tab_simbolos(tab_simbolos){};
+            explicit InterTabela (const u2 tam, InterTabela *const tab_simbolos) : tam(tam), tab_simbolos(tab_simbolos){};
 
             /**
              *  Decodificador do arquivo binário .class para uma tabela, extraindo todos

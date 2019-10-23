@@ -64,6 +64,7 @@ void AttrExcp::exibir (const u1 qnt_tabs){
 
 void AttrExcp::deletar (){
     std::vector<u2>().swap(this->exceptions);
+
     InterAtributo::deletar();
 }
 
@@ -109,6 +110,7 @@ void AttrClass::exibir (const u1 qnt_tabs){
 
 void AttrClass::deletar (){
     std::vector<InfoClasse>().swap(this->classes);
+
     InterAtributo::deletar();
 }
 
@@ -147,7 +149,7 @@ void AttrCodigo::decodificar (FILE *const arq){
     ler_u2(arq, &this->tam_tab_atributos);
 
     if (this->tam_tab_atributos){
-        this->tab_atributos = new TabAtributos(&this->tam_tab_atributos, this->tab_simbolos);
+        this->tab_atributos = new TabAtributos(this->tam_tab_atributos, this->tab_simbolos);
         this->tab_atributos->decodificar(arq);
     }
 }
