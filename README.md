@@ -31,3 +31,22 @@ valgrind --version
 ```
 
 O Leitor/Exibidor utilizado foi o [jclasslib](https://github.com/ingokegel/jclasslib/releases/tag/5.3.2) na versão 5.3.2 (a mais recente no início do projeto), para poder comparar com o sistema desenvolvido.
+
+
+## Trabalhos em Assembly
+
+O montador assembly utilizado é o [NASM](https://www.nasm.us/) na versão [2.14.03rc2](https://www.nasm.us/pub/nasm/releasebuilds/2.14.03rc2/) (a mais recente até o momento). Além disso faz uso de bibliotecas desenvolvidas pelo [Paul Carter](https://pacman128.github.io/pcasm/), adquiridas a partir de seus respectivos exemplos aos sistemas operacionais.
+
+Ao executar programas de 32-bits em máquina de 64-bits com o gcc, pelo menos, é preciso instalar um plugin de multiplaforma: multilib; que pode ser instalado, em Linux, a partir do comando: `sudo apt-get install gcc-multilib`.
+
+Dessa forma, para executar um programa desejado é preciso seguir os comandos:
+
+```
+# Linux
+nasm -f elf prog.asm
+gcc -o prog prog.o driver.c asm_io.o -m32
+
+# Windows
+nasm -f win32 prog.asm
+gcc -o prog prog.obj driver.c asm_io.obj -m32
+```
