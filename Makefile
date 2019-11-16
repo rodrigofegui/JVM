@@ -4,9 +4,13 @@
 # Responsável por compilar a aplicação desenvolvida em C/C++
 # COMP = gcc
 COMP = g++
+ASM_COMP = nasm
+ASM_COMP2 = gcc
 # Flags do compilador
 # COMP_FLAGS = -g
 COMP_FLAGS = -g -std=c++11
+ASM_COMP_FLAGS = -f elf
+ASM_OBJ_DEPENDENCIAS = asm/driver.c asm/*.o -m32
 # Resposável pela análise estática do código C/C++
 ESTATICO = cppcheck
 # Flags para o estático
@@ -24,8 +28,11 @@ DIR_BASE = `pwd`
 # Todos Arquivos-fonte .c a partir do diretório corrente
 # DIR_FONTES = `find . -type f -iname *.c -print |  sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g'`
 DIR_FONTES = `find . -type f -iname *.cpp -print |  sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g'`
+DIR_ASM_FONTES = `find . -type f -iname *.asm -print |  sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g'`
 # Diretório dos arquivos objetos
 DIR_OBJETOS = obj/
+# Diretório dos arquivos necessários para o Assembly
+DIR_ASM = asm/
 # Arquivo executável
 EXECUTAVEL = leitor.out
 # Arquivo de configuração do doxygen
@@ -66,9 +73,14 @@ help:
 	@echo "    estatico          Analisador estático recursivo sobre o diretório corrente"
 	@echo "    objetos           Gera os arquivos objetos .o para todos os arquivos"
 	@echo "                      .c encontrados recursivamente a partir do diretório corrente"
+	@echo "    asm_obj			 Gera os arquivos objetos .o para todos os arquivos"
+	@echo "                      .asm encontrados recursivamente a partir do diretório corrente"
 	@echo "    compilar          Gera o arquivo executável"
+	@echo "    asm_comp          Gera o arquivo executável para o código assembly"
 	@echo "    executável        Executa o programa em si."
 	@echo "                      Aceita as flags: <modo> e <arqs>"
+	@echo "    asm_exe           Executa o programa assembly"
+	@echo "    asm               Executa o ciclo completo para o programa assembly"
 	@echo ""
 	@echo "Flags:"
 	@echo "    modo=e|i          Controle de como o programa tratará os arquivos .class:"
@@ -104,6 +116,7 @@ limpar: limpar_obj limpar_bin
 doc:
 	doxygen $(DOC_CONFIG)
 
+
 estatico:
 	@echo "${DESTAQUE}"
 	@echo "Verificação estática sobre os arquivos:"
@@ -116,8 +129,8 @@ estatico:
 
 objetos: estatico limpar_obj
 	@echo "${DESTAQUE}"
-	@echo "Gerando arquivos objetos a partir do diretorio:"
-	@echo "'${DIR_FONTES}'"
+	@echo "Gerando arquivos objetos a partir dos arquivos:"
+	@echo "${DIR_FONTES}\n"
 
 	@$(COMP) -c $(DIR_FONTES) $(COMP_FLAGS)
 	@mv *.o $(DIR_OBJETOS)
@@ -127,12 +140,32 @@ objetos: estatico limpar_obj
 	@echo "${DESTAQUE}\n"
 
 
+asm_obj: limpar_obj
+	@echo "${DESTAQUE}"
+	@echo "Gerando arquivos objetos a partir dos arquivos:"
+	@echo "${DIR_ASM_FONTES}"
+
+	@$(ASM_COMP) $(ASM_COMP_FLAGS) $(DIR_ASM_FONTES) -i $(DIR_ASM) -d LINUX
+
+
 compilar: limpar_bin objetos
 	@echo "${DESTAQUE}"
 	@echo "Compilando o projeto a partir dos arquivos:"
 	@echo "'${DIR_OBJETOS}'"
 
 	@$(COMP) obj/* -o $(EXECUTAVEL)
+
+	@echo "\nExecutável gerado:"
+	@echo "'$(EXECUTAVEL)'"
+	@echo "${DESTAQUE}\n"
+
+
+asm_comp: limpar_bin asm_obj
+	@echo "${DESTAQUE}"
+	@echo "Compilando o projeto a partir dos arquivos:"
+	@echo "${DIR_OBJETOS}\n"
+
+	$(ASM_COMP2) -o $(EXECUTAVEL) $(ASM_OBJ_DEPENDENCIAS)
 
 	@echo "\nExecutável gerado:"
 	@echo "'$(EXECUTAVEL)'"
@@ -159,3 +192,6 @@ executar:
 completo: compilar executar
 
 
+asm: asm_obj asm_comp
+	@clear
+	@./$(EXECUTAVEL)
