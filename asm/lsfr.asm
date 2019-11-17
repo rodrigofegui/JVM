@@ -25,7 +25,16 @@ segment .text
         enter   0,0
         pusha
 
+        push    EBP
+        mov     EBP, ESP
+
         ; CÓDIGO AQUI
+        mov     EBX, [EBP]          ; Endereço de endereço
+        mov     EBX, [EBX + 8]      ; A freq. está vindo como último parâmetro
+        mov     EBX, [EBP]
+        mov     EAX, [EBX + 12]     ; A semente
+
+        pop     EBP
 
         popa
         ; mov     eax, 0            ; Só se tiver retorno

@@ -23,7 +23,7 @@ typedef uint32_t u4;
 #define N_BITS          23
 
 /** Quant. de semestes */
-#define QNT_SEMENTES    20
+#define QNT_SEMENTES    1 //20
 /** Máxima semente de 24-bits */
 #define MAX_SEMENTE     0x00FFFFFF
 
@@ -51,7 +51,7 @@ int main(){
 
         interface_lsfr(calc_lsfr_asm, freq_obs, sementes[cnt], "ASM");
 
-        printf("\n------------------------------------\n");
+        printf("------------------------------------\n");
     }
 
     return 0;
@@ -116,6 +116,7 @@ void interface_lsfr(void (*calc_lsfr) (u4 *, u4), u4 *freq, u4 semente, char *id
     clock_t duracao;
 
     limpar_freq(freq);
+
     printf("\nLinguagem: %s\n", identificador);
 
     duracao = clock();
@@ -125,3 +126,5 @@ void interface_lsfr(void (*calc_lsfr) (u4 *, u4), u4 *freq, u4 semente, char *id
     printf("\tDuração: %.2f seg\n", ((double) duracao) / CLOCKS_PER_SEC);
     printf("\tChi-quadrado: %.2lf\n", chi_quadrado(freq, FREQ_ESP, QNT_GRUPOS));
 }
+
+
