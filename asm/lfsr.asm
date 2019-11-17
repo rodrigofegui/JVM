@@ -18,15 +18,16 @@ segment .bss
 segment .text
 
 calc_lfsr_asm:
-        enter   0,0
-        pusha
+        ;enter   0,0
+        ;pusha
 
-        push    EBP
-        mov     EBP, ESP
+        ;push    EBP
+        ;mov     EBP, ESP
 
-        ; CÓDIGO AQUI
-        mov     EAX, [EBX + 4]     ; A semente
+        ;mov     EDI, [EBP + 4]
 
+        mov     EAX, [ESP + 4]     ; A semente
+        
         mov     EDX, EAX
         shr     EDX, 0
         mov     ECX, EDX            ; ECX = EDX >> 0 (lfsr = seed >> 0)
@@ -46,15 +47,15 @@ calc_lfsr_asm:
         mov     EDX, EAX
         shr     EDX, 23
         xor     ECX, EDX            ; ECX ^= EDX >> 23 (lfsr ^= seed >> 23)
+        and     ECX, 0x1            ; ECX &= 0x1 (lfsr &= 0x1)
 
         shr     EAX, 1              ; EAX >> 1 (seed >> 1)
         shl     ECX, 23             ; ECX << 23 (lfsr << 23)
         or      EAX, ECX            ; EAX |= ECX (lsfr | seed)
 
-        pop     EBP
-
-        popa
-        leave
+        ;pop     EBP
+        ;popa
+        ;leave
         ret
 
 ; 32   28   24   20   16   12   8    4
