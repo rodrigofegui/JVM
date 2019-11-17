@@ -28,7 +28,7 @@ typedef uint32_t u4;
 #define MAX_SEMENTE     0x00FFFFFF
 
 
-void gerar_sementes(u4 *sementes);
+void gerar_sementes();
 void limpar_freq (u4 *freq);
 void calc_lsfr_c (u4 *freq, u4 semente);
 void PRE_CDECL calc_lsfr_asm (u4 *freq, u4 semente) POST_CDECL;
@@ -38,18 +38,16 @@ void interface_lsfr(void (*calc_lsfr) (u4 *, u4), u4 *freq, u4 semente, char *id
 
 int main(){
     u4 freq_obs[QNT_GRUPOS];
-    u4 sementes[QNT_SEMENTES] = {0};
 
     srand(time(0));
 
-    gerar_sementes(sementes);
-
     for (u1 cnt = 0; cnt < QNT_SEMENTES; cnt++){
-        printf("Processando LSFR de 24-bits para a %dº semente: 0x%08X\n", cnt + 1, sementes[cnt]);
+        u4 semente = gerar_sementes();
+        printf("Processando LSFR de 24-bits para a %dº semente: 0x%08X\n", cnt + 1, semente);
 
-        interface_lsfr(calc_lsfr_c, freq_obs, sementes[cnt], "C");
+        interface_lsfr(calc_lsfr_c, freq_obs, semente, "C");
 
-        interface_lsfr(calc_lsfr_asm, freq_obs, sementes[cnt], "ASM");
+        interface_lsfr(calc_lsfr_asm, freq_obs, semente, "ASM");
 
         printf("------------------------------------\n");
     }
@@ -57,10 +55,8 @@ int main(){
     return 0;
 }
 
-void gerar_sementes(u4 *sementes){
-    for (u1 cnt = 0; cnt < QNT_SEMENTES; cnt++){
-        sementes[cnt] = rand() % MAX_SEMENTE;
-    }
+void gerar_sementes(){
+    return rand() % MAX_SEMENTE;
 }
 
 void limpar_freq (u4 *freq){
