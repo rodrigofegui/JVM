@@ -14,14 +14,10 @@ segment .bss
 ;-------------------------------------------------------------------------------
 ; Programa
 ;-------------------------------------------------------------------------------
+        global calc_lfsr_asm
 segment .text
-    %ifdef LINUX                    ; Linha 148 do Makefile
-        global  calc_lsfr_asm
-    calc_lsfr_asm:
-    %else
-        global  _calc_lsfr_asm
-    _calc_lsfr_asm:
-    %endif
+
+calc_lfsr_asm:
         enter   0,0
         pusha
 
@@ -29,15 +25,35 @@ segment .text
         mov     EBP, ESP
 
         ; CÓDIGO AQUI
-        mov     EBX, [EBP]          ; Endereço de endereço
-        mov     EBX, [EBX + 8]      ; A freq. está vindo como último parâmetro
-        mov     EBX, [EBP]
-        mov     EAX, [EBX + 12]     ; A semente
+        mov     EAX, [EBX + 4]     ; A semente
+
+        mov     EDX, EAX
+        shr     EDX, 0
+        mov     ECX, EDX            ; ECX = EDX >> 0 (lfsr = seed >> 0)
+
+        mov     EDX, EAX
+        shr     EDX, 16
+        xor     ECX, EDX            ; ECX ^= EDX >> 16 (lfsr ^= seed >> 16)
+
+        mov     EDX, EAX
+        shr     EDX, 21
+        xor     ECX, EDX            ; ECX ^= EDX >> 21 (lfsr ^= seed >> 21)
+
+        mov     EDX, EAX
+        shr     EDX, 22
+        xor     ECX, EDX            ; ECX ^= EDX >> 22 (lfsr ^= seed >> 22)
+
+        mov     EDX, EAX
+        shr     EDX, 23
+        xor     ECX, EDX            ; ECX ^= EDX >> 23 (lfsr ^= seed >> 23)
+
+        shr     EAX, 1              ; EAX >> 1 (seed >> 1)
+        shl     ECX, 23             ; ECX << 23 (lfsr << 23)
+        or      EAX, ECX            ; EAX |= ECX (lsfr | seed)
 
         pop     EBP
 
         popa
-        ; mov     eax, 0            ; Só se tiver retorno
         leave
         ret
 

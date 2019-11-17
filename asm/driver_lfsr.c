@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <math.h>
 #include <time.h>
-
 #include "cdecl.h"
 
 
@@ -25,15 +24,17 @@ typedef uint32_t u4;
 /** Quant. de semestes */
 #define QNT_SEMENTES    1 //20
 /** Máxima semente de 24-bits */
-#define MAX_SEMENTE     0x00FFFFFF
+#define MASK    0x00FFFFFF
 
 
-void gerar_sementes();
+u4 gerar_sementes();
 void limpar_freq (u4 *freq);
-void calc_lsfr_c (u4 *freq, u4 semente);
-void PRE_CDECL calc_lsfr_asm (u4 *freq, u4 semente) POST_CDECL;
+//void calc_lfsr_c (u4 *freq, u4 semente);
+u4 calc_lfsr_c(u4 semente);
+u4 PRE_CDECL calc_lfsr_asm (u4 semente) POST_CDECL;
+void calc_freq(u4 (*calc_lfsr) (u4), u4*, u4);
 double chi_quadrado (u4 *freq_obs, u4 freq_esp, u1 n);
-void interface_lsfr(void (*calc_lsfr) (u4 *, u4), u4 *freq, u4 semente, char *identificador);
+void interface_lfsr(u4 (*calc_lfsr) (u4), u4 *freq, u4 semente, char *identificador);
 
 
 int main(){
@@ -43,11 +44,11 @@ int main(){
 
     for (u1 cnt = 0; cnt < QNT_SEMENTES; cnt++){
         u4 semente = gerar_sementes();
-        printf("Processando LSFR de 24-bits para a %dº semente: 0x%08X\n", cnt + 1, semente);
+        printf("Processando lfsr de 24-bits para a %dº semente: 0x%08X\n", cnt + 1, semente);
 
-        interface_lsfr(calc_lsfr_c, freq_obs, semente, "C");
+        interface_lfsr(calc_lfsr_c, freq_obs, semente, "C");
 
-        interface_lsfr(calc_lsfr_asm, freq_obs, semente, "ASM");
+        interface_lfsr(calc_lfsr_asm, freq_obs, semente, "ASM");
 
         printf("------------------------------------\n");
     }
@@ -55,8 +56,8 @@ int main(){
     return 0;
 }
 
-void gerar_sementes(){
-    return rand() % MAX_SEMENTE;
+u4 gerar_sementes(){
+    return rand() % MASK;
 }
 
 void limpar_freq (u4 *freq){
@@ -64,34 +65,37 @@ void limpar_freq (u4 *freq){
         freq[cnt] = 0;
 }
 
-void calc_lsfr_c(u4 *freq, u4 semente){
-    u4 lsfr = semente, resultado = 0, periodo = 0;
+u4 calc_lfsr_c(u4 semente) {
+    // x^1 + x^17 + x^22 + x^23 + x^24
+    u4 resultado = 0, periodo = 0, bit;
+
+    semente &= MASK;
+    bit = (semente >> 0);
+    bit ^= (semente >> 16);
+    bit ^= (semente >> 21);
+    bit ^= (semente >> 22);
+    bit ^= (semente >> 23);
+    bit &= 0x1;
+    // printf("lfsr: 0x%08X, 0x%02X\n", lfsr, bit);
+    return ((semente >> 1) | (bit << 23));
+} 
+
+void calc_freq(u4 (*calc_lfsr) (u4), u4* freq, u4 semente) {
+    u4 periodo = 0, resultado = 0;
     u1 cnt = 0;
-
     do {
-        u1 bit;
-        bit = (lsfr >> 0) & 0x01;
-        bit ^= (lsfr >> 19) & 0x01;
-        bit ^= (lsfr >> 20) & 0x01;
-        bit ^= (lsfr >> 22) & 0x01;
-        bit ^= (lsfr >> 23) & 0x01;
-        // printf("LSFR: 0x%08X, 0x%02X\n", lsfr, bit);
-
-        resultado |= ((lsfr >> 0) & 0x01) << (N_BITS - cnt);
-
-        lsfr = (lsfr >> 1) | (bit << 23);
+        u4 lfsr = calc_lfsr(semente);
+        resultado |= ((lfsr >> 0) & 0x01) << (N_BITS - cnt);
 
         if (cnt == N_BITS){
-            // printf("[%u] Gerou o número: 0x%08X -> 0x%08X\n", periodo, resultado, lsfr);
+            // printf("[%u] Gerou o número: 0x%08X -> 0x%08X\n", periodo, resultado, lfsr);
             // printf("[%u]\r", periodo);
             freq[resultado / FREQ_ESP]++;
-            // getchar();
             cnt = resultado = 0;
             periodo++;
         } else
             cnt++;
-
-    } while (periodo < MAX_PERIODO);
+    }while (periodo < MAX_PERIODO);
 }
 
 double chi_quadrado(u4 *freq_obs, u4 freq_esp, u1 n){
@@ -108,15 +112,14 @@ double chi_quadrado(u4 *freq_obs, u4 freq_esp, u1 n){
     return chi_quadrado;
 }
 
-void interface_lsfr(void (*calc_lsfr) (u4 *, u4), u4 *freq, u4 semente, char *identificador){
+void interface_lfsr(u4 (*calc_lfsr) (u4), u4 *freq, u4 semente, char *identificador){
     clock_t duracao;
-
     limpar_freq(freq);
 
     printf("\nLinguagem: %s\n", identificador);
 
     duracao = clock();
-    calc_lsfr(freq, semente);
+    calc_freq(calc_lfsr, freq, semente);
     duracao = clock() - duracao;
 
     printf("\tDuração: %.2f seg\n", ((double) duracao) / CLOCKS_PER_SEC);
