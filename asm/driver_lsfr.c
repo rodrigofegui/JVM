@@ -6,10 +6,12 @@
 
 #include "cdecl.h"
 
+
 /** Tipo básico para 1 byte sem sinal */
 typedef uint8_t u1;
 /** Tipo básico para 4 bytes sem sinal */
 typedef uint32_t u4;
+
 
 /** Período máximo para um número de 24-bits */
 #define MAX_PERIODO     16777216
@@ -25,14 +27,16 @@ typedef uint32_t u4;
 /** Máxima semente de 24-bits */
 #define MAX_SEMENTE     0x00FFFFFF
 
+
 void gerar_sementes(u4 *sementes);
 void limpar_freq (u4 *freq);
 void calc_lsfr_c (u4 *freq, u4 semente);
 void PRE_CDECL calc_lsfr_asm (u4 *freq, u4 semente) POST_CDECL;
 double chi_quadrado (u4 *freq_obs, u4 freq_esp, u1 n);
+void interface_lsfr(void (*calc_lsfr) (u4 *, u4), u4 *freq, u4 semente, char *identificador);
+
 
 int main(){
-    clock_t duracao;
     u4 freq_obs[QNT_GRUPOS];
     u4 sementes[QNT_SEMENTES] = {0};
 
@@ -43,34 +47,13 @@ int main(){
     for (u1 cnt = 0; cnt < QNT_SEMENTES; cnt++){
         printf("Processando LSFR de 24-bits para a %dº semente: 0x%08X\n", cnt + 1, sementes[cnt]);
 
-        // C:
-        limpar_freq (freq_obs);
-        {
-            printf("\nLinguagem: C\n");
+        interface_lsfr(calc_lsfr_c, freq_obs, sementes[cnt], "C");
 
-            duracao = clock();
-            calc_lsfr_c(freq_obs, sementes[cnt]);
-            duracao = clock() - duracao;
-
-            printf("\tDuração: %.2f seg\n", ((double) duracao) / CLOCKS_PER_SEC);
-            printf("\tChi-quadrado: %.2lf\n", chi_quadrado(freq_obs, FREQ_ESP, QNT_GRUPOS));
-        }
-
-        // ASM:
-        limpar_freq (freq_obs);
-        {
-            printf("\nLinguagem: ASM\n");
-
-            duracao = clock();
-            calc_lsfr_asm(freq_obs, sementes[cnt]);
-            duracao = clock() - duracao;
-
-            printf("\tDuração: %.2f seg\n", ((double) duracao) / CLOCKS_PER_SEC);
-            printf("\tChi-quadrado: %.2lf\n", chi_quadrado(freq_obs, FREQ_ESP, QNT_GRUPOS));
-        }
+        interface_lsfr(calc_lsfr_asm, freq_obs, sementes[cnt], "ASM");
 
         printf("\n------------------------------------\n");
     }
+
     return 0;
 }
 
@@ -129,3 +112,16 @@ double chi_quadrado(u4 *freq_obs, u4 freq_esp, u1 n){
     return chi_quadrado;
 }
 
+void interface_lsfr(void (*calc_lsfr) (u4 *, u4), u4 *freq, u4 semente, char *identificador){
+    clock_t duracao;
+
+    limpar_freq(freq);
+    printf("\nLinguagem: %s\n", identificador);
+
+    duracao = clock();
+    calc_lsfr(freq, semente);
+    duracao = clock() - duracao;
+
+    printf("\tDuração: %.2f seg\n", ((double) duracao) / CLOCKS_PER_SEC);
+    printf("\tChi-quadrado: %.2lf\n", chi_quadrado(freq, FREQ_ESP, QNT_GRUPOS));
+}

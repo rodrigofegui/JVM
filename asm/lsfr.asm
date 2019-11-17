@@ -15,7 +15,7 @@ segment .bss
 ; Programa
 ;-------------------------------------------------------------------------------
 segment .text
-    %ifdef LINUX
+    %ifdef LINUX                    ; Linha 148 do Makefile
         global  calc_lsfr_asm
     calc_lsfr_asm:
     %else
