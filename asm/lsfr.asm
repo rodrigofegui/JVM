@@ -16,18 +16,22 @@ segment .bss
 ;-------------------------------------------------------------------------------
 segment .text
     %ifdef LINUX
-        global  asm_main
-    asm_main:
+        global  calc_lsfr_asm
+    calc_lsfr_asm:
     %else
-        global  _asm_main
-    _asm_main:
+        global  _calc_lsfr_asm
+    _calc_lsfr_asm:
     %endif
-        enter 0,0
+        enter   0,0
         pusha
 
         ; CÓDIGO AQUI
 
         popa
-        mov     eax, 0
+        ; mov     eax, 0            ; Só se tiver retorno
         leave
         ret
+
+; 32   28   24   20   16   12   8    4
+; 0000 0000 1110 0001 0000 0000 0000 0001
+; 0    0    E    1    0    0    0    1

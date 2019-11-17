@@ -10,7 +10,7 @@ ASM_COMP2 = gcc
 # COMP_FLAGS = -g
 COMP_FLAGS = -g -std=c++11
 ASM_COMP_FLAGS = -f elf
-ASM_OBJ_DEPENDENCIAS = asm/driver.c asm/*.o -m32
+ASM_OBJ_DEPENDENCIAS = asm/*.o asm/driver_lsfr.c -m32 -lm
 # Resposável pela análise estática do código C/C++
 ESTATICO = cppcheck
 # Flags para o estático
@@ -34,7 +34,7 @@ DIR_OBJETOS = obj/
 # Diretório dos arquivos necessários para o Assembly
 DIR_ASM = asm/
 # Arquivo executável
-EXECUTAVEL = leitor.out
+EXECUTAVEL = saida.out
 # Arquivo de configuração do doxygen
 DOC_CONFIG = doxyfile.conf
 
@@ -193,5 +193,4 @@ completo: compilar executar
 
 
 asm: asm_obj asm_comp
-	@clear
 	@./$(EXECUTAVEL)
