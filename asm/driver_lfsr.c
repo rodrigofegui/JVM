@@ -25,7 +25,6 @@ typedef uint32_t u4;
 /** Máxima semente de 24-bits */
 #define MASK    0x00FFFFFF
 
-
 u4 gerar_sementes();
 void limpar_freq (u4 *freq);
 u4 calc_lfsr_c(u4 semente);
@@ -33,7 +32,6 @@ u4 PRE_CDECL calc_lfsr_asm (u4 semente) POST_CDECL;
 void calc_freq(u4 (*calc_lfsr) (u4), u4*, u4);
 double chi_quadrado (u4 *freq_obs, u4 freq_esp, u1 n);
 void interface_lfsr(u4 (*calc_lfsr) (u4), u4 *freq, u4 semente, char *identificador);
-
 
 int main(){
     u4 freq_obs[QNT_GRUPOS];
@@ -44,10 +42,8 @@ int main(){
         u4 semente = gerar_sementes();
         printf("Processando lfsr de 24-bits para a %dº semente: 0x%08X\n", cnt + 1, semente);
         interface_lfsr(calc_lfsr_c, freq_obs, semente, "C");
-
         interface_lfsr(calc_lfsr_asm, freq_obs, semente, "ASM");
-
-        printf("------------------------------------\n");
+        printf("\n");
     }
 
     return 0;
@@ -71,7 +67,6 @@ u4 calc_lfsr_c(u4 semente) {
     bit ^= (semente >> 22);
     bit ^= (semente >> 23);
     bit &= 0x1;
-    // printf("lfsr: 0x%08X, 0x%02X\n", lfsr, bit);
     return ((semente >> 1) | (bit << 23));
 } 
 
@@ -80,7 +75,6 @@ void calc_freq(u4 (*calc_lfsr) (u4), u4* freq, u4 init_seed) {
     u1 cnt = 0;
     do {
         u4 lfsr = calc_lfsr(semente);
-        //printf("[%u] Gerou o número: 0x%08X - Grupo: %d\n", periodo, lfsr, lfsr/FREQ_ESP);
         freq[lfsr / FREQ_ESP]++;
         periodo++;
         semente = lfsr;
@@ -91,11 +85,9 @@ double chi_quadrado(u4 *freq_obs, u4 freq_esp, u1 n){
     double chi_quadrado = 0;
     
     for (u1 cnt = 0; cnt < n; cnt++){
-        // printf("\nFreq. esperada: %d\n", freq_esp);
-        // printf("Freq. observada para o grupo [%d]: %u\n", cnt, freq_obs[cnt]);
-        // printf("\tDiff: %d -> %d\n", FREQ_ESP - freq_obs[cnt], abs(FREQ_ESP- freq_obs[cnt]));
-        // printf("\tQuad: %.2lf\n", pow(abs(freq_obs[cnt] - FREQ_ESP), 2));
-        // printf("\tParcela: %.2lf\n", pow(abs(freq_obs[cnt] - FREQ_ESP), 2) / FREQ_ESP);
+        printf("\tGrupo [%d]:\n", cnt);
+        printf("\t\tFreq. esperada: %d\n", freq_esp);
+        printf("\t\tFreq. observada: %d\n", freq_obs[cnt]);
         chi_quadrado += pow(abs(freq_obs[cnt] - freq_esp), 2) / freq_esp;
     }
 
@@ -113,8 +105,10 @@ void interface_lfsr(u4 (*calc_lfsr) (u4), u4 *freq, u4 semente, char *identifica
     calc_freq(calc_lfsr, freq, semente);
     duracao = clock() - duracao;
 
-    printf("\tDuração: %.2f seg\n", ((double) duracao) / CLOCKS_PER_SEC);
-    printf("\tChi-quadrado: %.2lf\n", chi_quadrado(freq, FREQ_ESP, QNT_GRUPOS));
+    double chi_quadrado_valor = chi_quadrado(freq, FREQ_ESP, QNT_GRUPOS);
+
+    printf("\n\tDuração: %.2f seg\n", ((double) duracao) / CLOCKS_PER_SEC);
+    printf("\tChi-quadrado: %.2lf\n", chi_quadrado_valor);
 }
 
 

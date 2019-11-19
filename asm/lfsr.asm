@@ -18,14 +18,6 @@ segment .bss
 segment .text
 
 calc_lfsr_asm:
-        ;enter   0,0
-        ;pusha
-
-        ;push    EBP
-        ;mov     EBP, ESP
-
-        ;mov     EDI, [EBP + 4]
-
         mov     EAX, [ESP + 4]     ; A semente
         
         mov     EDX, EAX
@@ -53,9 +45,6 @@ calc_lfsr_asm:
         shl     ECX, 23             ; ECX << 23 (lfsr << 23)
         or      EAX, ECX            ; EAX |= ECX (lsfr | seed)
 
-        ;pop     EBP
-        ;popa
-        ;leave
         ret
 
 ; 32   28   24   20   16   12   8    4
