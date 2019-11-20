@@ -87,9 +87,9 @@ double chi_quadrado(u4 *freq_obs, u4 freq_esp, u1 n){
     double chi_quadrado = 0;
 
     for (u1 cnt = 0; cnt < n; cnt++){
-        // printf("\tGrupo [%d]:\n", cnt);
-        // printf("\t\tFreq. esperada: %u\n", freq_esp);
-        // printf("\t\tFreq. observada: %u\n", freq_obs[cnt]);
+        printf("\tGrupo [%d]:\n", cnt);
+        printf("\t\tFreq. esperada: %u\n", freq_esp);
+        printf("\t\tFreq. observada: %u\n", freq_obs[cnt]);
         chi_quadrado += pow(abs(freq_obs[cnt] - freq_esp), 2) / freq_esp;
     }
 

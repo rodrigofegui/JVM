@@ -1,6 +1,6 @@
 compilar:
-	nasm -f elf lfsr.asm
-	gcc -o lfsr driver_lfsr.c lfsr.o -m32 -lm
+	nasm -f elf 09-01-lfsr.asm
+	gcc -o lfsr 09-01-lfsr.c 09-01-lfsr.o -m32 -lm
 
 clean: 
 	rm -f lfsr *.o
