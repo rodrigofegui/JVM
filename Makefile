@@ -10,7 +10,7 @@ ASM_COMP2 = gcc
 # COMP_FLAGS = -g
 COMP_FLAGS = -g -std=c++11
 ASM_COMP_FLAGS = -f elf
-ASM_OBJ_DEPENDENCIAS = asm/*.o asm/driver_lsfr.c -m32 -lm
+ASM_OBJ_DEPENDENCIAS = asm/lfsr.o asm/driver_lfsr.c -m32 -lm
 # Resposável pela análise estática do código C/C++
 ESTATICO = cppcheck
 # Flags para o estático
@@ -28,7 +28,7 @@ DIR_BASE = `pwd`
 # Todos Arquivos-fonte .c a partir do diretório corrente
 # DIR_FONTES = `find . -type f -iname *.c -print |  sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g'`
 DIR_FONTES = `find . -type f -iname *.cpp -print |  sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g'`
-DIR_ASM_FONTES = `find . -type f -iname *.asm -print |  sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g'`
+DIR_ASM_FONTES = $(DIR_ASM)lfsr.asm
 # Diretório dos arquivos objetos
 DIR_OBJETOS = obj/
 # Diretório dos arquivos necessários para o Assembly
