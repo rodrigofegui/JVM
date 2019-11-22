@@ -7,7 +7,7 @@ void MaquinaVirtual::iniciar (int argc, char *argv[]){
 
     this->parametros.get_entradas(argc, argv);
 
-    this->carregador.decodificar(this->parametros.nome_arqs);
+    this->carregador.carregar(this->parametros.nome_arqs);
 }
 
 void MaquinaVirtual::executar (){

@@ -10,8 +10,6 @@
 #include "../../lib/Uteis/Status.hpp"
 
 
-ArqClass *ArqClass::arq_main = nullptr;
-
 ArqClass::ArqClass (const std::string &nome_arq) : ArqClass() {
     this->nome_arq = nome_arq;
 }
@@ -42,14 +40,16 @@ std::string ArqClass::get_versao_java (const u2 versao){
     }
 }
 
-void ArqClass::decodificar (){
+ArqClass* ArqClass::decodificar (){
+    u1 tem_main = 0;
+
     this->arq = abrir(nome_arq.c_str());
 
-    if (!this->arq) return;
+    if (!this->arq) return nullptr;
 
     check_validade();
 
-    if (!this->e_valido) return;
+    if (!this->e_valido) return nullptr;
 
     ler_u2(this->arq, &this->versao_min);
     ler_u2(this->arq, &this->versao_max);
@@ -57,8 +57,8 @@ void ArqClass::decodificar (){
 
     if (this->tam_tab_simbolo){
         this->tab_simbolo = new TabSimbolos(this->tam_tab_simbolo);
-        if (this->tab_simbolo->decodificar(this->arq))
-            ArqClass::set_arq_main(this);
+
+        tem_main = this->tab_simbolo->decodificar(this->arq);
     }
 
     ler_u2(this->arq, &this->flag_acesso);
@@ -94,6 +94,10 @@ void ArqClass::decodificar (){
 
     fclose(this->arq);
     this->arq = nullptr;
+
+    if (!tem_main) return nullptr;
+
+    return this;
 }
 
 void ArqClass::exibir (){
@@ -163,13 +167,3 @@ void ArqClass::deletar (){
     if (this->arq) fclose(this->arq);
 }
 
-void ArqClass::executar (){
-    // std::cout << "veio executar" << std::endl;
-    // std::cout << "Arq com `main`: " << ArqClass::arq_main << std::endl;
-}
-
-void ArqClass::set_arq_main (ArqClass *const arq_class){
-    if (ArqClass::arq_main) return;
-
-    ArqClass::arq_main = arq_class;
-}
