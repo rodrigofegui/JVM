@@ -12,11 +12,10 @@
      *  Tabela de métodos do arquivo .class
      */
     class TabMetodos : public InterTabela {
-        private:
+        public:
             /** Conteúdo da tabela em si */
             std::vector<Campo> registros;
 
-        public:
             /* Herdando método já implementado */
             explicit TabMetodos (const u2 tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
 

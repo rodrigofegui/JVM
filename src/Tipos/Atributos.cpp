@@ -189,7 +189,7 @@ void AttrCodigo::exibir_bytecodes (const u1 qnt_tabs){
         std::cout << tabs << cnt << ": "
                   << bytecodes[bytecode].mnemonico << std::endl;
 
-        cnt += bytecodes[bytecode].manipulador(this->codigo, cnt, 0);
+        cnt += bytecodes[bytecode].bytes;
     }
 }
 

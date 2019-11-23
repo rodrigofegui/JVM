@@ -123,7 +123,7 @@
      *  Atributo do tipo __Code__, presente somente nos métodos
      */
     class AttrCodigo : public InterAtributo {
-        private:
+        public:
             /* Estrutura de um atributo __Code__ */
             u2 max_pilha = 0;
             u2 max_locais = 0;
@@ -134,7 +134,6 @@
             u2 tam_tab_atributos = 0;
             TabAtributos *tab_atributos = nullptr;
 
-        public:
             /* Herdando método já implementado */
             explicit AttrCodigo (const u2 ind_nome, InterTabela *const tab_simbolos);
 

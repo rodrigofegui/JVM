@@ -13,11 +13,10 @@
      *  Tabela de atributos, sejam os do arquivo .class em si quanto os de um método
      */
     class TabAtributos : public InterTabela {
-        private:
+        public:
             /** Conteúdo da tabela em si */
             std::vector<InterAtributo*> registros;
 
-        public:
             /* Herdando método já implementado */
             explicit TabAtributos (const u2 tam, InterTabela *const tab_simbolos) : InterTabela(tam, tab_simbolos){};
 

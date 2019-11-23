@@ -16,5 +16,5 @@
             Frame pop ();
 
             void deletar();
-    }
+    };
 #endif
