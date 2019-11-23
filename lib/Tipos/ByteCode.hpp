@@ -10,6 +10,7 @@
     #include <string>
     #include <vector>
     #include "Basicos.hpp"
+    #include "../Tipos/Frame.hpp"
 
     #define CAT1(x,y) (x ## y)
     #define FUNC(y) (CAT1(manipulador, y))
@@ -20,7 +21,7 @@
         std::string mnemonico;
         /** Função manipuladora do bytecode */
         int bytes;
-        int (*manipulador) (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+        void (*manipulador) (Frame *frame);
     } ByteCode;
 
     //  Conjunto de ByteCode a ser consultado pelo sitema
@@ -37,458 +38,458 @@
      *  caso contrário será como exibidor
      *  @returns Quantidade de bytes do código que foram necessários para o funcionamento do manipulador
      */
-    int manipulador_undef (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_undef (Frame *frame);
 
     // 0 (0x00)
-    int manipulador_nop (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_nop (Frame *frame);
 
     // 1 (0x01)
-    int manipulador_aconst_null (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aconst_null (Frame *frame);
     // 2 (0x02)
-    int manipulador_iconst_m1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iconst_m1 (Frame *frame);
     // 3 (0x03)
-    int manipulador_iconst_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iconst_0 (Frame *frame);
     // 4 (0x04)
-    int manipulador_iconst_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iconst_1 (Frame *frame);
     // 5 (0x05)
-    int manipulador_iconst_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iconst_2 (Frame *frame);
 
     // 6 (0x06)
-    int manipulador_iconst_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iconst_3 (Frame *frame);
     // 7 (0x07)
-    int manipulador_iconst_4 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iconst_4 (Frame *frame);
     // 8 (0x08)
-    int manipulador_iconst_5 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iconst_5 (Frame *frame);
     // 9 (0x09)
-    int manipulador_lconst_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lconst_0 (Frame *frame);
     // 10 (0x0A)
-    int manipulador_lconst_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lconst_1 (Frame *frame);
 
     // 11 (0x0B)
-    int manipulador_fconst_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fconst_0 (Frame *frame);
     // 12 (0x0C)
-    int manipulador_fconst_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fconst_1 (Frame *frame);
     // 13 (0x0D)
-    int manipulador_fconst_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fconst_2 (Frame *frame);
     // 14 (0x0E)
-    int manipulador_dconst_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dconst_0 (Frame *frame);
     // 15 (0x0F)
-    int manipulador_dconst_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dconst_1 (Frame *frame);
 
     // 16 (0x10)
-    int manipulador_bipush (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_bipush (Frame *frame);
     // 17 (0x11)
-    int manipulador_sipush (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_sipush (Frame *frame);
     // 18 (0x12)
-    int manipulador_ldc (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ldc (Frame *frame);
     // 19 (0x13)
-    int manipulador_ldc_w (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ldc_w (Frame *frame);
     // 20 (0x14)
-    int manipulador_ldc2_w (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ldc2_w (Frame *frame);
 
     // 21 (0x15)
-    int manipulador_iload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iload (Frame *frame);
     // 22 (0x16)
-    int manipulador_lload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lload (Frame *frame);
     // 23 (0x17)
-    int manipulador_fload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fload (Frame *frame);
     // 24 (0x18)
-    int manipulador_dload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dload (Frame *frame);
     // 25 (0x19)
-    int manipulador_aload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aload (Frame *frame);
 
     // 26 (0x1A)
-    int manipulador_iload_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iload_0 (Frame *frame);
     // 27 (0x1B)
-    int manipulador_iload_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iload_1 (Frame *frame);
     // 28 (0x1C)
-    int manipulador_iload_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iload_2 (Frame *frame);
     // 29 (0x1D)
-    int manipulador_iload_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iload_3 (Frame *frame);
     // 30 (0x1E)
-    int manipulador_lload_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lload_0 (Frame *frame);
 
     // 31 (0x1F)
-    int manipulador_lload_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lload_1 (Frame *frame);
     // 32 (0x20)
-    int manipulador_lload_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lload_2 (Frame *frame);
     // 33 (0x21)
-    int manipulador_lload_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lload_3 (Frame *frame);
     // 34 (0x22)
-    int manipulador_fload_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fload_0 (Frame *frame);
     // 35 (0x23)
-    int manipulador_fload_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fload_1 (Frame *frame);
 
     // 36 (0x24)
-    int manipulador_fload_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fload_2 (Frame *frame);
     // 37 (0x25)
-    int manipulador_fload_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fload_3 (Frame *frame);
     // 38 (0x26)
-    int manipulador_dload_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dload_0 (Frame *frame);
     // 39 (0x27)
-    int manipulador_dload_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dload_1 (Frame *frame);
     // 40 (0x28)
-    int manipulador_dload_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dload_2 (Frame *frame);
 
     // 41 (0x29)
-    int manipulador_dload_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dload_3 (Frame *frame);
     // 42 (0x2A)
-    int manipulador_aload_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aload_0 (Frame *frame);
     // 43 (0x2B)
-    int manipulador_aload_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aload_1 (Frame *frame);
     // 44 (0x2C)
-    int manipulador_aload_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aload_2 (Frame *frame);
     // 45 (0x2D)
-    int manipulador_aload_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aload_3 (Frame *frame);
 
     // 46 (0x2E)
-    int manipulador_iaload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iaload (Frame *frame);
     // 47 (0x2F)
-    int manipulador_laload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_laload (Frame *frame);
     // 48 (0x30)
-    int manipulador_faload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_faload (Frame *frame);
     // 49 (0x31)
-    int manipulador_daload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_daload (Frame *frame);
     // 50 (0x32)
-    int manipulador_aaload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aaload (Frame *frame);
 
     // 51 (0x33)
-    int manipulador_baload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_baload (Frame *frame);
     // 52 (0x34)
-    int manipulador_caload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_caload (Frame *frame);
     // 53 (0x35)
-    int manipulador_saload (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_saload (Frame *frame);
     // 54 (0x36)
-    int manipulador_istore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_istore (Frame *frame);
     // 55 (0x37)
-    int manipulador_lstore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lstore (Frame *frame);
 
     // 56 (0x38)
-    int manipulador_fstore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fstore (Frame *frame);
     // 57 (0x39)
-    int manipulador_dstore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dstore (Frame *frame);
     // 58 (0x3A)
-    int manipulador_astore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_astore (Frame *frame);
     // 59 (0x3B)
-    int manipulador_istore_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_istore_0 (Frame *frame);
     // 60 (0x3C)
-    int manipulador_istore_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_istore_1 (Frame *frame);
 
     // 61 (0x3D)
-    int manipulador_istore_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_istore_2 (Frame *frame);
     // 62 (0x3E)
-    int manipulador_istore_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_istore_3 (Frame *frame);
     // 63 (0x3F)
-    int manipulador_lstore_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lstore_0 (Frame *frame);
     // 64 (0x40)
-    int manipulador_lstore_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lstore_1 (Frame *frame);
     // 65 (0x41)
-    int manipulador_lstore_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lstore_2 (Frame *frame);
 
     // 66 (0x42)
-    int manipulador_lstore_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lstore_3 (Frame *frame);
     // 67 (0x43)
-    int manipulador_fstore_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fstore_0 (Frame *frame);
     // 68 (0x44)
-    int manipulador_fstore_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fstore_1 (Frame *frame);
     // 69 (0x45)
-    int manipulador_fstore_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fstore_2 (Frame *frame);
     // 70 (0x46)
-    int manipulador_fstore_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fstore_3 (Frame *frame);
 
     // 71 (0x47)
-    int manipulador_dstore_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dstore_0 (Frame *frame);
     // 72 (0x48)
-    int manipulador_dstore_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dstore_1 (Frame *frame);
     // 73 (0x49)
-    int manipulador_dstore_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dstore_2 (Frame *frame);
     // 74 (0x4A)
-    int manipulador_dstore_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dstore_3 (Frame *frame);
     // 75 (0x4B)
-    int manipulador_astore_0 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_astore_0 (Frame *frame);
 
     // 76 (0x4C)
-    int manipulador_astore_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_astore_1 (Frame *frame);
     // 77 (0x4D)
-    int manipulador_astore_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_astore_2 (Frame *frame);
     // 78 (0x4E)
-    int manipulador_astore_3 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_astore_3 (Frame *frame);
     // 79 (0x4F)
-    int manipulador_iastore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iastore (Frame *frame);
     // 80 (0x50)
-    int manipulador_lastore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lastore (Frame *frame);
 
     // 81 (0x51)
-    int manipulador_fastore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fastore (Frame *frame);
     // 82 (0x52)
-    int manipulador_dastore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dastore (Frame *frame);
     // 83 (0x53)
-    int manipulador_aastore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_aastore (Frame *frame);
     // 84 (0x54)
-    int manipulador_bastore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_bastore (Frame *frame);
     // 85 (0x55)
-    int manipulador_castore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_castore (Frame *frame);
 
     // 86 (0x56)
-    int manipulador_sastore (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_sastore (Frame *frame);
     // 87 (0x57)
-    int manipulador_pop (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_pop (Frame *frame);
     // 88 (0x58)
-    int manipulador_pop2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_pop2 (Frame *frame);
     // 89 (0x59)
-    int manipulador_dup (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dup (Frame *frame);
     // 90 (0x5A)
-    int manipulador_dup_x1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dup_x1 (Frame *frame);
 
     // 91 (0x5B)
-    int manipulador_dup_x2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dup_x2 (Frame *frame);
     // 92 (0x5C)
-    int manipulador_dup2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dup2 (Frame *frame);
     // 93 (0x5D)
-    int manipulador_dup2_x1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dup2_x1 (Frame *frame);
     // 94 (0x5E)
-    int manipulador_dup2_x2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dup2_x2 (Frame *frame);
     // 95 (0x5F)
-    int manipulador_swap (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_swap (Frame *frame);
 
     // 96 (0x60)
-    int manipulador_iadd (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iadd (Frame *frame);
     // 97 (0x61)
-    int manipulador_ladd (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ladd (Frame *frame);
     // 98 (0x62)
-    int manipulador_fadd (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fadd (Frame *frame);
     // 99 (0x63)
-    int manipulador_dadd (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dadd (Frame *frame);
     // 100 (0x64)
-    int manipulador_isub (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_isub (Frame *frame);
 
     // 101 (0x65)
-    int manipulador_lsub (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lsub (Frame *frame);
     // 102 (0x66)
-    int manipulador_fsub (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fsub (Frame *frame);
     // 103 (0x67)
-    int manipulador_dsub (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dsub (Frame *frame);
     // 104 (0x68)
-    int manipulador_imul (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_imul (Frame *frame);
     // 105 (0x69)
-    int manipulador_lmul (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lmul (Frame *frame);
 
     // 106 (0x6A)
-    int manipulador_fmul (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fmul (Frame *frame);
     // 107 (0x6B)
-    int manipulador_dmul (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dmul (Frame *frame);
     // 108 (0x6C)
-    int manipulador_idiv (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_idiv (Frame *frame);
     // 109 (0x6D)
-    int manipulador_ldiv (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ldiv (Frame *frame);
     // 110 (0x6E)
-    int manipulador_fdiv (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fdiv (Frame *frame);
 
     // 111 (0x6F)
-    int manipulador_ddiv (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ddiv (Frame *frame);
     // 112 (0x70)
-    int manipulador_irem (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_irem (Frame *frame);
     // 113 (0x71)
-    int manipulador_lrem (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lrem (Frame *frame);
     // 114 (0x72)
-    int manipulador_frem (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_frem (Frame *frame);
     // 115 (0x73)
-    int manipulador_drem (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_drem (Frame *frame);
 
     // 116 (0x74)
-    int manipulador_ineg (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ineg (Frame *frame);
     // 117 (0x75)
-    int manipulador_lneg (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lneg (Frame *frame);
     // 118 (0x76)
-    int manipulador_fneg (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fneg (Frame *frame);
     // 119 (0x77)
-    int manipulador_dneg (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dneg (Frame *frame);
     // 120 (0x78)
-    int manipulador_ishl (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ishl (Frame *frame);
 
     // 121 (0x79)
-    int manipulador_lshl (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lshl (Frame *frame);
     // 122 (0x7A)
-    int manipulador_ishr (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ishr (Frame *frame);
     // 123 (0x7B)
-    int manipulador_lshr (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lshr (Frame *frame);
     // 124 (0x7C)
-    int manipulador_iushr (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iushr (Frame *frame);
     // 125 (0x7D)
-    int manipulador_lushr (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lushr (Frame *frame);
 
     // 126 (0x7E)
-    int manipulador_iand (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iand (Frame *frame);
     // 127 (0x7F)
-    int manipulador_land (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_land (Frame *frame);
     // 128 (0x80)
-    int manipulador_ior (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ior (Frame *frame);
     // 129 (0x81)
-    int manipulador_lor (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lor (Frame *frame);
     // 130 (0x82)
-    int manipulador_ixor (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ixor (Frame *frame);
 
     // 131 (0x83)
-    int manipulador_lxor (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lxor (Frame *frame);
     // 132 (0x84)
-    int manipulador_iinc (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iinc (Frame *frame);
     // 133 (0x85)
-    int manipulador_i2l (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_i2l (Frame *frame);
     // 134 (0x86)
-    int manipulador_i2f (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_i2f (Frame *frame);
     // 135 (0x87)
-    int manipulador_i2d (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_i2d (Frame *frame);
 
     // 136 (0x88)
-    int manipulador_l2i (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_l2i (Frame *frame);
     // 137 (0x89)
-    int manipulador_l2f (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_l2f (Frame *frame);
     // 138 (0x8A)
-    int manipulador_l2d (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_l2d (Frame *frame);
     // 139 (0x8B)
-    int manipulador_f2i (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_f2i (Frame *frame);
     // 140 (0x8C)
-    int manipulador_f2l (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_f2l (Frame *frame);
 
     // 141 (0x8D)
-    int manipulador_f2d (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_f2d (Frame *frame);
     // 142 (0x8E)
-    int manipulador_d2i (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_d2i (Frame *frame);
     // 143 (0x8F)
-    int manipulador_d2l (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_d2l (Frame *frame);
     // 144 (0x90)
-    int manipulador_d2f (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_d2f (Frame *frame);
     // 145 (0x91)
-    int manipulador_i2b (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_i2b (Frame *frame);
 
     // 146 (0x92)
-    int manipulador_i2c (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_i2c (Frame *frame);
     // 147 (0x93)
-    int manipulador_i2s (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_i2s (Frame *frame);
     // 148 (0x94)
-    int manipulador_lcmp (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lcmp (Frame *frame);
     // 149 (0x95)
-    int manipulador_fcmpl (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fcmpl (Frame *frame);
     // 150 (0x96)
-    int manipulador_fcmpg (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_fcmpg (Frame *frame);
 
     // 151 (0x97)
-    int manipulador_dcmpl (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dcmpl (Frame *frame);
     // 152 (0x98)
-    int manipulador_dcmpg (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dcmpg (Frame *frame);
     // 153 (0x99)
-    int manipulador_ifeq (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ifeq (Frame *frame);
     // 154 (0x9A)
-    int manipulador_ifne (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ifne (Frame *frame);
     // 155 (0x9B)
-    int manipulador_iflt (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_iflt (Frame *frame);
 
     // 156 (0x9C)
-    int manipulador_ifge (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ifge (Frame *frame);
     // 157 (0x9D)
-    int manipulador_ifgt (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ifgt (Frame *frame);
     // 158 (0x9E)
-    int manipulador_ifle (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ifle (Frame *frame);
     // 159 (0x9F)
-    int manipulador_if_icmpeq (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_icmpeq (Frame *frame);
     // 160 (0xA0)
-    int manipulador_if_icmpne (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_icmpne (Frame *frame);
 
     // 161 (0xA1)
-    int manipulador_if_icmplt (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_icmplt (Frame *frame);
     // 162 (0xA2)
-    int manipulador_if_icmpge (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_icmpge (Frame *frame);
     // 163 (0xA3)
-    int manipulador_if_icmpgt (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_icmpgt (Frame *frame);
     // 164 (0xA4)
-    int manipulador_if_icmple (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_icmple (Frame *frame);
     // 165 (0xA5)
-    int manipulador_if_acmpeg (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_acmpeg (Frame *frame);
 
     // 166 (0xA6)
-    int manipulador_if_acmpne (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_if_acmpne (Frame *frame);
     // 167 (0xA7)
-    int manipulador_goto (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_goto (Frame *frame);
     // 168 (0xA8)
-    int manipulador_jsr (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_jsr (Frame *frame);
     // 169 (0xA9)
-    int manipulador_ret (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ret (Frame *frame);
     // 170 (0xAA)
-    int manipulador_tableswitch (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_tableswitch (Frame *frame);
 
     // 171 (0xAB)
-    int manipulador_lookupswitch (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lookupswitch (Frame *frame);
     // 172 (0xAC)
-    int manipulador_ireturn (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ireturn (Frame *frame);
     // 173 (0xAD)
-    int manipulador_lreturn (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_lreturn (Frame *frame);
     // 174 (0xAE)
-    int manipulador_freturn (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_freturn (Frame *frame);
     // 175 (0xAF)
-    int manipulador_dreturn (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_dreturn (Frame *frame);
 
     // 176 (0xB0)
-    int manipulador_areturn (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_areturn (Frame *frame);
     // 177 (0xB1)
-    int manipulador_return (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_return (Frame *frame);
     // 178 (0xB2)
-    int manipulador_getstatic (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_getstatic (Frame *frame);
     // 179 (0xB3)
-    int manipulador_putstatic (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_putstatic (Frame *frame);
     // 180 (0xB4)
-    int manipulador_getfield (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_getfield (Frame *frame);
 
     // 181 (0xB5)
-    int manipulador_putfield (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_putfield (Frame *frame);
     // 182 (0xB6)
-    int manipulador_invokevirtual (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_invokevirtual (Frame *frame);
     // 183 (0xB7)
-    int manipulador_invokespecial (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_invokespecial (Frame *frame);
     // 184 (0xB8)
-    int manipulador_invokestatic (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_invokestatic (Frame *frame);
     // 185 (0xB9)
-    int manipulador_invokeinterface (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_invokeinterface (Frame *frame);
 
     // 186 (0xBA)
-    int manipulador_invokedynamic (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_invokedynamic (Frame *frame);
 
     // 187 (0xBB)
-    int manipulador_new (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_new (Frame *frame);
     // 188 (0xBC)
-    int manipulador_newarray (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_newarray (Frame *frame);
     // 189 (0xBD)
-    int manipulador_anewarray (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_anewarray (Frame *frame);
     // 190 (0xBE)
-    int manipulador_arraylength (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_arraylength (Frame *frame);
 
     // 191 (0xBF)
-    int manipulador_athrow (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_athrow (Frame *frame);
     // 192 (0xC0)
-    int manipulador_checkcast (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_checkcast (Frame *frame);
     // 193 (0xC1)
-    int manipulador_instanceof (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_instanceof (Frame *frame);
     // 194 (0xC2)
-    int manipulador_monitorenter (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_monitorenter (Frame *frame);
     // 195 (0xC3)
-    int manipulador_monitorexit (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_monitorexit (Frame *frame);
 
     // 196 (0xC4)
-    int manipulador_wide (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_wide (Frame *frame);
     // 197 (0xC5)
-    int manipulador_multianewarray (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_multianewarray (Frame *frame);
     // 198 (0xC6)
-    int manipulador_ifnull (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ifnull (Frame *frame);
     // 199 (0xC7)
-    int manipulador_ifnonnull (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_ifnonnull (Frame *frame);
     // 200 (0xC8)
-    int manipulador_goto_w (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_goto_w (Frame *frame);
 
     // 201 (0xC9)
-    int manipulador_jsr_w (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_jsr_w (Frame *frame);
     // 202 (0xCA)
-    int manipulador_break_point (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_break_point (Frame *frame);
     // 254 (0xFE)
-    int manipulador_impdep_1 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_impdep_1 (Frame *frame);
     // 255 (0xFF)
-    int manipulador_impdep_2 (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
+    void manipulador_impdep_2 (Frame *frame);
 #endif
