@@ -19,6 +19,7 @@
         /** Nome que indentifica o bytecode */
         std::string mnemonico;
         /** Função manipuladora do bytecode */
+        int bytes;
         int (*manipulador) (const std::vector<u1> codigo, const u2 c_pos, const u1 e_interpretador);
     } ByteCode;
 
