@@ -55,15 +55,6 @@ int get_padding(const int num_max){
     return padding;
 }
 
-std::string get_hex(const u1 fonte){
-    std::stringstream hex_str;
-
-    hex_str << "0x" << std::setfill('0') << std::setw(2)
-            << std::hex << std::uppercase << static_cast<int>(fonte);
-
-    return hex_str.str();
-}
-
 std::string get_hex_2(const u2 fonte){
     std::stringstream hex_str;
 

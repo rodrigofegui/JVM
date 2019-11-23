@@ -13,9 +13,6 @@
      */
     class ArqClass {
         private:
-            /** Arquivo com a função main */
-            static ArqClass *arq_main;
-
             /* Controle do arquivo .class original */
             std::string nome_arq;
             FILE *arq = nullptr;
@@ -58,8 +55,9 @@
 
             /**
              *  Decodificador do arquivo binário .class
+             *  @return Arquivo .class com a função main
              */
-            void decodificar ();
+            ArqClass* decodificar ();
 
             /**
              *  Exibição do arquivo .class na saída padrão
@@ -70,15 +68,5 @@
              *  Destrutor do arquivo .class e suas dependências
              */
             void deletar ();
-
-            /** Interpretador de todos os arquivos considerados pelo sistema */
-            static void executar ();
-
-            /**
-             *  Dentre os arquivos considerados pelo sistema, o primeiro que possuir a função `main` definida
-             *  será considerado como o arquivo de entrada pelo interpretador
-             *  @param arq_class Arquivo .class que contém um método main
-             */
-            static void set_arq_main (ArqClass *const arq_class);
     };
 #endif

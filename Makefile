@@ -57,7 +57,7 @@ arq5 = CasosTestes/Pig.class
 arq6 = CasosTestes/Outer.class
 arq7 = CasosTestes/OtherClass.class
 arq8 = CasosTestes/ThrowExcep.class
-arqs = $(arq5) $(arq6) $(arq8)
+arqs = $(arq8)
 
 ###################
 # Regras
