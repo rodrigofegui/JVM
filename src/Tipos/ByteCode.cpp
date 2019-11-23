@@ -532,71 +532,162 @@ void manipulador_nop (Frame *frame){
 
 // 1 (0x01)
 void manipulador_aconst_null (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_VAZ;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 
 }
 
 // 2 (0x02)
 void manipulador_iconst_m1 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = -1;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 3 (0x03)
 void manipulador_iconst_0 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = 0;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
+
 }
 
 // 4 (0x04)
 void manipulador_iconst_1 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = 1;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 5 (0x05)
 void manipulador_iconst_2 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = 2;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 6 (0x06)
 void manipulador_iconst_3 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = 3;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 7 (0x07)
 void manipulador_iconst_4 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = 4;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 8 (0x08)
 void manipulador_iconst_5 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = 5;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 9 (0x09)
 void manipulador_lconst_0 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_LNG;
+    op->tipo_long = 0;
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 10 (0x0A)
 void manipulador_lconst_1 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_LNG;
+    op->tipo_long = 1;
+    frame->pilha_operandos.push(op);
+    frame->pc++;    
 }
 
 // 11 (0x0B)
 void manipulador_fconst_0 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_FLT;
+    op->tipo_float = 0.0;
+    frame->pilha_operandos.push(op);
+    frame->pc++;    
 }
 
 // 12 (0x0C)
 void manipulador_fconst_1 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_FLT;
+    op->tipo_float = 1.0;
+    frame->pilha_operandos.push(op);
+    frame->pc++;   
 }
 
 // 13 (0x0D)
 void manipulador_fconst_2 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_FLT;
+    op->tipo_float = 2.0;
+    frame->pilha_operandos.push(op);
+    frame->pc++;   
 }
 
 // 14 (0x0E)
 void manipulador_dconst_0 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_DBL;
+    op->tipo_double = 0.0;
+    frame->pilha_operandos.push(op);
+    frame->pc++;   
 }
 
 // 15 (0x0F)
 void manipulador_dconst_1 (Frame *frame){
+    Operando* op = new Operando();
+    op->tag = TAG_DBL;
+    op->tipo_double = 1.0;
+    frame->pilha_operandos.push(op);
+    frame->pc++;   
 }
 
 // 16 (0x10)
 void manipulador_bipush (Frame *frame){
+    frame->pc++;
+    Operando* op = new Operando();
+    auto byte = frame->attr_codigo->codigo[frame->pc++];
+    op->tag = TAG_INT;
+    op->tipo_int = (u1)byte;
+    
+    frame->pilha_operandos.push(op);
 }
 
 // 17 (0x11)
 void manipulador_sipush (Frame *frame){
+    Operando* op = new Operando();
+
+    auto byte1 = frame->attr_codigo->codigo[frame->pc++];
+    auto byte2 = frame->attr_codigo->codigo[frame->pc++];
+
+    op->tag = TAG_INT;
+    op->tipo_int = (byte1 << 8) | byte2;
+    
+    frame->pilha_operandos.push(op);
 }
 
 // 18 (0x12)
@@ -628,282 +719,651 @@ void manipulador_ldc (Frame *frame){
 
 // 19 (0x13)
 void manipulador_ldc_w (Frame *frame){
+    manipulador_nop(frame);
 }
 
 // 20 (0x14)
 void manipulador_ldc2_w (Frame *frame){
+    frame->pc++;
+
+    Operando *op = new Operando();
+    u1 indice1 = frame->attr_codigo->codigo[frame->pc++];
+    u1 indice2 = frame->attr_codigo->codigo[frame->pc++];
+
+    u1 indice3 = (indice1 << 8) + indice2;
+
+    InterCPDado *ts =  dynamic_cast<TabSimbolos*>(frame->tab_simbolos)->registros[indice3 - 1];
+    op->tag = ts->tag;
+
+    switch(op->tag) {
+        case TAG_DBL:
+            op->tipo_double = ((uint64_t)(dynamic_cast<InfoDouble*>(ts)->bytes_mais) << 32);
+            op->tipo_double = op->tipo_double + ((uint64_t)(dynamic_cast<InfoDouble*>(ts)->bytes_menos));
+        break;
+
+        default: 
+            op->tipo_long = ((uint64_t)(dynamic_cast<InfoLong*>(ts)->bytes_mais) << 32);
+            op->tipo_long = op->tipo_long + ((uint64_t)(dynamic_cast<InfoLong*>(ts)->bytes_menos));
+    }
+
+    frame->pilha_operandos.push(op);
+
 }
 
 // 21 (0x15)
 void manipulador_iload (Frame *frame){
+    frame->pc++;
+    auto indice = frame->attr_codigo->codigo[frame->pc++];
+    auto op = frame->var_locais[(int)indice];
+
+    frame->pilha_operandos.push(op);
+
 }
 
 // 22 (0x16)
 void manipulador_lload (Frame *frame){
+    frame->pc++;
+    u1 indice = frame->attr_codigo->codigo[frame->pc++];
+    Operando * op = frame->var_locais[(int)indice];
+
+    frame->pilha_operandos.push(op);
+
 }
 
 // 23 (0x17)
 void manipulador_fload (Frame *frame){
+    frame->pc++;
+    auto indice = frame->attr_codigo->codigo[frame->pc++];
+    auto op = frame->var_locais[(int)indice];
+
+    frame->pilha_operandos.push(op);
 }
 
 // 24 (0x18)
 void manipulador_dload (Frame *frame){
+    frame->pc++;
+    auto indice = frame->attr_codigo->codigo[frame->pc++];
+    auto op = frame->var_locais[(int)indice];
+
+    frame->pilha_operandos.push(op);
 }
 
 // 25 (0x19)
 void manipulador_aload (Frame *frame){
+    manipulador_nop(frame);
 }
 
 // 26 (0x1A)
 void manipulador_iload_0 (Frame *frame){
+    auto op = frame->var_locais[0];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 27 (0x1B)
 void manipulador_iload_1 (Frame *frame){
+    auto op = frame->var_locais[1];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 28 (0x1C)
 void manipulador_iload_2 (Frame *frame){
+    auto op = frame->var_locais[2];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 29 (0x1D)
 void manipulador_iload_3 (Frame *frame){
+    auto op = frame->var_locais[3];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 30 (0x1E)
 void manipulador_lload_0 (Frame *frame){
+    auto op = frame->var_locais[0];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 31 (0x1F)
 void manipulador_lload_1 (Frame *frame){
+    auto op = frame->var_locais[1];
+    frame->pilha_operandos.push(op);
+    frame->pc++;    
 }
 
 // 32 (0x20)
 void manipulador_lload_2 (Frame *frame){
+    auto op = frame->var_locais[2];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 33 (0x21)
 void manipulador_lload_3 (Frame *frame){
+    auto op = frame->var_locais[3];
+    frame->pilha_operandos.push(op);
+    frame->pc++;    
 }
 
 // 34 (0x22)
 void manipulador_fload_0 (Frame *frame){
+    auto op = frame->var_locais[0];
+    frame->pilha_operandos.push(op);
+    frame->pc++;    
 }
 
 // 35 (0x23)
 void manipulador_fload_1 (Frame *frame){
+    auto op = frame->var_locais[1];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 36 (0x24)
 void manipulador_fload_2 (Frame *frame){
+    auto op = frame->var_locais[2];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 37 (0x25)
 void manipulador_fload_3 (Frame *frame){
+    auto op = frame->var_locais[3];
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 38 (0x26)
 void manipulador_dload_0 (Frame *frame){
+    auto op = frame->var_locais[0];
+    frame->pilha_operandos.push(op);
+    frame->pc++;  
 }
 
 // 39 (0x27)
 void manipulador_dload_1 (Frame *frame){
+    auto op = frame->var_locais[1];
+    frame->pilha_operandos.push(op);
+    frame->pc++;  
 }
 
 // 40 (0x28)
 void manipulador_dload_2 (Frame *frame){
+    auto op = frame->var_locais[2];
+    frame->pilha_operandos.push(op);
+    frame->pc++;  
 }
 
 // 41 (0x29)
 void manipulador_dload_3 (Frame *frame){
+    auto op = frame->var_locais[3];
+    frame->pilha_operandos.push(op);
+    frame->pc++;  
 }
 
 // 42 (0x2A)
 void manipulador_aload_0 (Frame *frame){
+    auto op = frame->var_locais[0];
+    frame->pilha_operandos.push(op);
+    frame->pc++;    
 }
 
 // 43 (0x2B)
 void manipulador_aload_1 (Frame *frame){
+    auto op = frame->var_locais[1];
+    frame->pilha_operandos.push(op);
+    frame->pc++;  
 }
 
 // 44 (0x2C)
 void manipulador_aload_2 (Frame *frame){
+    auto op = frame->var_locais[2];
+    frame->pilha_operandos.push(op);
+    frame->pc++;      
 }
 
 // 45 (0x2D)
 void manipulador_aload_3 (Frame *frame){
+    auto op = frame->var_locais[3];
+    frame->pilha_operandos.push(op);
+    frame->pc++;      
 }
 
 // 46 (0x2E)
 void manipulador_iaload (Frame *frame){
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando * op = lista->lista_operandos->at(indice->tipo_int);
+
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 47 (0x2F)
 void manipulador_laload (Frame *frame){
+    manipulador_nop(frame);
 }
 
 // 48 (0x30)
 void manipulador_faload (Frame *frame){
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando * op = lista->lista_operandos->at(indice->tipo_int);
+
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 49 (0x31)
 void manipulador_daload (Frame *frame){
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando * op = lista->lista_operandos->at(indice->tipo_int);
+
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 50 (0x32)
 void manipulador_aaload (Frame *frame){
+    manipulador_nop(frame);
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    if(lista == NULL) {
+        std::cout << "Excecao Ponteiro Nulo" << std::endl;
+    }
+
+    if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
+        std::cout << "Excecao indice de array fora dos limites" << std::endl;
+    }
+
+    Operando * op = lista->lista_operandos->at(indice->tipo_int);
+
+    frame->pilha_operandos.push(op);
 }
 
 // 51 (0x33)
 void manipulador_baload (Frame *frame){
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando * op = lista->lista_operandos->at(indice->tipo_int);
+
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 52 (0x34)
 void manipulador_caload (Frame *frame){
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando * op = lista->lista_operandos->at(indice->tipo_int);
+
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 53 (0x35)
 void manipulador_saload (Frame *frame){
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando * op = lista->lista_operandos->at(indice->tipo_int);
+
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 54 (0x36)
 void manipulador_istore (Frame *frame){
+    frame->pc++;
+    auto indice = frame->attr_codigo->codigo[frame->pc++];
+    auto op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[(int)(indice)] = op;
 }
 
 // 55 (0x37)
 void manipulador_lstore (Frame *frame){
+    frame->pc++;
+    auto indice = frame->attr_codigo->codigo[frame->pc++];
+    auto op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[(int)(indice)] = op;
 }
 
 // 56 (0x38)
 void manipulador_fstore (Frame *frame){
+    frame->pc++;
+    auto indice = frame->attr_codigo->codigo[frame->pc++];
+    auto op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[(int)(indice)] = op;
 }
 
 // 57 (0x39)
 void manipulador_dstore (Frame *frame){
+    frame->pc++;
+    auto indice = frame->attr_codigo->codigo[frame->pc++];
+    auto op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[(int)(indice)] = op;    
 }
 
 // 58 (0x3A)
 void manipulador_astore (Frame *frame){
+    manipulador_nop(frame);
 }
 
 // 59 (0x3B)
 void manipulador_istore_0 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[0] = op;    
+    frame->pc++;
+
 }
 
 // 60 (0x3C)
 void manipulador_istore_1 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[1] = op;    
+    frame->pc++;
 }
 
 // 61 (0x3D)
 void manipulador_istore_2 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[2] = op;    
+    frame->pc++;
 }
 
 // 62 (0x3E)
 void manipulador_istore_3 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[3] = op;    
+    frame->pc++;    
 }
 
 // 63 (0x3F)
 void manipulador_lstore_0 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[0] = op;    
+    frame->pc++;        
 }
 
 // 64 (0x40)
 void manipulador_lstore_1 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[1] = op;    
+    frame->pc++;    
 }
 
 // 65 (0x41)
 void manipulador_lstore_2 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[2] = op;    
+    frame->pc++;        
 }
 
 // 66 (0x42)
 void manipulador_lstore_3 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[3] = op;    
+    frame->pc++;        
 }
 
 // 67 (0x43)
 void manipulador_fstore_0 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[0] = op;    
+    frame->pc++;       
 }
 
 // 68 (0x44)
 void manipulador_fstore_1 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[1] = op;    
+    frame->pc++;     
 }
 
 // 69 (0x45)
 void manipulador_fstore_2 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[2] = op;    
+    frame->pc++;     
 }
 
 // 70 (0x46)
 void manipulador_fstore_3 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[3] = op;    
+    frame->pc++;     
 }
 
 // 71 (0x47)
 void manipulador_dstore_0 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[0] = op;    
+    frame->pc++;     
 }
 
 // 72 (0x48)
 void manipulador_dstore_1 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[1] = op;    
+    frame->pc++;  
 }
 
 // 73 (0x49)
 void manipulador_dstore_2 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[2] = op;    
+    frame->pc++;  
 }
 
 // 74 (0x4A)
 void manipulador_dstore_3 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[3] = op;    
+    frame->pc++;  
 }
 
 // 75 (0x4B)
 void manipulador_astore_0 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[0] = op;    
+    frame->pc++;      
 }
 
 // 76 (0x4C)
 void manipulador_astore_1 (Frame *frame){
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[1] = op;    
+    frame->pc++;  
 }
 
 // 77 (0x4D)
 void manipulador_astore_2 (Frame *frame){
+    manipulador_nop(frame);
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[2] = op;    
+    frame->pc++;  
 }
 
 // 78 (0x4E)
 void manipulador_astore_3 (Frame *frame){
+    manipulador_nop(frame);
+    Operando * op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->var_locais[3] = op;    
+    frame->pc++;  
 }
 
 // 79 (0x4F)
 void manipulador_iastore (Frame *frame){
+    Operando * valor = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    lista->lista_operandos->at(indice->tipo_int) = valor;
 }
 
 // 80 (0x50)
 void manipulador_lastore (Frame *frame){
+    manipulador_nop(frame);
 }
 
 // 81 (0x51)
 void manipulador_fastore (Frame *frame){
+    Operando * valor = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    
+    Operando * indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    
+    Operando * lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(uint64_t));
 }
 
 // 82 (0x52)
 void manipulador_dastore (Frame *frame){
+    manipulador_nop(frame);
 }
 
 // 83 (0x53)
 void manipulador_aastore (Frame *frame){
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    
+    Operando* indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    
+    Operando* lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    
+    memcpy(&lista->lista_operandos->at(indice->tipo_int), &op, sizeof(uint64_t));
 }
 
 // 84 (0x54)
 void manipulador_bastore (Frame *frame){
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    u1 valor_8 = (u1) op->tipo_int;
+    Operando* indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor_8, sizeof(u1));
 }
 
 // 85 (0x55)
 void manipulador_castore (Frame *frame){
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    u2 valor_16 = (u2) op->tipo_int;
+    Operando* indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor_16, sizeof(u2));
 }
 
 // 86 (0x56)
 void manipulador_sastore (Frame *frame){
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    short valor_short = (short) op->tipo_int;
+    Operando* indice = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* lista = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor_short, sizeof(uint64_t));
 }
 
 // 87 (0x57)
 void manipulador_pop (Frame *frame){
+    frame->pilha_operandos.pop();
 }
 
 // 88 (0x58)
 void manipulador_pop2 (Frame *frame){
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    if(op->tag != TAG_DBL && op->tag != TAG_LNG) frame->pilha_operandos.pop();
 }
 
 // 89 (0x59)
@@ -940,8 +1400,6 @@ void manipulador_dup2_x1 (Frame *frame){
 
 // 94 (0x5E)
 void manipulador_dup2_x2 (Frame *frame){
-    frame->pc++;
-
     Operando* op_1 = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
     Operando* op_2 = frame->pilha_operandos.top();
@@ -956,12 +1414,12 @@ void manipulador_dup2_x2 (Frame *frame){
     frame->pilha_operandos.push(op_3);
     frame->pilha_operandos.push(op_2);
     frame->pilha_operandos.push(op_1);
+    
+    frame->pc++;
 }
 
 // 95 (0x5F)
 void manipulador_swap (Frame *frame){
-    frame->pc++;
-    
     Operando* op_1 = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
     Operando* op_2 = frame->pilha_operandos.top();
@@ -969,12 +1427,11 @@ void manipulador_swap (Frame *frame){
 
     frame->pilha_operandos.push(op_1);
     frame->pilha_operandos.push(op_2);
+    frame->pc++;
 }
 
 // 96 (0x60)
 void manipulador_iadd (Frame *frame){
-    frame->pc++;
-    
     Operando* op_1 = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
     Operando* op_2 = frame->pilha_operandos.top();
@@ -983,12 +1440,11 @@ void manipulador_iadd (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_long = op_2->tipo_int + op_1->tipo_int;
     frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 97 (0x61)
 void manipulador_ladd (Frame *frame){
-    frame->pc++;
-    
     Operando* op_1 = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
     Operando* op_2 = frame->pilha_operandos.top();
@@ -997,12 +1453,11 @@ void manipulador_ladd (Frame *frame){
     resultado->tag = TAG_LNG;
     resultado->tipo_long = op_2->tipo_long + op_1->tipo_long;
     frame->pilha_operandos.push(resultado);
+    frame->pc++; 
 }
 
 // 98 (0x62)
 void manipulador_fadd (Frame *frame){
-    frame->pc++;
-
     Operando* op_1 = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
     Operando* op_2 = frame->pilha_operandos.top();
@@ -1015,12 +1470,11 @@ void manipulador_fadd (Frame *frame){
     resultado->tag = TAG_FLT;
     memcpy(&resultado->tipo_float, &valor_1, sizeof(float));
     frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 99 (0x63)
 void manipulador_dadd (Frame *frame){
-    frame->pc++;
-
     Operando* op_1 = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
     Operando* op_2 = frame->pilha_operandos.top();
@@ -1033,11 +1487,11 @@ void manipulador_dadd (Frame *frame){
     resultado->tag = TAG_DBL;
     memcpy(&resultado->tipo_double, &valor_1, sizeof(uint64_t));
     frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 100 (0x64)
 void manipulador_isub (Frame *frame){
-    frame->pc++;
     Operando* op_1 = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
     Operando* op_2 = frame->pilha_operandos.top();
@@ -1046,96 +1500,274 @@ void manipulador_isub (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = op_2->tipo_int - op_1->tipo_int;
     frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 101 (0x65)
 void manipulador_lsub (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_LNG;
+    resultado->tipo_long = op_2->tipo_long - op_1->tipo_long;
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 102 (0x66)
 void manipulador_fsub (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    float valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_float,sizeof(float));
+    std::memcpy(&valor_2,&op_2->tipo_float,sizeof(float));
+    valor_2 -= valor_1;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_FLT;
+    memcpy(&resultado->tipo_float, &valor_2, sizeof(float));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 103 (0x67)
 void manipulador_dsub (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    double valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
+    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
+    valor_2 -= valor_1;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_DBL;
+    memcpy(&resultado->tipo_double, &valor_2, sizeof(uint64_t));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 104 (0x68)
 void manipulador_imul (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_INT;
+    resultado->tipo_int = op_1->tipo_int * op_2->tipo_int;
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 105 (0x69)
 void manipulador_lmul (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_LNG;
+    resultado->tipo_long = op_1->tipo_long * op_2->tipo_long;
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 106 (0x6A)
 void manipulador_fmul (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    float valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_float,sizeof(float));
+    std::memcpy(&valor_2,&op_2->tipo_float,sizeof(float));
+    valor_1 *= valor_2;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_FLT;
+    memcpy(&resultado->tipo_float, &valor_1, sizeof(float));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 107 (0x6B)
 void manipulador_dmul (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    double valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
+    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
+    valor_1 *= valor_2;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_DBL;
+    memcpy(&resultado->tipo_double, &valor_1, sizeof(uint64_t));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;   
 }
 
 // 108 (0x6C)
 void manipulador_idiv (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_INT;
+    resultado->tipo_int = floor(op_2->tipo_int/op_1->tipo_int);
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;   
 }
 
 // 109 (0x6D)
 void manipulador_ldiv (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_LNG;
+    resultado->tipo_int = floor(op_2->tipo_long/op_1->tipo_long);
+    frame->pilha_operandos.push(resultado);
+    frame->pc++; 
 }
 
 // 110 (0x6E)
 void manipulador_fdiv (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    float valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_float,sizeof(float));
+    std::memcpy(&valor_2,&op_2->tipo_float,sizeof(float));
+    valor_2 /= valor_1;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_FLT;
+    memcpy(&resultado->tipo_float, &valor_2, sizeof(float));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 111 (0x6F)
 void manipulador_ddiv (Frame *frame){
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    double valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
+    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
+    valor_2 /= valor_1;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_DBL;
+    memcpy(&resultado->tipo_double, &valor_1, sizeof(uint64_t));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++; 
     
 }
 
 // 112 (0x70)
 void manipulador_irem (Frame *frame){
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_INT;
+    resultado->tipo_int = op_2->tipo_int % op_1->tipo_int;
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;  
     
 }
 
 // 113 (0x71)
 void manipulador_lrem (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_LNG;
+    resultado->tipo_int = op_2->tipo_long % op_1->tipo_long;
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 114 (0x72)
 void manipulador_frem (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    float valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_float,sizeof(float));
+    std::memcpy(&valor_2,&op_2->tipo_float,sizeof(float));
+    valor_1 = fmod(valor_2, valor_1);
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_FLT;
+    memcpy(&resultado->tipo_float, &valor_1, sizeof(float));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 115 (0x73)
 void manipulador_drem (Frame *frame){
-    
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    double valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
+    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
+    valor_1 = fmod(valor_2, valor_1);
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_DBL;
+    memcpy(&resultado->tipo_double, &valor_1, sizeof(uint64_t));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 116 (0x74)
 void manipulador_ineg (Frame *frame){
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
     
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_INT;
+    resultado->tipo_int = (~op->tipo_int)+1;
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 117 (0x75)
 void manipulador_lneg (Frame *frame){
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
     
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_LNG;
+    resultado->tipo_long = (~op->tipo_long)+1;
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 118 (0x76)
 void manipulador_fneg (Frame *frame){
-    
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_FLT;
+    float valor, valor_neg;
+    std::memcpy(&valor, &op->tipo_float, sizeof(float));
+    valor_neg = (~op->tipo_float)+1;
+    std::memcpy(&resultado->tipo_float, &valor_neg, sizeof(float));
+    frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 119 (0x77)

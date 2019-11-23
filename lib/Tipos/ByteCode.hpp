@@ -10,6 +10,7 @@
     #include <string>
     #include <vector>
     #include <cstring>
+    #include <cmath>
     #include "./Basicos.hpp"
     #include "../Tipos/Frame.hpp"
     #include "../Tipos/CPDados.hpp"
