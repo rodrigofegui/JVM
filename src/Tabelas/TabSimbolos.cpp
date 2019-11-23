@@ -24,17 +24,17 @@ u1 TabSimbolos::decodificar (FILE *const arq){
         InterCPDado *c_dados = nullptr;
 
         switch (temp){
-            case TAG_UTF:           c_dados = new InfoUTF8(this); break;
-            case TAG_INT:           c_dados = new InfoInteiro(this); break;
-            case TAG_FLT:           c_dados = new InfoFloat(this); break;
-            case TAG_LNG:           c_dados = new InfoLong(this); ignora = 1; break;
-            case TAG_DBL:           c_dados = new InfoDouble(this); ignora = 1; break;
-            case TAG_CLAS:          c_dados = new InfoClasse(this); break;
-            case TAG_STR:           c_dados = new InfoString(this); break;
-            case TAG_REF_CMP:       c_dados = new InfoRefCampo(this); break;
-            case TAG_REF_MTD:       c_dados = new InfoRefMetodo(this); break;
-            case TAG_REF_MTD_ITF:   c_dados = new InfoRefMetInterface(this); break;
-            case TAG_NOM_TIP:       c_dados = new InfoNomeTipo(this); break;
+            case TAG_UTF:           c_dados = new InfoUTF8(this, temp); break;
+            case TAG_INT:           c_dados = new InfoInteiro(this, temp); break;
+            case TAG_FLT:           c_dados = new InfoFloat(this, temp); break;
+            case TAG_LNG:           c_dados = new InfoLong(this, temp); ignora = 1; break;
+            case TAG_DBL:           c_dados = new InfoDouble(this, temp); ignora = 1; break;
+            case TAG_CLAS:          c_dados = new InfoClasse(this, temp); break;
+            case TAG_STR:           c_dados = new InfoString(this, temp); break;
+            case TAG_REF_CMP:       c_dados = new InfoRefCampo(this, temp); break;
+            case TAG_REF_MTD:       c_dados = new InfoRefMetodo(this, temp); break;
+            case TAG_REF_MTD_ITF:   c_dados = new InfoRefMetInterface(this, temp); break;
+            case TAG_NOM_TIP:       c_dados = new InfoNomeTipo(this, temp); break;
         }
 
         if (c_dados){

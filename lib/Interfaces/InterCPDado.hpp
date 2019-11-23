@@ -13,11 +13,10 @@
      *  Interface para os dados da tabela de símbolos de um arquivo .class
      */
     class InterCPDado{
-        protected:
-            /** Tabela de símbolos do arquivo .class ao qual os dados pertencem */
-            InterTabela *tab_simbolos = nullptr;
-
         public:
+            /** Tabela de símbolos do arquivo .class ao qual os dados pertencem */
+            u1 tag;
+            InterTabela *tab_simbolos = nullptr;
             /** Construtor padrão */
             InterCPDado () : tab_simbolos(nullptr){};
 
@@ -25,7 +24,7 @@
              *  Construtor com o conhecimento prévio da tabela de símbolos
              *  @param tab_simbolos Tabela de símbolo que está vinculado
              */
-            explicit InterCPDado (InterTabela *const tab_simbolos) : tab_simbolos(tab_simbolos){};
+            explicit InterCPDado (InterTabela *const tab_simbolos, u1 tag) : tab_simbolos(tab_simbolos), tag(tag){};
 
             /**
              *  Decodificador do arquivo binário .class para um dado da tabela de

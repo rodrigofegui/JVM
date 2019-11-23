@@ -1,5 +1,7 @@
 #include <iostream>
+#include "../../lib/Tabelas/TabSimbolos.hpp"
 #include "../../lib/Tipos/ByteCode.hpp"
+
 
 std::vector<ByteCode> bytecodes;
 
@@ -525,10 +527,12 @@ void manipulador_undef (Frame *frame){
 
 // 0 (0x00)
 void manipulador_nop (Frame *frame){
+    frame->pc++;
 }
 
 // 1 (0x01)
 void manipulador_aconst_null (Frame *frame){
+
 }
 
 // 2 (0x02)
@@ -597,6 +601,29 @@ void manipulador_sipush (Frame *frame){
 
 // 18 (0x12)
 void manipulador_ldc (Frame *frame){
+    frame->pc++;
+    Operando* op = new Operando();
+    u1 indice = frame->attr_codigo->codigo[frame->pc++];
+
+    InterCPDado *ts =  dynamic_cast<TabSimbolos*>(frame->tab_simbolos)->registros[indice - 1];
+    op->tag = ts->tag;
+
+    switch(op->tag) {
+        case TAG_STR: {
+            op->tipo_string = (dynamic_cast<TabSimbolos*>(ts->tab_simbolos))->get_string(dynamic_cast<InfoString*>(ts)->ind_string);
+            break;
+        }
+        case TAG_FLT: {
+            op->tipo_float = dynamic_cast<InfoFloat*>(ts)->bytes;
+            break;
+        }
+        case TAG_INT: {
+            op->tipo_int = dynamic_cast<InfoInteiro*>(ts)->bytes;
+            break;
+        }
+    }
+
+    frame->pilha_operandos.push(op);
 }
 
 // 19 (0x13)
@@ -893,44 +920,132 @@ void manipulador_dup_x2 (Frame *frame){
 
 // 92 (0x5C)
 void manipulador_dup2 (Frame *frame){
+
 }
 
 // 93 (0x5D)
 void manipulador_dup2_x1 (Frame *frame){
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_3 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    frame->pilha_operandos.push(op_2);
+    frame->pilha_operandos.push(op_1);
+    frame->pilha_operandos.push(op_3);
+    frame->pilha_operandos.push(op_2);
+    frame->pilha_operandos.push(op_1);
 }
 
 // 94 (0x5E)
 void manipulador_dup2_x2 (Frame *frame){
+    frame->pc++;
+
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_3 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_4 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    frame->pilha_operandos.push(op_2);
+    frame->pilha_operandos.push(op_1);
+    frame->pilha_operandos.push(op_4);
+    frame->pilha_operandos.push(op_3);
+    frame->pilha_operandos.push(op_2);
+    frame->pilha_operandos.push(op_1);
 }
 
 // 95 (0x5F)
 void manipulador_swap (Frame *frame){
+    frame->pc++;
     
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->pilha_operandos.push(op_1);
+    frame->pilha_operandos.push(op_2);
 }
 
 // 96 (0x60)
 void manipulador_iadd (Frame *frame){
+    frame->pc++;
     
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_INT;
+    resultado->tipo_long = op_2->tipo_int + op_1->tipo_int;
+    frame->pilha_operandos.push(resultado);
 }
 
 // 97 (0x61)
 void manipulador_ladd (Frame *frame){
+    frame->pc++;
     
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_LNG;
+    resultado->tipo_long = op_2->tipo_long + op_1->tipo_long;
+    frame->pilha_operandos.push(resultado);
 }
 
 // 98 (0x62)
 void manipulador_fadd (Frame *frame){
-    
+    frame->pc++;
+
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    float valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_float,sizeof(float));
+    std::memcpy(&valor_2,&op_2->tipo_float,sizeof(float));
+    valor_1 += valor_2;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_FLT;
+    memcpy(&resultado->tipo_float, &valor_1, sizeof(float));
+    frame->pilha_operandos.push(resultado);
 }
 
 // 99 (0x63)
 void manipulador_dadd (Frame *frame){
-    
+    frame->pc++;
+
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    double valor_1, valor_2;
+    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
+    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
+    valor_1 += valor_2;
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_DBL;
+    memcpy(&resultado->tipo_double, &valor_1, sizeof(uint64_t));
+    frame->pilha_operandos.push(resultado);
 }
 
 // 100 (0x64)
 void manipulador_isub (Frame *frame){
-    
+    frame->pc++;
+    Operando* op_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* op_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+    Operando* resultado = new Operando();
+    resultado->tag = TAG_INT;
+    resultado->tipo_int = op_2->tipo_int - op_1->tipo_int;
+    frame->pilha_operandos.push(resultado);
 }
 
 // 101 (0x65)

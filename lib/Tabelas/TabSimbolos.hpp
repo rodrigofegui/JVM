@@ -14,11 +14,9 @@
      *  Tabela de símbolos do arquivo .class
      */
     class TabSimbolos : public InterTabela {
-        private:
+        public:
             /** Conteúdo da tabela em si */
             std::vector<InterCPDado*> registros;
-
-        public:
             /* Herdando método já implementado */
             explicit TabSimbolos (const u2 tam) : InterTabela(tam){};
 

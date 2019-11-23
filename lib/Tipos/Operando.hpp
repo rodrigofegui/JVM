@@ -16,16 +16,16 @@
     public:
         u1 tag;
         union {
-          u4 type_bool;
-          u4 type_byte;
-          u4 type_char;
-          u4 type_short;
-          u4 type_int;
-          u4 type_float;
-          uint64_t type_long;
-          uint64_t type_double;
+          u4 tipo_bool;
+          u4 tipo_byte;
+          u4 tipo_char;
+          u4 tipo_short;
+          u4 tipo_int;
+          u4 tipo_float;
+          uint64_t tipo_long;
+          uint64_t tipo_double;
         };
-        std::string* tipo_string;
+        std::string tipo_string;
         std::vector<Operando*> *lista_operandos;
         
         /** Construtor padrão */
