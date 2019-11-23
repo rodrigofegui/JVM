@@ -10,7 +10,6 @@
     #include "../Interfaces/InterTabela.hpp"
     #include "../Tipos/Campo.hpp"
     #include "../Tipos/Atributos.hpp"
-    #include "../Tipos/ByteCode.hpp"
     #include "../Tipos/Operando.hpp"
 
     class Frame{

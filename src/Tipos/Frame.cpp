@@ -1,4 +1,5 @@
 #include "../../lib/Tipos/Frame.hpp"
+#include "../../lib/Tipos/ByteCode.hpp"
 
 Frame::Frame(InterTabela *simbolos, Campo * metodo) {
     this->pc = 0;

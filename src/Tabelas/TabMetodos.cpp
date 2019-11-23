@@ -43,8 +43,3 @@ void TabMetodos::deletar (){
 
     delete this;
 }
-
-
-std::vector<Campo> TabMetodos::get_registros() {
-    return this->registros;
-}
