@@ -18,7 +18,7 @@
             u1 tag;
             InterTabela *tab_simbolos = nullptr;
             /** Construtor padrão */
-            InterCPDado () : tab_simbolos(nullptr){};
+            InterCPDado () : tab_simbolos(nullptr), tag(0){};
 
             /**
              *  Construtor com o conhecimento prévio da tabela de símbolos
