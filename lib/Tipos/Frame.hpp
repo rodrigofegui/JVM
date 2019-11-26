@@ -13,15 +13,13 @@
     #include "../Tipos/Operando.hpp"
 
     class Frame{
-        private:
+        public:
             u4 pc;
             std::vector<Operando *> var_locais;
             std::stack<Operando *> pilha_operandos;
             InterTabela *tab_simbolos = nullptr;            
             Campo *referencia_metodo = nullptr;
             AttrCodigo* attr_codigo = nullptr;
-
-        public:
             Frame(InterTabela *, Campo *);
             void executar();
             void deletar();

@@ -9,8 +9,12 @@
      */
     #include <string>
     #include <vector>
-    #include "Basicos.hpp"
+    #include <cstring>
+    #include <cmath>
+    #include "./Basicos.hpp"
     #include "../Tipos/Frame.hpp"
+    #include "../Tipos/CPDados.hpp"
+    #include "../Uteis/Flags_Tags.hpp"
 
     #define CAT1(x,y) (x ## y)
     #define FUNC(y) (CAT1(manipulador, y))

@@ -25,6 +25,7 @@
     #define V14 58
 
     /** Tags dos dados da tabela de símbolos */
+    #define TAG_VAZ 0
     #define TAG_UTF 1
     #define TAG_INT 3
     #define TAG_FLT 4

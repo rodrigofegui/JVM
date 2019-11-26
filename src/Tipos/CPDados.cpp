@@ -155,8 +155,6 @@ void InfoString::exibir (const u1 qnt_tabs){
     std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_string) << std::endl;
 }
 
-
-
 void InfoInteiro::decodificar (FILE *const arq){
     ler_u4(arq, &this->bytes);
 }
