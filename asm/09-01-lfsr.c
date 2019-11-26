@@ -63,9 +63,9 @@ u4 calc_lfsr_c(u4 semente) {
     u4 bit;
 
     bit = (semente >> 0);
-    bit ^= (semente >> 16);
-    bit ^= (semente >> 21);
-    bit ^= (semente >> 22);
+    bit ^= (semente >> 1);
+    bit ^= (semente >> 2);
+    bit ^= (semente >> 3);
     bit ^= (semente >> 23);
     bit &= 0x1;
 

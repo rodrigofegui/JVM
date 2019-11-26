@@ -25,15 +25,15 @@ calc_lfsr_asm:
         mov     ECX, EDX            ; ECX = EDX >> 0 (lfsr = seed >> 0)
 
         mov     EDX, EAX
-        shr     EDX, 16
+        shr     EDX, 1
         xor     ECX, EDX            ; ECX ^= EDX >> 16 (lfsr ^= seed >> 16)
 
         mov     EDX, EAX
-        shr     EDX, 21
+        shr     EDX, 2
         xor     ECX, EDX            ; ECX ^= EDX >> 21 (lfsr ^= seed >> 21)
 
         mov     EDX, EAX
-        shr     EDX, 22
+        shr     EDX, 3
         xor     ECX, EDX            ; ECX ^= EDX >> 22 (lfsr ^= seed >> 22)
 
         mov     EDX, EAX
