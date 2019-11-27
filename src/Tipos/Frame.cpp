@@ -1,12 +1,16 @@
 #include "../../lib/Tipos/Frame.hpp"
 #include "../../lib/Tipos/ByteCode.hpp"
+#include "../../lib/Tabelas/TabSimbolos.hpp"
 
-Frame::Frame(InterTabela *simbolos, Campo * metodo) {
+Frame::Frame (InterTabela *simbolos, Campo * metodo) {
     this->pc = 0;
     this->tab_simbolos = simbolos;
     this->referencia_metodo = metodo;
-    this->attr_codigo = dynamic_cast<AttrCodigo*>(dynamic_cast<TabAtributos*>(metodo->tab_atributos)->registros[0]);
+    this->attr_codigo = dynamic_cast<AttrCodigo*>(
+        dynamic_cast<TabAtributos*>(metodo->tab_atributos)->registros[0]
+    );
     this->var_locais.resize(this->attr_codigo->max_locais);
+
     Operando* op = new Operando();
     std::fill(this->var_locais.begin(), this->var_locais.end(), op);
 }
@@ -17,5 +21,5 @@ void Frame::executar(){
 }
 
 InterCPDado* Frame::buscar_simbolo(u2 indice){
-    return this->tab_simbolos.buscar(indice);
+    return dynamic_cast<TabSimbolos*>(this->tab_simbolos)->buscar(indice);
 }

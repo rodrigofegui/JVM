@@ -408,7 +408,7 @@
     // 164 (0xA4)
     void manipulador_if_icmple (Frame *frame);
     // 165 (0xA5)
-    void manipulador_if_acmpeg (Frame *frame);
+    void manipulador_if_acmpeq (Frame *frame);
 
     // 166 (0xA6)
     void manipulador_if_acmpne (Frame *frame);
