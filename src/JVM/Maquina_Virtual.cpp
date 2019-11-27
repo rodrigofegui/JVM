@@ -22,7 +22,8 @@ void MaquinaVirtual::executar (){
 }
 
 void MaquinaVirtual::deletar(){
-    this->interpretador->deletar();
+    if (this->interpretador)
+        this->interpretador->deletar();
 
     this->carregador.deletar();
 

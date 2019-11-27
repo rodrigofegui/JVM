@@ -5,29 +5,30 @@ void Carregador::carregar (std::vector<std::string> const &nomes_arqs){
     for (auto &nome_arq : nomes_arqs){
         ArqClass arq_class(nome_arq);
 
-        set_pontoEntrada(arq_class.decodificar());
+        if (arq_class.decodificar()){
+            set_pontoEntrada(arq_class);
+        }
 
         this->arquivos.push_back(arq_class);
     }
+
+    // LIMPA MEMÓRIA?
 }
 
 void Carregador::exibir (){
     for (auto &arq_class : this->arquivos){
         arq_class.exibir();
-        std::cout << std::endl;
+        std::cout << std::endl << "************************" << std::endl << std::endl;
     }
-
-    std::cout << "Ponto de entrada: ";
-    std::cout << get_pontoEntrada() << std::endl;
 }
 
-void Carregador::set_pontoEntrada (ArqClass *const arq){
-    if (!arq || this->pontoEntrada) return;
+void Carregador::set_pontoEntrada (ArqClass const &arq){
+    if (!arq.e_valido || this->pontoEntrada.e_valido) return;
 
     this->pontoEntrada = arq;
 }
 
-ArqClass* Carregador::get_pontoEntrada (){
+ArqClass Carregador::get_pontoEntrada (){
     return this->pontoEntrada;
 }
 

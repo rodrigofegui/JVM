@@ -6,6 +6,7 @@
      */
     #include <string>
     #include "../Interfaces/InterTabela.hpp"
+    #include "Campo.hpp"
 
     /**
      *  @class ArqClass
@@ -17,8 +18,6 @@
             std::string nome_arq;
             FILE *arq = nullptr;
 
-            /** Flag se é um .class com o MagicCode correto */
-            u1 e_valido = 0;
 
             /* Estrutura de um arquivo .class */
             u4 codigo = 0;
@@ -44,6 +43,8 @@
             static std::string get_versao_java (const u2 versao);
 
         public:
+            /** Flag se é um .class com o MagicCode correto */
+            u1 e_valido = 0;
             /** Construtor padrão */
             ArqClass (){};
 
@@ -57,7 +58,9 @@
              *  Decodificador do arquivo binário .class
              *  @return Arquivo .class com a função main
              */
-            ArqClass* decodificar ();
+            u1 decodificar ();
+
+            Campo* get_metodo (const std::string &nome_metodo);
 
             /**
              *  Exibição do arquivo .class na saída padrão

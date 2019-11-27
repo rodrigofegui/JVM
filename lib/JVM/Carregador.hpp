@@ -16,7 +16,7 @@
     class Carregador{
         private:
             /** Arquivo .class com a função main */
-            ArqClass *pontoEntrada = nullptr;
+            ArqClass pontoEntrada;
 
             /** Arquivos .class em memória */
             std::vector<ArqClass> arquivos;
@@ -41,9 +41,9 @@
              *  `main` definida será considerado como o arquivo de entrada pelo interpretador
              *  @param arq Arquivo .class que pode conter um método main
              */
-            void set_pontoEntrada (ArqClass *const arq);
+            void set_pontoEntrada (ArqClass const &arq);
 
-            ArqClass * get_pontoEntrada ();
+            ArqClass get_pontoEntrada ();
 
             /**
              *  Destrutor do carregador e suas dependências

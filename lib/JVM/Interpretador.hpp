@@ -7,7 +7,7 @@
 
     class Interpretador{
         private:
-            ArqClass *pontoEntrada = nullptr;
+            ArqClass pontoEntrada;
             std::vector<Frame *> pilha_frames;
 
             void empilhar (Frame const &frame);
@@ -18,7 +18,7 @@
         public:
             Interpretador() {};
 
-            Interpretador (ArqClass *const pontoEntrada) : pontoEntrada(pontoEntrada){};
+            Interpretador (ArqClass const &arq) : pontoEntrada(arq){};
 
             void executar ();
 

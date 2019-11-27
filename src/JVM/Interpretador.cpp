@@ -3,10 +3,13 @@
 
 
 void Interpretador::executar (){
-    if (!this->pontoEntrada) return erro();
+    if (!this->pontoEntrada.e_valido) return erro();
 
-    std::cout << "Deveria ter parado!" << std::endl;
-    // Campo *c_campo = this->pontoEntrada->get_metodo("main");
+    this->pontoEntrada.get_metodo("main");
+
+    std::cout << "Tem main!!" << std::endl;
+
+    // c_campo->exibir(0);
     // empilhar(new Frame(c_campo));
 
     // c_campo = this->pontoEntrada->get_metodo("<init>");
@@ -30,8 +33,6 @@ void Interpretador::erro(){
 }
 
 void Interpretador::deletar(){
-    this->pontoEntrada = nullptr;
-
     std::vector<Frame *>().swap(this->pilha_frames);
 
     delete this;

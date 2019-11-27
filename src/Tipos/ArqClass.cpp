@@ -40,16 +40,16 @@ std::string ArqClass::get_versao_java (const u2 versao){
     }
 }
 
-ArqClass* ArqClass::decodificar (){
+u1 ArqClass::decodificar (){
     u1 tem_main = 0;
 
     this->arq = abrir(nome_arq.c_str());
 
-    if (!this->arq) return nullptr;
+    if (!this->arq) return 0;
 
     check_validade();
 
-    if (!this->e_valido) return nullptr;
+    if (!this->e_valido) return 0;
 
     ler_u2(this->arq, &this->versao_min);
     ler_u2(this->arq, &this->versao_max);
@@ -95,9 +95,15 @@ ArqClass* ArqClass::decodificar (){
     fclose(this->arq);
     this->arq = nullptr;
 
-    if (!tem_main) return nullptr;
+    if (!tem_main) return 0;
 
-    return this;
+    return 1;
+}
+
+Campo* ArqClass::get_metodo (const std::string &nome){
+    std::cout << (dynamic_cast<TabMetodos*>(this->tab_metodos))->buscar(nome) << std::endl;
+
+    return nullptr;
 }
 
 void ArqClass::exibir (){

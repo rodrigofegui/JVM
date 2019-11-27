@@ -17,6 +17,15 @@ u1 TabMetodos::decodificar (FILE *const arq){
     return 0;
 }
 
+Campo* TabMetodos::buscar (const std::string &nome){
+    for (u1 cnt = 0; cnt < this->registros.size(); cnt++){
+        if (!this->registros[cnt].get_nome().compare(nome))
+            std::cout << "Encontrado o método" << std::endl;
+    }
+
+    return nullptr;
+}
+
 void TabMetodos::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
@@ -24,6 +33,8 @@ void TabMetodos::exibir (const u1 qnt_tabs){
         std::cout << tabs + "Não há itens na tabela de métodos" << std::endl;
         return;
     }
+
+    std::cout << "Endereço: " << this << std::endl;
 
     int padding = get_padding(this->tam);
     int cnt = 0;
