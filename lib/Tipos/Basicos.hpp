@@ -13,6 +13,8 @@
     typedef uint16_t u2;
     /** Tipo básico para 4 bytes sem sinal */
     typedef uint32_t u4;
+    /** Tipo básico para 8 bytes sem sinal */
+    typedef uint64_t u8;
 
     /** Código característico de um arquivo .class válido */
     #define COD_ARQ_CLASS 0xCAFEBABE
