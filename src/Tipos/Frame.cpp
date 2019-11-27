@@ -16,6 +16,6 @@ void Frame::executar(){
     bytecodes[opcode].manipulador(this);
 }
 
-InterCPDado* Frame::buscar(u2 indice){
+InterCPDado* Frame::buscar_simbolo(u2 indice){
     return this->tab_simbolos.buscar(indice);
 }

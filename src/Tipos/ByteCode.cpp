@@ -2901,7 +2901,7 @@ void manipulador_invokestatic (Frame *frame){
     u1 byte_2 = frame->attr_codigo->codigo[frame->pc+2];
     u2 indice = (byte_1 << 8) | byte_2;
 
-    InterCPDado *c_dados = frame->buscar(indice);
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
 
     if (!c_dados){
         std::cout << "Não existe dados no índice: " << indice << std::endl;
@@ -2917,11 +2917,13 @@ void manipulador_invokestatic (Frame *frame){
     frame->a_empilhar(novo_frame);
     frame->pc++;
 }
+
 // rever-
 // 185 (0xB9)
 void manipulador_invokeinterface (Frame *frame){
     manipulador_nop(frame);
 }
+
 // add
 // 186 (0xBA)
 void manipulador_invokedynamic (Frame *frame){

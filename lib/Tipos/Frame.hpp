@@ -22,7 +22,7 @@
             AttrCodigo* attr_codigo = nullptr;
             Frame(InterTabela *, Campo *);
             void executar();
-            InterCPDado* buscar (u2 indice);
+            InterCPDado* buscar_simbolo (u2 indice);
             void a_empilhar (Frame *frame) {};
             void deletar();
     };
