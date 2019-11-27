@@ -11,20 +11,20 @@ void Carregador::analise_semantica (std::vector<std::string> const &nomes_arqs){
 
         std::cout << std::endl << "++++++++++++++++++++++++" << std::endl;
         std::cout << "O arquivo '" << nome_arq << "'";
-        switch (status){
-            case ARQ_MAIN:
-                set_pontoEntrada(nome_arq);
-            case SUCESSO:
-                this->arquivos.push_back(arq_class);
-                break;
-            default:
-                std::cout << " não";
+
+        if (status == ARQ_MAIN) {
+            set_pontoEntrada(nome_arq);
+
+        } else if (status != SUCESSO) {
+            std::cout << " não";
+
         }
+
         std::cout << " é válido" << std::endl;
         std::cout << "++++++++++++++++++++++++" << std::endl;
-    }
 
-    liberar_memoria();
+        arq_class.deletar();
+    }
 }
 
 void Carregador::carregar (std::string const &nome_arq){
@@ -53,13 +53,9 @@ std::string Carregador::get_pontoEntrada (){
     return this->nome_arq_main;
 }
 
-void Carregador::liberar_memoria (){
+void Carregador::deletar (){
     for (auto &arq_class : this->arquivos)
         arq_class.deletar();
 
     std::vector<ArqClass>().swap(this->arquivos);
-}
-
-void Carregador::deletar (){
-    liberar_memoria();
 }

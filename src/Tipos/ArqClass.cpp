@@ -179,4 +179,3 @@ void ArqClass::deletar (){
         this->arq = nullptr;
     }
 }
-

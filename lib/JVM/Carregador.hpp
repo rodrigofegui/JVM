@@ -26,28 +26,35 @@
             Carregador (){};
 
             /**
-             *  Carregamento dos arquivos .class para a memória, 1 ou mais
-             *  @param nomes_arqs Nomes dos arquivos a serem carregados
+             *  Verifica se os arquivos passados podem ser considerados arquivos .class,
+             *  um feedback é disponibilizado na saída padrão
+             *  @param nomes_arqs Nomes dos arquivos a serem analisados
              */
             void analise_semantica (std::vector<std::string> const &nomes_arqs);
 
+            /**
+             *  Decodifica e carrega o arquivo em memória
+             *  @param nome_arq Nome do arquivo a ser carregado
+             */
             void carregar (std::string const &nome_arq);
 
             /**
-             *  Exibição dos arquivos .class carregados em memória na saída padrão
+             *  Exibição dos arquivos carregados em memória na saída padrão
              */
             void exibir ();
 
             /**
              *  Dentre os arquivos considerados pelo sistema, o primeiro que possuir a função
-             *  `main` definida será considerado como o arquivo de entrada pelo interpretador
-             *  @param arq Arquivo .class que pode conter um método main
+             *  `main` definida será considerado como o arquivo de entrada
+             *  @param nome_arq Nome do arquivo .class que contém o método main
              */
             void set_pontoEntrada (std::string const &nome_arq);
 
+            /**
+             *  Recuperação do nome do arquivo de entrada
+             *  @return Nome do arquivo
+             */
             std::string get_pontoEntrada ();
-
-            void liberar_memoria ();
 
             /**
              *  Destrutor do carregador e suas dependências

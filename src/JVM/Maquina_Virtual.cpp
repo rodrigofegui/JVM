@@ -19,6 +19,8 @@ void MaquinaVirtual::executar (){
         this->carregador.exibir();
 
     } else {
+        this->carregador.carregar(this->carregador.get_pontoEntrada());
+
         // this->interpretador = new Interpretador(this->carregador.get_pontoEntrada());
 
         // this->interpretador->executar();
