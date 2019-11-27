@@ -1430,7 +1430,7 @@ void manipulador_bastore (Frame *frame){
 void manipulador_castore (Frame *frame){
     Operando* op = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
-    u2 valor_16 = (u2) op->tipo_int;,
+    u2 valor_16 = (u2) op->tipo_int;
 
     Operando* indice = frame->pilha_operandos.top();
     frame->pilha_operandos.pop();
@@ -1570,7 +1570,7 @@ void manipulador_iadd (Frame *frame){
 
     Operando* resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_long = op_2->tipo_int + op_1->tipo_int;
+    resultado->tipo_int = op_2->tipo_int + op_1->tipo_int;
 
     frame->pilha_operandos.push(resultado);
     frame->pc++;
