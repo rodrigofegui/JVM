@@ -337,7 +337,7 @@ void iniciar_bytecodes (){
     // 164 (0xA4)
     bytecodes.push_back({"if_icmple", 2, FUNC(_if_icmple)});
     // 165 (0xA5)
-    bytecodes.push_back({"if_acmpeg", 2, FUNC(_if_acmpeg)});
+    bytecodes.push_back({"if_acmpeq", 2, FUNC(_if_acmpeq)});
     // 166 (0xA6)
     bytecodes.push_back({"if_acmpne", 2, FUNC(_if_acmpne)});
     // 167 (0xA7)
@@ -2763,13 +2763,39 @@ void manipulador_if_icmple (Frame *frame){
 }
 
 // 165 (0xA5)
-void manipulador_if_acmpeg (Frame *frame){
-    manipulador_nop(frame);
+void manipulador_if_acmpeq (Frame *frame){
+    int16_t deslocamento = 3;
+
+    Operando *valor_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando *valor_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    if ((valor_2.tag == valor_1.tag) && (((u4) valor_2.tipo_byte) == ((u4) valor_1.tipo_byte))){
+        deslocamento = frame->attr_codigo->codigo[frame->pc+1];
+        deslocamento = (deslocamento << 8) | frame->attr_codigo->codigo[frame->pc + 2];
+    }
+
+    frame->pc += deslocamento;
 }
 
 // 166 (0xA6)
 void manipulador_if_acmpne (Frame *frame){
-    manipulador_nop(frame);
+    int16_t deslocamento = 3;
+
+    Operando *valor_2 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando *valor_1 = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    if ((valor_2.tag != valor_1.tag) || (((u4) valor_2.tipo_byte) != ((u4) valor_1.tipo_byte))){
+        deslocamento = frame->attr_codigo->codigo[frame->pc+1];
+        deslocamento = (deslocamento << 8) | frame->attr_codigo->codigo[frame->pc + 2];
+    }
+
+    frame->pc += deslocamento;
 }
 
 // 167 (0xA7)
