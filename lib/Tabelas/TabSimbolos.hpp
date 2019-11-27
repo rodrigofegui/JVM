@@ -34,6 +34,8 @@
              */
             void exibir (const u1 qnt_tabs) override;
 
+            InterCPDado* buscar(u2 ind);
+
             /**
              *  Recuperação da descrição do item da tabela na posição requisitada, podendo
              *  ser um campo UTF-8, Classe ou Nome e Tipo

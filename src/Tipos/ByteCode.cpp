@@ -2897,7 +2897,25 @@ void manipulador_invokespecial (Frame *frame){
 
 // 184 (0xB8)
 void manipulador_invokestatic (Frame *frame){
-    manipulador_nop(frame);
+    u1 byte_1 = frame->attr_codigo->codigo[frame->pc+1];
+    u1 byte_2 = frame->attr_codigo->codigo[frame->pc+2];
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << indice << std::endl;
+        return;
+    }
+
+    if ((c_dados != TAG_REF_MTD) || (c_dados != TAG_REF_MTD_ITF)){
+        std::cout << "Não é possível acessar um método estático com a referência errada" << std::endl;
+        return;
+    }
+
+    Frame *novo_frame = new Frame(c_dados);
+    frame->a_empilhar(novo_frame);
+    frame->pc++;
 }
 // rever-
 // 185 (0xB9)

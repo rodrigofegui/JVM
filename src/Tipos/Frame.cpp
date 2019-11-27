@@ -11,7 +11,11 @@ Frame::Frame(InterTabela *simbolos, Campo * metodo) {
     std::fill(this->var_locais.begin(), this->var_locais.end(), op);
 }
 
-void Frame::executar(){ 
+void Frame::executar(){
     u1 opcode = this->attr_codigo->codigo[pc];
     bytecodes[opcode].manipulador(this);
+}
+
+InterCPDado* Frame::buscar(u2 indice){
+    return this->tab_simbolos.buscar(indice);
 }

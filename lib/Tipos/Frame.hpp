@@ -17,11 +17,13 @@
             u4 pc;
             std::vector<Operando *> var_locais;
             std::stack<Operando *> pilha_operandos;
-            InterTabela *tab_simbolos = nullptr;            
+            InterTabela *tab_simbolos = nullptr;
             Campo *referencia_metodo = nullptr;
             AttrCodigo* attr_codigo = nullptr;
             Frame(InterTabela *, Campo *);
             void executar();
+            InterCPDado* buscar (u2 indice);
+            void a_empilhar (Frame *frame) {};
             void deletar();
     };
 #endif

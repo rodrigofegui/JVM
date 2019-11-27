@@ -71,16 +71,18 @@ void TabSimbolos::exibir (const u1 qnt_tabs){
     }
 }
 
-std::string TabSimbolos::get_string (u2 ind_nome){
+InterCPDado* TabSimbolos::buscar (u2 ind){
     u2 tam = this->tam ? this->tam : 0;
 
-    if (!tam) return "";
+    if (!tam) return nullptr;
 
-    if (ind_nome == 0 || (ind_nome > tam)) return "";
+    if (ind == 0 || (ind > tam)) return nullptr;
 
-    ind_nome--;
+    return this->registros[--ind];
+}
 
-    InterCPDado *c_dados = this->registros[ind_nome];
+std::string TabSimbolos::get_string (u2 ind_nome){
+    InterCPDado *c_dados = buscar(ind_nome);
 
     if (dynamic_cast<InfoUTF8*>(c_dados))
         return (dynamic_cast<InfoUTF8*>(c_dados))->get_string();
