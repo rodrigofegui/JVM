@@ -7,17 +7,21 @@ void MaquinaVirtual::iniciar (int argc, char *argv[]){
 
     this->parametros.get_entradas(argc, argv);
 
-    this->carregador.carregar(this->parametros.nome_arqs);
+    this->carregador.analise_semantica(this->parametros.nome_arqs);
 }
 
 void MaquinaVirtual::executar (){
     if (this->parametros.e_leitura()){
+        for (auto &nome_arq : this->parametros.nome_arqs){
+            this->carregador.carregar(nome_arq);
+        }
+
         this->carregador.exibir();
 
     } else {
-        this->interpretador = new Interpretador(this->carregador.get_pontoEntrada());
+        // this->interpretador = new Interpretador(this->carregador.get_pontoEntrada());
 
-        this->interpretador->executar();
+        // this->interpretador->executar();
     }
 }
 

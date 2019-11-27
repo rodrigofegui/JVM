@@ -9,6 +9,10 @@
     #include "../Tipos/Basicos.hpp"
 
 
+    /** Flags de controle */
+    enum flags {ERRO, INVALIDO, SUCESSO, ARQ_MAIN};
+
+
     /** Versionamento do JAVAC */
     #define V1_1 45
     #define V1_2 46

@@ -47,9 +47,10 @@ DESTAQUE = ************************************************
 # Flags padrões do executável
 ###################
 # Modo de operação do executável
-# modo = e
-modo = i
+modo = e
+# modo = i
 # Arquivo a ser manipulado
+arq0 = CasosTestes/ControladorEstoque.java
 arq1 = CasosTestes/double_aritmetica.class
 arq2 = CasosTestes/ControladorMidi.class
 arq3 = CasosTestes/ControladorEstoque.class
@@ -58,7 +59,7 @@ arq5 = CasosTestes/Pig.class
 arq6 = CasosTestes/Outer.class
 arq7 = CasosTestes/OtherClass.class
 arq8 = CasosTestes/ThrowExcep.class
-arqs = $(arq1)
+arqs = $(arq1) $(arq0)
 
 ###################
 # Regras

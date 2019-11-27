@@ -1,40 +1,65 @@
 #include <iostream>
+#include "../../lib/Uteis/Flags_Tags.hpp"
 #include "../../lib/JVM/Carregador.hpp"
 
-void Carregador::carregar (std::vector<std::string> const &nomes_arqs){
+
+void Carregador::analise_semantica (std::vector<std::string> const &nomes_arqs){
     for (auto &nome_arq : nomes_arqs){
         ArqClass arq_class(nome_arq);
 
-        if (arq_class.decodificar()){
-            set_pontoEntrada(arq_class);
-        }
+        u1 status = arq_class.decodificar();
 
-        this->arquivos.push_back(arq_class);
+        std::cout << std::endl << "++++++++++++++++++++++++" << std::endl;
+        std::cout << "O arquivo '" << nome_arq << "'";
+        switch (status){
+            case ARQ_MAIN:
+                set_pontoEntrada(nome_arq);
+            case SUCESSO:
+                this->arquivos.push_back(arq_class);
+                break;
+            default:
+                std::cout << " não";
+        }
+        std::cout << " é válido" << std::endl;
+        std::cout << "++++++++++++++++++++++++" << std::endl;
     }
 
-    // LIMPA MEMÓRIA?
+    liberar_memoria();
+}
+
+void Carregador::carregar (std::string const &nome_arq){
+    ArqClass arq_class(nome_arq);
+
+    arq_class.decodificar();
+
+    this->arquivos.push_back(arq_class);
 }
 
 void Carregador::exibir (){
     for (auto &arq_class : this->arquivos){
+        std::cout << std::endl << "************************" << std::endl;
         arq_class.exibir();
-        std::cout << std::endl << "************************" << std::endl << std::endl;
+        std::cout << "************************" << std::endl << std::endl;
     }
 }
 
-void Carregador::set_pontoEntrada (ArqClass const &arq){
-    if (!arq.e_valido || this->pontoEntrada.e_valido) return;
+void Carregador::set_pontoEntrada (std::string const &nome_arq){
+    if (nome_arq.empty() || !this->nome_arq_main.empty()) return;
 
-    this->pontoEntrada = arq;
+    this->nome_arq_main = nome_arq;
 }
 
-ArqClass Carregador::get_pontoEntrada (){
-    return this->pontoEntrada;
+std::string Carregador::get_pontoEntrada (){
+    return this->nome_arq_main;
 }
 
-void Carregador::deletar (){
+void Carregador::liberar_memoria (){
     for (auto &arq_class : this->arquivos)
         arq_class.deletar();
 
     std::vector<ArqClass>().swap(this->arquivos);
+}
+
+void Carregador::deletar (){
+    liberar_memoria();
 }

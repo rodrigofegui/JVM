@@ -5,7 +5,7 @@
 void Interpretador::executar (){
     if (!this->pontoEntrada.e_valido) return erro();
 
-    this->pontoEntrada.get_metodo("main");
+    this->pontoEntrada.exibir();
 
     std::cout << "Tem main!!" << std::endl;
 
