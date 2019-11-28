@@ -10,11 +10,12 @@
             Carregador *area_metodos = nullptr;
             std::vector<Frame *> pilha_frames;
 
-            void empilhar (Frame const &frame) {};
+            void empilhar (Frame *const frame);
 
-            Frame desempilhar (){};
+            Frame* topo ();
 
-            void erro();
+            Frame* desempilhar ();
+
         public:
             Interpretador() {};
 

@@ -48,8 +48,6 @@ void Carregador::exibir (){
 void Carregador::set_nome_arq_main (std::string const &nome_arq){
     if (nome_arq.empty() || !this->nome_arq_main.empty()) return;
 
-    std::cout << "Salvou main" << std::endl;
-
     this->nome_arq_main = nome_arq;
 }
 

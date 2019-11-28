@@ -20,7 +20,7 @@ u1 TabMetodos::decodificar (FILE *const arq){
 Campo* TabMetodos::buscar (const std::string &nome){
     for (u1 cnt = 0; cnt < this->registros.size(); cnt++){
         if (!this->registros[cnt].get_nome().compare(nome))
-            std::cout << "Encontrado o método" << std::endl;
+            return &this->registros[cnt];
     }
 
     return nullptr;

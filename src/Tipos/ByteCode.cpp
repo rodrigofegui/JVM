@@ -735,7 +735,7 @@ void manipulador_ldc (Frame *frame){
 
 // 19 (0x13)
 void manipulador_ldc_w (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[19].bytes + 1;
 }
 
 // 20 (0x14)
@@ -803,7 +803,7 @@ void manipulador_dload (Frame *frame){
 
 // 25 (0x19)
 void manipulador_aload (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[25].bytes + 1;
 }
 
 // 26 (0x1A)
@@ -969,7 +969,7 @@ void manipulador_iaload (Frame *frame){
 
 // 47 (0x2F)
 void manipulador_laload (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[47].bytes + 1;
 }
 
 // 48 (0x30)
@@ -1142,7 +1142,7 @@ void manipulador_dstore (Frame *frame){
 
 // 58 (0x3A)
 void manipulador_astore (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[58].bytes + 1;
 }
 
 // 59 (0x3B)
@@ -1351,7 +1351,7 @@ void manipulador_iastore (Frame *frame){
 
 // 80 (0x50)
 void manipulador_lastore (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[80].bytes + 1;
 }
 
 // 81 (0x51)
@@ -1378,7 +1378,7 @@ void manipulador_fastore (Frame *frame){
 
 // 82 (0x52)
 void manipulador_dastore (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[82].bytes + 1;
 }
 
 // 83 (0x53)
@@ -1487,22 +1487,22 @@ void manipulador_pop2 (Frame *frame){
 
 // 89 (0x59)
 void manipulador_dup (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[89].bytes + 1;
 }
 
 // 90 (0x5A)
 void manipulador_dup_x1 (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[90].bytes + 1;
 }
 
 // 91 (0x5B)
 void manipulador_dup_x2 (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[91].bytes + 1;
 }
 
 // 92 (0x5C)
 void manipulador_dup2 (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[92].bytes + 1;
 }
 
 // 93 (0x5D)
@@ -2823,77 +2823,78 @@ void manipulador_jsr (Frame *frame){
 
 // 169 (0xA9)
 void manipulador_ret (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[169].bytes + 1;
 }
 
 // 170 (0xAA)
 void manipulador_tableswitch (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[170].bytes + 1;
 }
 
 // 171 (0xAB)
 void manipulador_lookupswitch (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[171].bytes + 1;
 }
 
 // 172 (0xAC)
 void manipulador_ireturn (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[172].bytes + 1;
 }
 
 // 173 (0xAD)
 void manipulador_lreturn (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[173].bytes + 1;
 }
 
 // 174 (0xAE)
 void manipulador_freturn (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[174].bytes + 1;
 }
 
 // 175 (0xAF)
 void manipulador_dreturn (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[175].bytes + 1;
 }
 
 // 176 (0xB0)
 void manipulador_areturn (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[176].bytes + 1;
 }
 
 // 177 (0xB1)
 void manipulador_return (Frame *frame){
     manipulador_nop(frame);
+    frame->pode_desempilhar = true;
 }
 
 // 178 (0xB2)
 void manipulador_getstatic (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[178].bytes + 1;
 }
 
 // 179 (0xB3)
 void manipulador_putstatic (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[179].bytes + 1;
 }
 
 // 180 (0xB4)
 void manipulador_getfield (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[180].bytes + 1;
 }
 
 // 181 (0xB5)
 void manipulador_putfield (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[181].bytes + 1;
 }
 
 // 182 (0xB6)
 void manipulador_invokevirtual (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[182].bytes + 1;
 }
 
 // 183 (0xB7)
 void manipulador_invokespecial (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[183].bytes + 1;
 }
 
 // 184 (0xB8)
@@ -2914,77 +2915,77 @@ void manipulador_invokestatic (Frame *frame){
         return;
     }
 
-    Frame *novo_frame = new Frame(c_dados);
-    frame->a_empilhar(novo_frame);
+    // frame->a_empilhar = new Frame(c_dados);
+    frame->a_empilhar = new Frame();
     frame->pc++;
 }
 
 // rever-
 // 185 (0xB9)
 void manipulador_invokeinterface (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[185].bytes + 1;
 }
 
 // add
 // 186 (0xBA)
 void manipulador_invokedynamic (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[186].bytes + 1;
 }
 
 // 187 (0xBB)
 void manipulador_new (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[187].bytes + 1;
 }
 
 // 188 (0xBC)
 void manipulador_newarray (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[188].bytes + 1;
 }
 
 // 189 (0xBD)
 void manipulador_anewarray (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[189].bytes + 1;
 }
 
 // 190 (0xBE)
 void manipulador_arraylength (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[190].bytes + 1;
     // checar o tipo pra array
 }
 
 // 191 (0xBF)
 void manipulador_athrow (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[191].bytes + 1;
 }
 
 // 192 (0xC0)
 void manipulador_checkcast (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[192].bytes + 1;
 }
 
 // 193 (0xC1)
 void manipulador_instanceof (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[193].bytes + 1;
 }
 
 // 194 (0xC2)
 void manipulador_monitorenter (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[194].bytes + 1;
 }
 
 // 195 (0xC3)
 void manipulador_monitorexit (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[195].bytes + 1;
 }
 
 // 196 (0xC4)
 void manipulador_wide (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[196].bytes + 1;
 }
 
 // 197 (0xC5)
 void manipulador_multianewarray (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[197].bytes + 1;
 }
 
 // 198 (0xC6)
@@ -3049,15 +3050,15 @@ void manipulador_jsr_w (Frame *frame){
 
 // 202 (0xCA)
 void manipulador_break_point (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[202].bytes + 1;
 }
 
 // 254 (0xFE)
 void manipulador_impdep_1 (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[254].bytes + 1;
 }
 
 // 255 (0xFF)
 void manipulador_impdep_2 (Frame *frame){
-    manipulador_nop(frame);
+    frame->pc += bytecodes[255].bytes + 1;
 }

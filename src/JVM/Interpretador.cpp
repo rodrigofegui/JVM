@@ -7,32 +7,52 @@ Interpretador::Interpretador (Carregador *const area_metodos) : Interpretador() 
 }
 
 void Interpretador::executar (){
-    this->area_metodos->get_pontoEntrada()->exibir();
+    std::string metodos_basicos[] = {"main", "<init>"};
 
-    // c_campo->exibir(0);
-    // empilhar(new Frame(c_campo));
+    for (auto &metodo : metodos_basicos){
+        Campo *c_campo = this->area_metodos->get_pontoEntrada()->get_metodo(metodo);
 
-    // c_campo = this->pontoEntrada->get_metodo("<init>");
-    // empilhar(new Frame(c_campo));
+        empilhar(new Frame(c_campo));
+    }
 
-    // do{
-    //     Frame *c_frame = this->pilha_frames.back();
+    do {
+        Frame *c_frame = topo();
 
-    //     c_frame->executar();
+        std::cout << "Topo: " << c_frame << std::endl;
 
-    //     if (c_frame.a_empilhar)
-    //         empilhar(c_frame.a_empilhar);
+        c_frame->executar();
 
-    //     if (c_frame.a_desempilhar)
-    //         desempilhar();
-    // }while (this->pilha_frames.size());
+        if (c_frame->a_empilhar)
+            empilhar(c_frame->a_empilhar);
+
+        else if (c_frame->pode_desempilhar){
+            desempilhar();
+            std::cout << std::endl << std::endl;
+        }
+
+    } while (!this->pilha_frames.empty());
 }
 
-void Interpretador::erro(){
-    std::cout << "Não tem main!" << std::endl;
+void Interpretador::empilhar (Frame *const frame){
+    this->pilha_frames.push_back(frame);
+}
+
+Frame* Interpretador::topo (){
+    return this->pilha_frames.back();
+}
+
+Frame* Interpretador::desempilhar (){
+    Frame *topo_ = topo();
+
+    this->pilha_frames.pop_back();
+
+    return topo_;
 }
 
 void Interpretador::deletar(){
+    for (auto &frame : this->pilha_frames)
+        frame->deletar();
+
     std::vector<Frame *>().swap(this->pilha_frames);
 
     delete this;

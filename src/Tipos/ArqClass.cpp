@@ -104,9 +104,7 @@ u1 ArqClass::decodificar (){
 }
 
 Campo* ArqClass::get_metodo (const std::string &nome){
-    std::cout << (dynamic_cast<TabMetodos*>(this->tab_metodos))->buscar(nome) << std::endl;
-
-    return nullptr;
+    return (dynamic_cast<TabMetodos*>(this->tab_metodos))->buscar(nome);
 }
 
 void ArqClass::exibir (){

@@ -20,14 +20,18 @@
             std::stack<Operando *> pilha_operandos;
             InterTabela *tab_simbolos = nullptr;
             Campo *referencia_metodo = nullptr;
-            AttrCodigo* attr_codigo = nullptr;
+            AttrCodigo *attr_codigo = nullptr;
+
+            Frame *a_empilhar = nullptr;
+            u1 pode_desempilhar = false;
 
             Frame () {};
-            Frame (InterTabela *simbolos, Campo *metodo);
-            Frame (InterCPDado *const dados) : Frame() {};
+            explicit Frame (Campo *const metodo);
+
             void executar();
+
             InterCPDado* buscar_simbolo (u2 indice);
-            void a_empilhar (Frame *frame) {};
+
             void deletar();
     };
 #endif

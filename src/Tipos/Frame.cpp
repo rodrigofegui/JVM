@@ -2,24 +2,45 @@
 #include "../../lib/Tipos/ByteCode.hpp"
 #include "../../lib/Tabelas/TabSimbolos.hpp"
 
-Frame::Frame (InterTabela *simbolos, Campo * metodo) {
+Frame::Frame (Campo *const metodo) : Frame() {
     this->pc = 0;
-    this->tab_simbolos = simbolos;
+
+    this->tab_simbolos = metodo->tab_simbolos;
     this->referencia_metodo = metodo;
+
     this->attr_codigo = dynamic_cast<AttrCodigo*>(
         dynamic_cast<TabAtributos*>(metodo->tab_atributos)->registros[0]
     );
+
     this->var_locais.resize(this->attr_codigo->max_locais);
 
-    Operando* op = new Operando();
-    std::fill(this->var_locais.begin(), this->var_locais.end(), op);
+    std::fill(this->var_locais.begin(), this->var_locais.end(), new Operando());
 }
 
 void Frame::executar(){
+    if (this->a_empilhar) this->a_empilhar = nullptr;
+
     u1 opcode = this->attr_codigo->codigo[pc];
+
+    std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
+
     bytecodes[opcode].manipulador(this);
 }
 
 InterCPDado* Frame::buscar_simbolo(u2 indice){
     return dynamic_cast<TabSimbolos*>(this->tab_simbolos)->buscar(indice);
+}
+
+void Frame::deletar (){
+    // for (auto &var_local : this->var_locais) var_local->deletar();
+
+    std::vector<Operando *>().swap(this->var_locais);
+
+    std::stack<Operando *>().swap(this->pilha_operandos);
+
+    this->tab_simbolos = nullptr;
+    this->referencia_metodo = nullptr;
+    this->attr_codigo = nullptr;
+
+    delete this;
 }

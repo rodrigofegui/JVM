@@ -12,11 +12,10 @@
      *  Campo presente tanto na tabela de campos quanto na de métodos
      */
     class Campo {
-        private:
+        public:
             /** Tabela de símbolos que está vinculado */
             InterTabela *tab_simbolos = nullptr;
 
-        public:
             /** Estrutura de um campo */
             u2 flag_acesso = 0;
             u2 ind_nome = 0;
