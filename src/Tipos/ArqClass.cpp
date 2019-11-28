@@ -42,7 +42,7 @@ std::string ArqClass::get_versao_java (const u2 versao){
 u1 ArqClass::decodificar (){
     u1 tem_main = 0;
 
-    this->arq = abrir(nome_arq.c_str());
+    this->arq = abrir(this->nome_arq.c_str());
 
     if (!this->arq) return ERRO;
 
@@ -97,7 +97,7 @@ u1 ArqClass::decodificar (){
     fclose(this->arq);
     this->arq = nullptr;
 
-    if (!tem_main)
+    if (tem_main)
         return ARQ_MAIN;
 
     return SUCESSO;

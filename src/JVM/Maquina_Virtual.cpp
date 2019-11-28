@@ -19,11 +19,14 @@ void MaquinaVirtual::executar (){
         this->carregador.exibir();
 
     } else {
-        this->carregador.carregar(this->carregador.get_pontoEntrada());
+        if (this->carregador.get_nome_arq_main().empty())
+            return;
 
-        // this->interpretador = new Interpretador(this->carregador.get_pontoEntrada());
+        this->carregador.carregar(this->carregador.get_nome_arq_main());
 
-        // this->interpretador->executar();
+        this->interpretador = new Interpretador(&this->carregador);
+
+        this->interpretador->executar();
     }
 }
 

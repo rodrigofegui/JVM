@@ -34,8 +34,6 @@ void TabMetodos::exibir (const u1 qnt_tabs){
         return;
     }
 
-    std::cout << "Endereço: " << this << std::endl;
-
     int padding = get_padding(this->tam);
     int cnt = 0;
 

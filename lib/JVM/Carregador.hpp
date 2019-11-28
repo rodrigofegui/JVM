@@ -19,7 +19,7 @@
             std::string nome_arq_main;
 
             /** Arquivos .class em memória */
-            std::vector<ArqClass> arquivos;
+            std::vector<ArqClass *> arquivos;
 
         public:
             /** Construtor padrão */
@@ -48,13 +48,15 @@
              *  `main` definida será considerado como o arquivo de entrada
              *  @param nome_arq Nome do arquivo .class que contém o método main
              */
-            void set_pontoEntrada (std::string const &nome_arq);
+            void set_nome_arq_main (std::string const &nome_arq);
 
             /**
              *  Recuperação do nome do arquivo de entrada
              *  @return Nome do arquivo
              */
-            std::string get_pontoEntrada ();
+            std::string get_nome_arq_main ();
+
+            ArqClass* get_pontoEntrada();
 
             /**
              *  Destrutor do carregador e suas dependências

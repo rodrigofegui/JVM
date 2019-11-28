@@ -15,9 +15,7 @@
     class ArqClass {
         private:
             /* Controle do arquivo .class original */
-            std::string nome_arq;
             FILE *arq = nullptr;
-
 
             /* Estrutura de um arquivo .class */
             u4 codigo = 0;
@@ -43,8 +41,11 @@
             static std::string get_versao_java (const u2 versao);
 
         public:
+            /* Controle do arquivo .class original */
+            std::string nome_arq;
             /** Flag se é um .class com o MagicCode correto */
             u1 e_valido = 0;
+
             /** Construtor padrão */
             ArqClass (){};
 

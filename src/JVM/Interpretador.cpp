@@ -2,12 +2,12 @@
 #include "../../lib/JVM/Interpretador.hpp"
 
 
+Interpretador::Interpretador (Carregador *const area_metodos) : Interpretador() {
+    this->area_metodos = area_metodos;
+}
+
 void Interpretador::executar (){
-    if (!this->pontoEntrada.e_valido) return erro();
-
-    this->pontoEntrada.exibir();
-
-    std::cout << "Tem main!!" << std::endl;
+    this->area_metodos->get_pontoEntrada()->exibir();
 
     // c_campo->exibir(0);
     // empilhar(new Frame(c_campo));
