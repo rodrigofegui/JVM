@@ -534,6 +534,14 @@ void manipulador_xstore (Frame *frame, u1 ind){
     frame->var_locais[ind]->exibir();
 }
 
+void manipulador_xload (Frame *frame, u1 ind){
+    frame->pilha_operandos.push(frame->var_locais[ind]);
+    frame->pc++;
+
+    std::cout << "\tEmpilhou: ";
+    frame->pilha_operandos.top()->exibir();
+}
+
 // 0 (0x00)
 void manipulador_nop (Frame *frame){
     frame->pc++;
@@ -822,142 +830,102 @@ void manipulador_aload (Frame *frame){
 
 // 26 (0x1A)
 void manipulador_iload_0 (Frame *frame){
-    Operando *op = frame->var_locais[0];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 0);
 }
 
 // 27 (0x1B)
 void manipulador_iload_1 (Frame *frame){
-    Operando *op = frame->var_locais[1];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 1);
 }
 
 // 28 (0x1C)
 void manipulador_iload_2 (Frame *frame){
-    Operando *op = frame->var_locais[2];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 2);
 }
 
 // 29 (0x1D)
 void manipulador_iload_3 (Frame *frame){
-    Operando *op = frame->var_locais[3];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 3);
 }
 
 // 30 (0x1E)
 void manipulador_lload_0 (Frame *frame){
-    Operando *op = frame->var_locais[0];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 0);
 }
 
 // 31 (0x1F)
 void manipulador_lload_1 (Frame *frame){
-    Operando *op = frame->var_locais[1];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 1);
 }
 
 // 32 (0x20)
 void manipulador_lload_2 (Frame *frame){
-    Operando* op = frame->var_locais[2];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 2);
 }
 
 // 33 (0x21)
 void manipulador_lload_3 (Frame *frame){
-    Operando* op = frame->var_locais[3];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 3);
 }
 
 // 34 (0x22)
 void manipulador_fload_0 (Frame *frame){
-    Operando* op = frame->var_locais[0];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 0);
 }
 
 // 35 (0x23)
 void manipulador_fload_1 (Frame *frame){
-    Operando* op = frame->var_locais[1];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 1);
 }
 
 // 36 (0x24)
 void manipulador_fload_2 (Frame *frame){
-    Operando* op = frame->var_locais[2];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 2);
 }
 
 // 37 (0x25)
 void manipulador_fload_3 (Frame *frame){
-    Operando* op = frame->var_locais[3];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 3);
 }
 
 // 38 (0x26)
 void manipulador_dload_0 (Frame *frame){
-    Operando* op = frame->var_locais[0];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 0);
 }
 
 // 39 (0x27)
 void manipulador_dload_1 (Frame *frame){
-    Operando* op = frame->var_locais[1];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 1);
 }
 
 // 40 (0x28)
 void manipulador_dload_2 (Frame *frame){
-    Operando* op = frame->var_locais[2];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 2);
 }
 
 // 41 (0x29)
 void manipulador_dload_3 (Frame *frame){
-    Operando* op = frame->var_locais[3];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 3);
 }
 
 // 42 (0x2A)
 void manipulador_aload_0 (Frame *frame){
-    Operando* op = frame->var_locais[0];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 0);
 }
 
 // 43 (0x2B)
 void manipulador_aload_1 (Frame *frame){
-    Operando* op = frame->var_locais[1];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 1);
 }
 
 // 44 (0x2C)
 void manipulador_aload_2 (Frame *frame){
-    Operando* op = frame->var_locais[2];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 2);
 }
 
 // 45 (0x2D)
 void manipulador_aload_3 (Frame *frame){
-    Operando* op = frame->var_locais[3];
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_xload(frame, 3);
 }
 
 // 46 (0x2E)
