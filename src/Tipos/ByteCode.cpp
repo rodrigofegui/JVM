@@ -526,20 +526,38 @@ void iniciar_bytecodes (){
 void manipulador_undef (Frame *frame){
 }
 
-void manipulador_xstore (Frame *frame, u1 ind){
+void manipulador_xstore_n (Frame *frame, u1 ind){
     frame->var_locais[ind] = frame->desempilhar();
     frame->pc++;
 
-    std::cout << "\tVar[" << (int)ind << "]: ";
-    frame->var_locais[ind]->exibir();
+    // std::cout << "\tVar[" << (int)ind << "]: ";
+    // frame->var_locais[ind]->exibir();
 }
 
-void manipulador_xload (Frame *frame, u1 ind){
+void manipulador_xload_n (Frame *frame, u1 ind){
     frame->pilha_operandos.push(frame->var_locais[ind]);
     frame->pc++;
 
-    std::cout << "\tEmpilhou: ";
-    frame->pilha_operandos.top()->exibir();
+    // std::cout << "\tEmpilhou: ";
+    // frame->pilha_operandos.top()->exibir();
+}
+
+void manipulador_xaload (Frame *frame){
+    Operando *indice = frame->desempilhar();
+    Operando *lista = frame->desempilhar();
+
+    if (!lista) {
+        std::cout << "Exceção Ponteiro Nulo" << std::endl;
+        return;
+    }
+
+    if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
+        std::cout << "Exceção indice de array fora dos limites" << std::endl;
+        return;
+    }
+
+    frame->pilha_operandos.push(lista->lista_operandos[indice->tipo_int]);
+    frame->pc++;
 }
 
 // 0 (0x00)
@@ -775,12 +793,12 @@ void manipulador_ldc2_w (Frame *frame){
     switch(op->tag) {
         case TAG_DBL:
             op->tipo_double = std::stod((dynamic_cast<InfoDouble*>(c_dados))->get());
-            std::cout << "\tA empilhar op: " << op->tipo_double << std::endl;
+            // std::cout << "\tA empilhar op: " << op->tipo_double << std::endl;
             break;
 
         default:
             op->tipo_long = std::stol((dynamic_cast<InfoLong*>(c_dados))->get());
-            std::cout << "\tA empilhar op: " << op->tipo_long << std::endl;
+            // std::cout << "\tA empilhar op: " << op->tipo_long << std::endl;
     }
 
     frame->pilha_operandos.push(op);
@@ -825,261 +843,147 @@ void manipulador_dload (Frame *frame){
 
 // 25 (0x19)
 void manipulador_aload (Frame *frame){
-    frame->pc += bytecodes[25].bytes + 1;
+    manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 26 (0x1A)
 void manipulador_iload_0 (Frame *frame){
-    manipulador_xload(frame, 0);
+    manipulador_xload_n(frame, 0);
 }
 
 // 27 (0x1B)
 void manipulador_iload_1 (Frame *frame){
-    manipulador_xload(frame, 1);
+    manipulador_xload_n(frame, 1);
 }
 
 // 28 (0x1C)
 void manipulador_iload_2 (Frame *frame){
-    manipulador_xload(frame, 2);
+    manipulador_xload_n(frame, 2);
 }
 
 // 29 (0x1D)
 void manipulador_iload_3 (Frame *frame){
-    manipulador_xload(frame, 3);
+    manipulador_xload_n(frame, 3);
 }
 
 // 30 (0x1E)
 void manipulador_lload_0 (Frame *frame){
-    manipulador_xload(frame, 0);
+    manipulador_xload_n(frame, 0);
 }
 
 // 31 (0x1F)
 void manipulador_lload_1 (Frame *frame){
-    manipulador_xload(frame, 1);
+    manipulador_xload_n(frame, 1);
 }
 
 // 32 (0x20)
 void manipulador_lload_2 (Frame *frame){
-    manipulador_xload(frame, 2);
+    manipulador_xload_n(frame, 2);
 }
 
 // 33 (0x21)
 void manipulador_lload_3 (Frame *frame){
-    manipulador_xload(frame, 3);
+    manipulador_xload_n(frame, 3);
 }
 
 // 34 (0x22)
 void manipulador_fload_0 (Frame *frame){
-    manipulador_xload(frame, 0);
+    manipulador_xload_n(frame, 0);
 }
 
 // 35 (0x23)
 void manipulador_fload_1 (Frame *frame){
-    manipulador_xload(frame, 1);
+    manipulador_xload_n(frame, 1);
 }
 
 // 36 (0x24)
 void manipulador_fload_2 (Frame *frame){
-    manipulador_xload(frame, 2);
+    manipulador_xload_n(frame, 2);
 }
 
 // 37 (0x25)
 void manipulador_fload_3 (Frame *frame){
-    manipulador_xload(frame, 3);
+    manipulador_xload_n(frame, 3);
 }
 
 // 38 (0x26)
 void manipulador_dload_0 (Frame *frame){
-    manipulador_xload(frame, 0);
+    manipulador_xload_n(frame, 0);
 }
 
 // 39 (0x27)
 void manipulador_dload_1 (Frame *frame){
-    manipulador_xload(frame, 1);
+    manipulador_xload_n(frame, 1);
 }
 
 // 40 (0x28)
 void manipulador_dload_2 (Frame *frame){
-    manipulador_xload(frame, 2);
+    manipulador_xload_n(frame, 2);
 }
 
 // 41 (0x29)
 void manipulador_dload_3 (Frame *frame){
-    manipulador_xload(frame, 3);
+    manipulador_xload_n(frame, 3);
 }
 
 // 42 (0x2A)
 void manipulador_aload_0 (Frame *frame){
-    manipulador_xload(frame, 0);
+    manipulador_xload_n(frame, 0);
 }
 
 // 43 (0x2B)
 void manipulador_aload_1 (Frame *frame){
-    manipulador_xload(frame, 1);
+    manipulador_xload_n(frame, 1);
 }
 
 // 44 (0x2C)
 void manipulador_aload_2 (Frame *frame){
-    manipulador_xload(frame, 2);
+    manipulador_xload_n(frame, 2);
 }
 
 // 45 (0x2D)
 void manipulador_aload_3 (Frame *frame){
-    manipulador_xload(frame, 3);
+    manipulador_xload_n(frame, 3);
 }
 
 // 46 (0x2E)
 void manipulador_iaload (Frame *frame){
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        Operando * op = lista->lista_operandos->at(indice->tipo_int);
-
-        frame->pilha_operandos.push(op);
-        frame->pc++;
-    }
+    manipulador_xaload(frame);
 }
 
 // 47 (0x2F)
 void manipulador_laload (Frame *frame){
-    frame->pc += bytecodes[47].bytes + 1;
+    manipulador_xaload(frame);
 }
 
 // 48 (0x30)
 void manipulador_faload (Frame *frame){
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        Operando * op = lista->lista_operandos->at(indice->tipo_int);
-
-        frame->pilha_operandos.push(op);
-        frame->pc++;
-    }
+    manipulador_xaload(frame);
 }
 
 // 49 (0x31)
 void manipulador_daload (Frame *frame){
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        Operando * op = lista->lista_operandos->at(indice->tipo_int);
-
-        frame->pilha_operandos.push(op);
-        frame->pc++;
-    }
+    manipulador_xaload(frame);
 }
 
 // 50 (0x32)
 void manipulador_aaload (Frame *frame){
-    manipulador_nop(frame);
-
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        Operando * op = lista->lista_operandos->at(indice->tipo_int);
-
-        frame->pilha_operandos.push(op);
-    }
+    manipulador_xaload(frame);
 }
 
 // 51 (0x33)
 void manipulador_baload (Frame *frame){
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        Operando * op = lista->lista_operandos->at(indice->tipo_int);
-
-        frame->pilha_operandos.push(op);
-        frame->pc++;
-    }
+    manipulador_xaload(frame);
 }
 
 // 52 (0x34)
 void manipulador_caload (Frame *frame){
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        Operando * op = lista->lista_operandos->at(indice->tipo_int);
-
-        frame->pilha_operandos.push(op);
-        frame->pc++;
-    }
+    manipulador_xaload(frame);
 }
 
 // 53 (0x35)
 void manipulador_saload (Frame *frame){
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        Operando * op = lista->lista_operandos->at(indice->tipo_int);
-
-        frame->pilha_operandos.push(op);
-        frame->pc++;
-    }
+    manipulador_xaload(frame);
 }
 
 // 54 (0x36)
@@ -1129,102 +1033,102 @@ void manipulador_astore (Frame *frame){
 
 // 59 (0x3B)
 void manipulador_istore_0 (Frame *frame){
-    manipulador_xstore(frame, 0);
+    manipulador_xstore_n(frame, 0);
 }
 
 // 60 (0x3C)
 void manipulador_istore_1 (Frame *frame){
-    manipulador_xstore(frame, 1);
+    manipulador_xstore_n(frame, 1);
 }
 
 // 61 (0x3D)
 void manipulador_istore_2 (Frame *frame){
-    manipulador_xstore(frame, 2);
+    manipulador_xstore_n(frame, 2);
 }
 
 // 62 (0x3E)
 void manipulador_istore_3 (Frame *frame){
-    manipulador_xstore(frame, 3);
+    manipulador_xstore_n(frame, 3);
 }
 
 // 63 (0x3F)
 void manipulador_lstore_0 (Frame *frame){
-    manipulador_xstore(frame, 0);
+    manipulador_xstore_n(frame, 0);
 }
 
 // 64 (0x40)
 void manipulador_lstore_1 (Frame *frame){
-    manipulador_xstore(frame, 1);
+    manipulador_xstore_n(frame, 1);
 }
 
 // 65 (0x41)
 void manipulador_lstore_2 (Frame *frame){
-    manipulador_xstore(frame, 2);
+    manipulador_xstore_n(frame, 2);
 }
 
 // 66 (0x42)
 void manipulador_lstore_3 (Frame *frame){
-    manipulador_xstore(frame, 3);
+    manipulador_xstore_n(frame, 3);
 }
 
 // 67 (0x43)
 void manipulador_fstore_0 (Frame *frame){
-    manipulador_xstore(frame, 0);
+    manipulador_xstore_n(frame, 0);
 }
 
 // 68 (0x44)
 void manipulador_fstore_1 (Frame *frame){
-    manipulador_xstore(frame, 1);
+    manipulador_xstore_n(frame, 1);
 }
 
 // 69 (0x45)
 void manipulador_fstore_2 (Frame *frame){
-    manipulador_xstore(frame, 2);
+    manipulador_xstore_n(frame, 2);
 }
 
 // 70 (0x46)
 void manipulador_fstore_3 (Frame *frame){
-    manipulador_xstore(frame, 3);
+    manipulador_xstore_n(frame, 3);
 }
 
 // 71 (0x47)
 void manipulador_dstore_0 (Frame *frame){
-    manipulador_xstore(frame, 0);
+    manipulador_xstore_n(frame, 0);
 }
 
 // 72 (0x48)
 void manipulador_dstore_1 (Frame *frame){
-    manipulador_xstore(frame, 1);
+    manipulador_xstore_n(frame, 1);
 }
 
 // 73 (0x49)
 void manipulador_dstore_2 (Frame *frame){
-    manipulador_xstore(frame, 2);
+    manipulador_xstore_n(frame, 2);
 }
 
 // 74 (0x4A)
 void manipulador_dstore_3 (Frame *frame){
-    manipulador_xstore(frame, 3);
+    manipulador_xstore_n(frame, 3);
 }
 
 // 75 (0x4B)
 void manipulador_astore_0 (Frame *frame){
-    manipulador_xstore(frame, 0);
+    manipulador_xstore_n(frame, 0);
 }
 
 // 76 (0x4C)
 void manipulador_astore_1 (Frame *frame){
-    manipulador_xstore(frame, 2);
+    manipulador_xstore_n(frame, 2);
 }
 
 // 77 (0x4D)
 void manipulador_astore_2 (Frame *frame){
-    manipulador_xstore(frame, 2);
+    manipulador_xstore_n(frame, 2);
 }
 
 // 78 (0x4E)
 void manipulador_astore_3 (Frame *frame){
-    manipulador_xstore(frame, 3);
+    manipulador_xstore_n(frame, 3);
 }
 
 // 79 (0x4F)
@@ -1517,21 +1421,12 @@ void manipulador_fadd (Frame *frame){
 
 // 99 (0x63)
 void manipulador_dadd (Frame *frame){
-    Operando* op_1 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    Operando *valor_2 = frame->desempilhar();
+    Operando *valor_1 = frame->desempilhar();
 
-    Operando* op_2 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    double valor_1, valor_2;
-    std::memcpy(&valor_1, &op_1->tipo_double, sizeof(double));
-    std::memcpy(&valor_2, &op_2->tipo_double, sizeof(double));
-    valor_1 += valor_2;
-
-    Operando* resultado = new Operando();
+    Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-
-    memcpy(&resultado->tipo_double, &valor_1, sizeof(u8));
+    resultado->tipo_double = valor_1->tipo_double + valor_2->tipo_double;
 
     frame->pilha_operandos.push(resultado);
     frame->pc++;
@@ -1593,20 +1488,12 @@ void manipulador_fsub (Frame *frame){
 
 // 103 (0x67)
 void manipulador_dsub (Frame *frame){
-    Operando* op_1 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    Operando *valor_2 = frame->desempilhar();
+    Operando *valor_1 = frame->desempilhar();
 
-    Operando* op_2 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    double valor_1, valor_2;
-    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
-    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
-    valor_2 -= valor_1;
-
-    Operando* resultado = new Operando();
+    Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-    memcpy(&resultado->tipo_double, &valor_2, sizeof(u8));
+    resultado->tipo_double = valor_1->tipo_double - valor_2->tipo_double;
 
     frame->pilha_operandos.push(resultado);
     frame->pc++;
@@ -1667,20 +1554,12 @@ void manipulador_fmul (Frame *frame){
 
 // 107 (0x6B)
 void manipulador_dmul (Frame *frame){
-    Operando* op_1 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    Operando *valor_2 = frame->desempilhar();
+    Operando *valor_1 = frame->desempilhar();
 
-    Operando* op_2 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    double valor_1, valor_2;
-    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
-    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
-    valor_1 *= valor_2;
-
-    Operando* resultado = new Operando();
+    Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-    memcpy(&resultado->tipo_double, &valor_1, sizeof(u8));
+    resultado->tipo_double = valor_1->tipo_double * valor_2->tipo_double;
 
     frame->pilha_operandos.push(resultado);
     frame->pc++;
@@ -1741,20 +1620,12 @@ void manipulador_fdiv (Frame *frame){
 
 // 111 (0x6F)
 void manipulador_ddiv (Frame *frame){
-    Operando* op_1 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    Operando *valor_2 = frame->desempilhar();
+    Operando *valor_1 = frame->desempilhar();
 
-    Operando* op_2 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    double valor_1, valor_2;
-    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
-    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
-    valor_2 /= valor_1;
-
-    Operando* resultado = new Operando();
+    Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-    memcpy(&resultado->tipo_double, &valor_1, sizeof(u8));
+    resultado->tipo_double = valor_1->tipo_double / valor_2->tipo_double;
 
     frame->pilha_operandos.push(resultado);
     frame->pc++;
@@ -1815,20 +1686,12 @@ void manipulador_frem (Frame *frame){
 
 // 115 (0x73)
 void manipulador_drem (Frame *frame){
-    Operando* op_1 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    Operando *valor_2 = frame->desempilhar();
+    Operando *valor_1 = frame->desempilhar();
 
-    Operando* op_2 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    double valor_1, valor_2;
-    std::memcpy(&valor_1,&op_1->tipo_double,sizeof(double));
-    std::memcpy(&valor_2,&op_2->tipo_double,sizeof(double));
-    valor_1 = fmod(valor_2, valor_1);
-
-    Operando* resultado = new Operando();
+    Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-    memcpy(&resultado->tipo_double, &valor_1, sizeof(u8));
+    resultado->tipo_double = fmod(valor_1->tipo_double, valor_2->tipo_double);
 
     frame->pilha_operandos.push(resultado);
     frame->pc++;
@@ -1882,21 +1745,14 @@ void manipulador_fneg (Frame *frame){
 
 // 119 (0x77)
 void manipulador_dneg (Frame *frame){
-    frame->pc++;
+    Operando *valor_1 = frame->desempilhar();
 
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    double valor1, valor2;
-    std::memcpy(&valor1, &op->tipo_double, sizeof(double));
-    valor2 = -valor1;
-
-    Operando* resultado = new Operando();
+    Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-
-    std::memcpy(&resultado->tipo_double, &valor2, sizeof(double));
+    resultado->tipo_double = valor_1->tipo_double * -1;
 
     frame->pilha_operandos.push(resultado);
+    frame->pc++;
 }
 
 // 120 (0x78)
@@ -2788,11 +2644,12 @@ void manipulador_getstatic (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/lang/System")){
-        std::cout << "\tNão precisa" << std::endl;
+        // std::cout << "\tNão precisa" << std::endl;
         frame->pc++;
         return;
     }
 
+    frame->a_empilhar = c_dados;
     frame->pc++;
 }
 
@@ -2813,7 +2670,36 @@ void manipulador_putfield (Frame *frame){
 
 // 182 (0xB6)
 void manipulador_invokevirtual (Frame *frame){
-    frame->pc += bytecodes[182].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
+        return;
+    }
+
+    if (c_dados->tag != TAG_REF_MTD){
+        std::cout << "Não é possível acessar um método com a referência errada" << std::endl;
+        return;
+    }
+
+    std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
+
+    if (!nome_classe.compare("java/io/PrintStream")){
+        frame->desempilhar()->exibir();
+
+        if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
+            std::cout << std::endl;
+
+        frame->pc++;
+        return;
+    }
+
+    frame->a_empilhar = c_dados;
+    frame->pc++;
 }
 
 // 183 (0xB7)
@@ -2830,7 +2716,7 @@ void manipulador_invokespecial (Frame *frame){
     }
 
     if ((c_dados->tag != TAG_REF_MTD) && (c_dados->tag != TAG_REF_MTD_ITF)){
-        std::cout << "Não é possível acessar um método estático com a referência errada" << std::endl;
+        std::cout << "Não é possível acessar um método com a referência errada" << std::endl;
         return;
     }
 

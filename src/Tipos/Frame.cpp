@@ -24,11 +24,11 @@ void Frame::executar(){
 
     u1 opcode = this->attr_codigo->codigo[pc];
 
-    std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
+    // std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
 
     bytecodes[opcode].manipulador(this);
 
-    std::cout << std::endl;
+    // std::cout << std::endl;
 }
 
 u1 Frame::get_prox_byte (){

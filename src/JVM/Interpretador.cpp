@@ -22,18 +22,18 @@ void Interpretador::executar (){
     do {
         Frame *c_frame = topo();
 
-        std::cout << "Frame: " << c_frame << std::endl;
+        // std::cout << "Frame: " << c_frame << std::endl;
 
         c_frame->executar();
 
         if (c_frame->a_empilhar){
             empilhar(c_frame->a_empilhar);
-            std::cout << std::endl << std::endl;
+            // std::cout << std::endl << std::endl;
         }
 
         else if (c_frame->pode_desempilhar){
             desempilhar()->deletar();
-            std::cout << std::endl << std::endl;
+            // std::cout << std::endl << std::endl;
         }
 
     } while (!this->pilha_frames.empty());
