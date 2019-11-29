@@ -26,6 +26,8 @@ void Frame::executar(){
     std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
 
     bytecodes[opcode].manipulador(this);
+
+    std::cout << std::endl;
 }
 
 u1 Frame::get_prox_byte (){
@@ -34,6 +36,14 @@ u1 Frame::get_prox_byte (){
 
 InterCPDado* Frame::buscar_simbolo(u2 indice){
     return dynamic_cast<TabSimbolos*>(this->tab_simbolos)->buscar(indice);
+}
+
+Operando* Frame::desempilhar(){
+    Operando *topo = this->pilha_operandos.top();
+
+    frame->pilha_operandos.pop();
+
+    return topo;
 }
 
 void Frame::deletar (){

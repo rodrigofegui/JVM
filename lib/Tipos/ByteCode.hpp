@@ -44,6 +44,8 @@
      */
     void manipulador_undef (Frame *frame);
 
+    void manipulador_xstore (Frame *frame, u1 ind);
+
     // 0 (0x00)
     void manipulador_nop (Frame *frame);
 

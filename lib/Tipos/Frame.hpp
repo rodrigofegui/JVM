@@ -35,6 +35,8 @@
 
             InterCPDado* buscar_simbolo (u2 indice);
 
+            Operando* desempilhar();
+
             void deletar();
     };
 #endif

@@ -526,6 +526,11 @@ void iniciar_bytecodes (){
 void manipulador_undef (Frame *frame){
 }
 
+void manipulador_xstore (Frame *frame, u1 ind){
+    frame->var_locais[ind] = frame->desempilhar();
+    frame->pc++;
+}
+
 // 0 (0x00)
 void manipulador_nop (Frame *frame){
     frame->pc++;
@@ -716,18 +721,18 @@ void manipulador_ldc (Frame *frame){
 
     u1 indice = frame->attr_codigo->codigo[frame->pc++];
 
-    InterCPDado *ts =  dynamic_cast<TabSimbolos*>(frame->tab_simbolos)->registros[indice - 1];
-    op->tag = ts->tag;
+    InterCPDado *c_dados =  dynamic_cast<TabSimbolos*>(frame->tab_simbolos)->registros[indice - 1];
+    op->tag = c_dados->tag;
 
     switch(op->tag) {
         case TAG_STR:
-            op->tipo_string = (dynamic_cast<TabSimbolos*>(ts->tab_simbolos))->get_string(dynamic_cast<InfoString*>(ts)->ind_string);
+            op->tipo_string = (dynamic_cast<TabSimbolos*>(c_dados->tab_simbolos))->get_string(dynamic_cast<InfoString*>(c_dados)->ind_string);
             break;
         case TAG_FLT:
-            op->tipo_float = dynamic_cast<InfoFloat*>(ts)->bytes;
+            op->tipo_float = dynamic_cast<InfoFloat*>(c_dados)->bytes;
             break;
         case TAG_INT:
-            op->tipo_int = dynamic_cast<InfoInteiro*>(ts)->bytes;
+            op->tipo_int = dynamic_cast<InfoInteiro*>(c_dados)->bytes;
             break;
     }
 
@@ -741,29 +746,34 @@ void manipulador_ldc_w (Frame *frame){
 
 // 20 (0x14)
 void manipulador_ldc2_w (Frame *frame){
-    frame->pc++;
+    // frame->pc++;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) + byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << indice << std::endl;
+        return;
+    }
 
     Operando *op = new Operando();
-    u1 indice1 = frame->attr_codigo->codigo[frame->pc++];
-    u1 indice2 = frame->attr_codigo->codigo[frame->pc++];
-
-    u1 indice3 = (indice1 << 8) + indice2;
-
-    InterCPDado *ts =  dynamic_cast<TabSimbolos*>(frame->tab_simbolos)->registros[indice3 - 1];
-    op->tag = ts->tag;
+    op->tag = c_dados->tag;
 
     switch(op->tag) {
         case TAG_DBL:
-            op->tipo_double = ((u8)(dynamic_cast<InfoDouble*>(ts)->bytes_mais) << 32);
-            op->tipo_double = op->tipo_double + ((u8)(dynamic_cast<InfoDouble*>(ts)->bytes_menos));
+            op->tipo_double = std::stod((dynamic_cast<InfoDouble*>(c_dados))->get());
+            std::cout << "\tA empilhar op: " << op->tipo_double << std::endl;
             break;
 
         default:
-            op->tipo_long = ((u8)(dynamic_cast<InfoLong*>(ts)->bytes_mais) << 32);
-            op->tipo_long = op->tipo_long + ((u8)(dynamic_cast<InfoLong*>(ts)->bytes_menos));
+            op->tipo_long = std::stol((dynamic_cast<InfoLong*>(c_dados))->get());
+            std::cout << "\tA empilhar op: " << op->tipo_long << std::endl;
     }
 
     frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 21 (0x15)
@@ -1148,184 +1158,102 @@ void manipulador_astore (Frame *frame){
 
 // 59 (0x3B)
 void manipulador_istore_0 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[0] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 0);
 }
 
 // 60 (0x3C)
 void manipulador_istore_1 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[1] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 1);
 }
 
 // 61 (0x3D)
 void manipulador_istore_2 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[2] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 2);
 }
 
 // 62 (0x3E)
 void manipulador_istore_3 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[3] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 3);
 }
 
 // 63 (0x3F)
 void manipulador_lstore_0 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[0] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 0);
 }
 
 // 64 (0x40)
 void manipulador_lstore_1 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[1] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 1);
 }
 
 // 65 (0x41)
 void manipulador_lstore_2 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[2] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 2);
 }
 
 // 66 (0x42)
 void manipulador_lstore_3 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[3] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 3);
 }
 
 // 67 (0x43)
 void manipulador_fstore_0 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[0] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 0);
 }
 
 // 68 (0x44)
 void manipulador_fstore_1 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[1] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 1);
 }
 
 // 69 (0x45)
 void manipulador_fstore_2 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[2] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 2);
 }
 
 // 70 (0x46)
 void manipulador_fstore_3 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[3] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 3);
 }
 
 // 71 (0x47)
 void manipulador_dstore_0 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[0] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 0);
 }
 
 // 72 (0x48)
 void manipulador_dstore_1 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[1] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 1);
 }
 
 // 73 (0x49)
 void manipulador_dstore_2 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[2] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 2);
 }
 
 // 74 (0x4A)
 void manipulador_dstore_3 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[3] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 3);
 }
 
 // 75 (0x4B)
 void manipulador_astore_0 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[0] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 0);
 }
 
 // 76 (0x4C)
 void manipulador_astore_1 (Frame *frame){
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[1] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 2);
 }
 
 // 77 (0x4D)
 void manipulador_astore_2 (Frame *frame){
-    manipulador_nop(frame);
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[2] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 2);
 }
 
 // 78 (0x4E)
 void manipulador_astore_3 (Frame *frame){
-    manipulador_nop(frame);
-    Operando * op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[3] = op;
-    frame->pc++;
+    manipulador_xstore(frame, 3);
 }
 
 // 79 (0x4F)

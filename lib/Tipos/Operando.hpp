@@ -22,8 +22,8 @@
             u4 tipo_short;
             u4 tipo_int;
             u4 tipo_float;
-            uint64_t tipo_long;
-            uint64_t tipo_double;
+            u8 tipo_long;
+            double tipo_double;
         };
         std::string tipo_string;
         std::vector<Operando*> *lista_operandos = nullptr;
