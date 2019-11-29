@@ -556,7 +556,7 @@ void manipulador_xaload (Frame *frame){
         return;
     }
 
-    frame->pilha_operandos.push(lista->lista_operandos[indice->tipo_int]);
+    frame->pilha_operandos.push(lista->lista_operandos->at(indice->tipo_int));
     frame->pc++;
 }
 
