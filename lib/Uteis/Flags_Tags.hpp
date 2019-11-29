@@ -10,7 +10,7 @@
 
 
     /** Flags de controle */
-    enum flags {ERRO, INVALIDO, SUCESSO, ARQ_MAIN};
+    enum flags {ERRO, INVALIDO, SUCESSO, ARQ_MAIN, JA_EXISTIA};
 
 
     /** Versionamento do JAVAC */

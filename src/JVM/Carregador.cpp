@@ -29,12 +29,21 @@ void Carregador::analise_semantica (std::vector<std::string> const &nomes_arqs){
     std::cout << "++++++++++++++++++++++++" << std::endl;
 }
 
-void Carregador::carregar (const std::string &nome_arq){
+u1 Carregador::carregar (const std::string &nome_arq){
+    for (auto &arq : this->arquivos)
+        if (!arq->nome_arq.compare(nome_arq))
+            return JA_EXISTIA;
+
     ArqClass *arq_class = new ArqClass(nome_arq);
 
-    arq_class->decodificar();
+    u1 status = arq_class->decodificar();
+
+    if ((status != ARQ_MAIN) && ((status != SUCESSO)))
+        return ERRO;
 
     this->arquivos.push_back(arq_class);
+
+    return SUCESSO;
 }
 
 void Carregador::exibir (){
@@ -57,6 +66,16 @@ std::string Carregador::get_nome_arq_main (){
 
 ArqClass* Carregador::get_pontoEntrada(){
     return this->arquivos.front();
+}
+
+ArqClass* Carregador::topo(){
+    return this->arquivos.back();
+}
+
+ArqClass* Carregador::localizar(std::string const &nome_arq){
+    for (auto &arq : this->arquivos)
+        if (!arq->nome_arq.compare(nome_arq))
+            return arq;
 }
 
 void Carregador::deletar (){

@@ -2,6 +2,7 @@
 #include "../../lib/Tipos/ByteCode.hpp"
 #include "../../lib/Tabelas/TabSimbolos.hpp"
 
+
 Frame::Frame (Campo *const metodo) : Frame() {
     this->pc = 0;
 
@@ -27,6 +28,10 @@ void Frame::executar(){
     bytecodes[opcode].manipulador(this);
 }
 
+u1 Frame::get_prox_byte (){
+    return this->attr_codigo->codigo[++this->pc];
+}
+
 InterCPDado* Frame::buscar_simbolo(u2 indice){
     return dynamic_cast<TabSimbolos*>(this->tab_simbolos)->buscar(indice);
 }
@@ -34,9 +39,9 @@ InterCPDado* Frame::buscar_simbolo(u2 indice){
 void Frame::deletar (){
     // for (auto &var_local : this->var_locais) var_local->deletar();
 
-    std::vector<Operando *>().swap(this->var_locais);
+    // std::vector<Operando *>().swap(this->var_locais);
 
-    std::stack<Operando *>().swap(this->pilha_operandos);
+    // std::stack<Operando *>().swap(this->pilha_operandos);
 
     this->tab_simbolos = nullptr;
     this->referencia_metodo = nullptr;

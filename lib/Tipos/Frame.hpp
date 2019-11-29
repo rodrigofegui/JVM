@@ -22,13 +22,16 @@
             Campo *referencia_metodo = nullptr;
             AttrCodigo *attr_codigo = nullptr;
 
-            Frame *a_empilhar = nullptr;
+            InterCPDado *a_empilhar = nullptr;
             u1 pode_desempilhar = false;
+            Operando *retorno = nullptr;
 
             Frame () {};
             explicit Frame (Campo *const metodo);
 
             void executar();
+
+            u1 get_prox_byte ();
 
             InterCPDado* buscar_simbolo (u2 indice);
 

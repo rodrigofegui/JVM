@@ -12,6 +12,12 @@
 
             void empilhar (Frame *const frame);
 
+            void empilhar (std::string const &nome_metodo);
+
+            void empilhar (std::string const &nome_metodo, std::string const &nome_classe);
+
+            void empilhar (InterCPDado *const dados);
+
             Frame* topo ();
 
             Frame* desempilhar ();

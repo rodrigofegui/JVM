@@ -106,6 +106,21 @@ void InfoRefMetodo::decodificar (FILE *const arq){
     ler_u2(arq, &this->ind_nome_tipo);
 }
 
+std::string InfoRefMetodo::get_nome_classe (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_classe);
+}
+
+std::string InfoRefMetodo::get_str_nome_tipo (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome_tipo);
+}
+
+std::string InfoRefMetodo::get_nome_metodo (){
+    std::string metodo = get_str_nome_tipo();
+
+    return metodo.substr(0, metodo.find(" "));
+}
+
+
 void InfoRefMetodo::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
@@ -113,10 +128,10 @@ void InfoRefMetodo::exibir (const u1 qnt_tabs){
 
     std::cout << tabs + "Índice para a clase: ";
     std::cout << this->ind_classe;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_classe) << std::endl;
+    std::cout << " -> " << get_nome_classe() << std::endl;
     std::cout << tabs + "Índice para o nome e tipo: ";
     std::cout << this->ind_nome_tipo;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome_tipo) << std::endl;
+    std::cout << " -> " << get_str_nome_tipo() << std::endl;
 }
 
 
@@ -126,6 +141,20 @@ void InfoRefMetInterface::decodificar (FILE *const arq){
     ler_u2(arq, &this->ind_nome_tipo);
 }
 
+std::string InfoRefMetInterface::get_nome_classe (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_classe);
+}
+
+std::string InfoRefMetInterface::get_str_nome_tipo (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome_tipo);
+}
+
+std::string InfoRefMetInterface::get_nome_metodo (){
+    std::string metodo = get_str_nome_tipo();
+
+    return metodo.substr(0, metodo.find(" "));
+}
+
 void InfoRefMetInterface::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
@@ -133,10 +162,10 @@ void InfoRefMetInterface::exibir (const u1 qnt_tabs){
 
     std::cout << tabs + "Índice para a clase: ";
     std::cout << this->ind_classe;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_classe) << std::endl;
+    std::cout << " -> " << get_nome_classe() << std::endl;
     std::cout << tabs + "Índice para o nome e tipo: ";
     std::cout << this->ind_nome_tipo;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome_tipo) << std::endl;
+    std::cout << " -> " << get_str_nome_tipo() << std::endl;
 }
 
 

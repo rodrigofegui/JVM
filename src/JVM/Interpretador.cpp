@@ -1,5 +1,7 @@
 #include <iostream>
 #include "../../lib/JVM/Interpretador.hpp"
+#include "../../lib/Uteis/Flags_Tags.hpp"
+#include "../../lib/Tipos/CPDados.hpp"
 
 
 Interpretador::Interpretador (Carregador *const area_metodos) : Interpretador() {
@@ -7,26 +9,30 @@ Interpretador::Interpretador (Carregador *const area_metodos) : Interpretador() 
 }
 
 void Interpretador::executar (){
-    std::string metodos_basicos[] = {"main", "<init>"};
-
-    for (auto &metodo : metodos_basicos){
-        Campo *c_campo = this->area_metodos->get_pontoEntrada()->get_metodo(metodo);
-
-        empilhar(new Frame(c_campo));
+    if (!this->area_metodos->get_pontoEntrada()){
+        std::cout << "Sem ponto de entrada válido!" << std::endl;
+        return;
     }
+
+    std::string nome_metodos_basicos[] = {"main", "<init>"};
+
+    for (auto &nome_metodo : nome_metodos_basicos)
+        empilhar(nome_metodo);
 
     do {
         Frame *c_frame = topo();
 
-        std::cout << "Topo: " << c_frame << std::endl;
+        std::cout << "Frame: " << c_frame << std::endl;
 
         c_frame->executar();
 
-        if (c_frame->a_empilhar)
+        if (c_frame->a_empilhar){
             empilhar(c_frame->a_empilhar);
+            std::cout << std::endl << std::endl;
+        }
 
         else if (c_frame->pode_desempilhar){
-            desempilhar();
+            desempilhar()->deletar();
             std::cout << std::endl << std::endl;
         }
 
@@ -35,6 +41,38 @@ void Interpretador::executar (){
 
 void Interpretador::empilhar (Frame *const frame){
     this->pilha_frames.push_back(frame);
+}
+
+void Interpretador::empilhar (std::string const &nome_metodo){
+    Campo *metodo = this->area_metodos->topo()->get_metodo(nome_metodo);
+
+    if (metodo)
+        empilhar(new Frame(metodo));
+}
+
+void Interpretador::empilhar (std::string const &nome_metodo, std::string const &nome_classe){
+    Campo *metodo = this->area_metodos->localizar(nome_classe)->get_metodo(nome_metodo);
+
+    if (metodo)
+        empilhar(new Frame(metodo));
+}
+
+void Interpretador::empilhar (InterCPDado *const dados){
+    std::string nome_classe = dados->tag == TAG_REF_MTD ? \
+        (dynamic_cast<InfoRefMetodo*>(dados))->get_nome_classe() : \
+        (dynamic_cast<InfoRefMetInterface*>(dados))->get_nome_classe();
+    nome_classe += ".class";
+
+    u1 status = this->area_metodos->carregar(nome_classe);
+
+    if ((status != JA_EXISTIA) && (status != SUCESSO))
+        return;
+
+    std::string nome_metodo = dados->tag == TAG_REF_MTD ? \
+        (dynamic_cast<InfoRefMetodo*>(dados))->get_nome_metodo() : \
+        (dynamic_cast<InfoRefMetInterface*>(dados))->get_nome_metodo();
+
+    empilhar(nome_metodo, nome_classe);
 }
 
 Frame* Interpretador::topo (){

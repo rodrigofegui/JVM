@@ -36,7 +36,7 @@
              *  Decodifica e carrega o arquivo em memória
              *  @param nome_arq Nome do arquivo a ser carregado
              */
-            void carregar (std::string const &nome_arq);
+            u1 carregar (std::string const &nome_arq);
 
             /**
              *  Exibição dos arquivos carregados em memória na saída padrão
@@ -57,6 +57,10 @@
             std::string get_nome_arq_main ();
 
             ArqClass* get_pontoEntrada();
+
+            ArqClass* topo();
+
+            ArqClass* localizar(std::string const &nome_arq);
 
             /**
              *  Destrutor do carregador e suas dependências

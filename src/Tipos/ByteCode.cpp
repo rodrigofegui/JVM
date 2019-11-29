@@ -1,6 +1,7 @@
 #include <iostream>
-#include "../../lib/Tabelas/TabSimbolos.hpp"
 #include "../../lib/Tipos/ByteCode.hpp"
+#include "../../lib/Tabelas/TabSimbolos.hpp"
+#include "../../lib/Tipos/CPDados.hpp"
 
 
 std::vector<ByteCode> bytecodes;
@@ -2894,7 +2895,24 @@ void manipulador_invokevirtual (Frame *frame){
 
 // 183 (0xB7)
 void manipulador_invokespecial (Frame *frame){
-    frame->pc += bytecodes[183].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << indice << std::endl;
+        return;
+    }
+
+    if ((c_dados->tag != TAG_REF_MTD) && (c_dados->tag != TAG_REF_MTD_ITF)){
+        std::cout << "Não é possível acessar um método estático com a referência errada" << std::endl;
+        return;
+    }
+
+    frame->a_empilhar = c_dados;
+    frame->pc++;
 }
 
 // 184 (0xB8)
@@ -2915,8 +2933,7 @@ void manipulador_invokestatic (Frame *frame){
         return;
     }
 
-    // frame->a_empilhar = new Frame(c_dados);
-    frame->a_empilhar = new Frame();
+    frame->a_empilhar = c_dados;
     frame->pc++;
 }
 

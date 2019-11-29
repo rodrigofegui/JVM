@@ -157,6 +157,9 @@
      *  Dados da tabela de símbolos do tipo __CONSTANT_Methodref__
      */
     class InfoRefMetodo : public InterCPDado {
+        private:
+            std::string get_str_nome_tipo ();
+
         public:
             /** Estrutura dos dados da __CONSTANT_Methodref__ */
             u2 ind_classe = 0;
@@ -171,6 +174,10 @@
              */
             void decodificar (FILE *const arq) override;
 
+            std::string get_nome_classe ();
+
+            std::string get_nome_metodo ();
+
             /**
              *  Exibição dos dados da __CONSTANT_Methodref__ na saída padrão com controle
              *  de tabulação
@@ -184,6 +191,9 @@
      *  Dados da tabela de símbolos do tipo __CONSTANT_InterfaceMethodref__
      */
     class InfoRefMetInterface : public InterCPDado {
+        private:
+            std::string get_str_nome_tipo ();
+
         public:
             /** Estrutura dos dados da __CONSTANT_InterfaceMethodref__ */
             u2 ind_classe = 0;
@@ -197,6 +207,10 @@
              *  @param arq Arquivo .class sob análise
              */
             void decodificar (FILE *const arq) override;
+
+            std::string get_nome_classe ();
+
+            std::string get_nome_metodo ();
 
             /**
              *  Exibição dos dados da __CONSTANT_InterfaceMethodref__ na saída padrão com
