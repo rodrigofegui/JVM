@@ -529,6 +529,9 @@ void manipulador_undef (Frame *frame){
 void manipulador_xstore (Frame *frame, u1 ind){
     frame->var_locais[ind] = frame->desempilhar();
     frame->pc++;
+
+    std::cout << "\tVar[" << (int)ind << "]: ";
+    frame->var_locais[ind]->exibir();
 }
 
 // 0 (0x00)
@@ -2798,7 +2801,31 @@ void manipulador_return (Frame *frame){
 
 // 178 (0xB2)
 void manipulador_getstatic (Frame *frame){
-    frame->pc += bytecodes[178].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
+        return;
+    }
+
+    if (c_dados->tag != TAG_REF_CMP){
+        std::cout << "Não é possível acessar um campo estático com a referência errada" << std::endl;
+        return;
+    }
+
+    std::string nome_classe = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_classe();
+
+    if (!nome_classe.compare("java/lang/System")){
+        std::cout << "\tNão precisa" << std::endl;
+        frame->pc++;
+        return;
+    }
+
+    frame->pc++;
 }
 
 // 179 (0xB3)
@@ -2830,7 +2857,7 @@ void manipulador_invokespecial (Frame *frame){
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
 
     if (!c_dados){
-        std::cout << "Não existe dados no índice: " << indice << std::endl;
+        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
     }
 

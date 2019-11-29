@@ -18,6 +18,10 @@
 
             void empilhar (InterCPDado *const dados);
 
+            void empilhar_frame (InterCPDado *const dados);
+
+            void empilhar_operandos (InterCPDado *const dados);
+
             Frame* topo ();
 
             Frame* desempilhar ();

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../../lib/Tipos/Frame.hpp"
 #include "../../lib/Tipos/ByteCode.hpp"
 #include "../../lib/Tabelas/TabSimbolos.hpp"
@@ -41,7 +42,7 @@ InterCPDado* Frame::buscar_simbolo(u2 indice){
 Operando* Frame::desempilhar(){
     Operando *topo = this->pilha_operandos.top();
 
-    frame->pilha_operandos.pop();
+    this->pilha_operandos.pop();
 
     return topo;
 }

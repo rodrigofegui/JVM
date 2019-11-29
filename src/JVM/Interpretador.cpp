@@ -58,6 +58,15 @@ void Interpretador::empilhar (std::string const &nome_metodo, std::string const 
 }
 
 void Interpretador::empilhar (InterCPDado *const dados){
+    if ((dados->tag == TAG_REF_MTD) || (dados->tag == TAG_REF_MTD_ITF))
+        return empilhar_frame(dados);
+
+    if (dados->tag == TAG_REF_CMP)
+        return empilhar_operandos(dados);
+
+}
+
+void Interpretador::empilhar_frame (InterCPDado *const dados){
     std::string nome_classe = dados->tag == TAG_REF_MTD ? \
         (dynamic_cast<InfoRefMetodo*>(dados))->get_nome_classe() : \
         (dynamic_cast<InfoRefMetInterface*>(dados))->get_nome_classe();
@@ -73,6 +82,21 @@ void Interpretador::empilhar (InterCPDado *const dados){
         (dynamic_cast<InfoRefMetInterface*>(dados))->get_nome_metodo();
 
     empilhar(nome_metodo, nome_classe);
+}
+
+void Interpretador::empilhar_operandos (InterCPDado *const dados){
+    std::string nome_classe = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_classe();
+    nome_classe += ".class";
+
+    u1 status = this->area_metodos->carregar(nome_classe);
+
+    if ((status != JA_EXISTIA) && (status != SUCESSO))
+        return;
+
+    std::string nome_campo = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_campo();
+
+    // A PENSAR
+    // empilhar(nome_metodo, nome_classe);
 }
 
 Frame* Interpretador::topo (){

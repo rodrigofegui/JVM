@@ -64,6 +64,9 @@
      *  Dados da tabela de símbolos do tipo __CONSTANT_Fieldref__
      */
     class InfoRefCampo : public InterCPDado {
+        private:
+            std::string get_str_nome_tipo ();
+
         public:
             /** Estrutura dos dados da __CONSTANT_Fieldref__ */
             u2 ind_classe = 0;
@@ -77,6 +80,10 @@
              *  @param arq Arquivo .class sob análise
              */
             void decodificar (FILE *const arq) override;
+
+            std::string get_nome_classe ();
+
+            std::string get_nome_campo ();
 
             /**
              *  Exibição dos dados da __CONSTANT_Fieldref__ na saída padrão com controle

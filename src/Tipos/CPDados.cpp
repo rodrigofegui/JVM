@@ -32,6 +32,20 @@ void InfoRefCampo::decodificar (FILE *const arq){
     ler_u2(arq, &this->ind_nome_tipo);
 }
 
+std::string InfoRefCampo::get_nome_classe (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_classe);
+}
+
+std::string InfoRefCampo::get_str_nome_tipo (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome_tipo);
+}
+
+std::string InfoRefCampo::get_nome_campo (){
+    std::string campo = get_str_nome_tipo();
+
+    return campo.substr(0, campo.find(" "));
+}
+
 void InfoRefCampo::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
@@ -39,10 +53,10 @@ void InfoRefCampo::exibir (const u1 qnt_tabs){
 
     std::cout << tabs + "Índice para a classe: ";
     std::cout << this->ind_classe;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_classe) << std::endl;
+    std::cout << " -> " << get_nome_classe() << std::endl;
     std::cout << tabs + "Índice para o nome e tipo: ";
     std::cout << this->ind_nome_tipo;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome_tipo) << std::endl;
+    std::cout << " -> " << get_str_nome_tipo() << std::endl;
 }
 
 

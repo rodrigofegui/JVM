@@ -31,6 +31,8 @@
         /** Construtor padrão */
         Operando (){};
 
+        void exibir ();
+
         // VERIFICAR: ESTAR CAUSANDO MEMORY LEAK
         void deletar (){};
     };
