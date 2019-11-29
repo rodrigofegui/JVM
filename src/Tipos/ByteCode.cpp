@@ -807,38 +807,22 @@ void manipulador_ldc2_w (Frame *frame){
 
 // 21 (0x15)
 void manipulador_iload (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando *op = frame->var_locais[(int)indice];
-
-    frame->pilha_operandos.push(op);
+    manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 22 (0x16)
 void manipulador_lload (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando *op = frame->var_locais[(int)indice];
-
-    frame->pilha_operandos.push(op);
+    manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 23 (0x17)
 void manipulador_fload (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando *op = frame->var_locais[(int)indice];
-
-    frame->pilha_operandos.push(op);
+    manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 24 (0x18)
 void manipulador_dload (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando *op = frame->var_locais[(int)indice];
-
-    frame->pilha_operandos.push(op);
+    manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 25 (0x19)
