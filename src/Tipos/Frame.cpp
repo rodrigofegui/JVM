@@ -24,7 +24,7 @@ void Frame::executar(){
 
     u1 opcode = this->attr_codigo->codigo[pc];
 
-    // std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
+    std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
 
     bytecodes[opcode].manipulador(this);
 

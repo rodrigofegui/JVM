@@ -30,9 +30,10 @@ void Carregador::analise_semantica (std::vector<std::string> const &nomes_arqs){
 }
 
 u1 Carregador::carregar (const std::string &nome_arq){
-    for (auto &arq : this->arquivos)
+    for (auto &arq : this->arquivos){
         if (!arq->nome_arq.compare(nome_arq))
             return JA_EXISTIA;
+    }
 
     ArqClass *arq_class = new ArqClass(nome_arq);
 
