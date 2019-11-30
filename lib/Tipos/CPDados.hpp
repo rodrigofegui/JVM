@@ -245,6 +245,8 @@
              */
             void decodificar (FILE *const arq) override;
 
+            std::string get();
+
             /**
              *  Exibição dos dados da __CONSTANT_String__ na saída padrão com controle de
              *  tabulação
@@ -270,6 +272,8 @@
              *  @param arq Arquivo .class sob análise
              */
             void decodificar (FILE *const arq) override;
+
+            std::string get();
 
             /**
              *  Exibição dos dados da __CONSTANT_Integer__ na saída padrão com controle de

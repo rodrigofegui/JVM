@@ -188,6 +188,10 @@ void InfoString::decodificar (FILE *const arq){
     ler_u2(arq, &this->ind_string);
 }
 
+std::string InfoString::get (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_string);
+}
+
 void InfoString::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 
@@ -195,11 +199,17 @@ void InfoString::exibir (const u1 qnt_tabs){
 
     std::cout << tabs + "Índice para a string: ";
     std::cout << this->ind_string;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_string) << std::endl;
+    std::cout << " -> " << get() << std::endl;
 }
+
+
 
 void InfoInteiro::decodificar (FILE *const arq){
     ler_u4(arq, &this->bytes);
+}
+
+std::string InfoInteiro::get (){
+    return std::to_string((int) this->bytes);
 }
 
 void InfoInteiro::exibir (u1 qnt_tabs){
@@ -208,7 +218,7 @@ void InfoInteiro::exibir (u1 qnt_tabs){
     std::cout << "CONSTANT_Integer" << std::endl;
 
     std::cout << tabs + "Bytes: " << get_hex_4(this->bytes) << std::endl;
-    std::cout << tabs + "Valor correspondente: " << this->bytes << std::endl;
+    std::cout << tabs + "Valor correspondente: " << get() << std::endl;
 }
 
 

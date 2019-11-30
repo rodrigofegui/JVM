@@ -6,6 +6,9 @@
 
 std::vector<ByteCode> bytecodes;
 
+/**
+ *  Mapeamento bytecode mnemônico <-> manipulador
+ */
 void iniciar_bytecodes (){
     // 0 (0x00)
     bytecodes.push_back({"nop", 0, FUNC(_nop)});
@@ -523,15 +526,66 @@ void iniciar_bytecodes (){
     bytecodes.push_back({"impdep_2", 0, FUNC(_impdep_2)});
 }
 
+
+/**
+ *  Classes de manipuladores
+ */
 void manipulador_undef (Frame *frame){
 }
 
-void manipulador_xstore_n (Frame *frame, u1 ind){
-    frame->var_locais[ind] = frame->desempilhar();
-    frame->pc++;
+void manipulador_iconst (Frame *frame, int valor){
+    Operando* op = new Operando();
+    op->tag = TAG_INT;
+    op->tipo_int = valor;
 
-    // std::cout << "\tVar[" << (int)ind << "]: ";
-    // frame->var_locais[ind]->exibir();
+    frame->pilha_operandos.push(op);
+    frame->pc++;
+}
+
+void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
+    Operando *op = frame->desempilhar();
+
+    if (op->tag != tag){
+        std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
+        return;
+    }
+
+    frame->var_locais[ind] = op;
+    frame->pc++;
+}
+
+void manipulador_xstore (Frame *frame, u1 tag){
+    u1 indice = frame->get_prox_byte();
+
+    manipulador_xstore_n (frame, indice, tag);
+}
+
+void manipulador_xastore (Frame *frame, u1 tag){
+    Operando *valor = frame->desempilhar();
+    Operando *indice = frame->desempilhar();
+    Operando *lista = frame->desempilhar();
+
+    int ind = (int) indice->tipo_int;
+
+    if (!lista) {
+        std::cout << "Exceção Ponteiro Nulo" << std::endl;
+        return;
+    }
+
+    if ((ind < 0) || (ind >= lista->lista_operandos->size())) {
+        std::cout << "Exceção indice de array fora dos limites" << std::endl;
+        return;
+    }
+
+    if (valor->tag != tag){
+        std::cout << "Não foi possível armazenar no array: o operando não é do tipo correto" << std::endl;
+        return;
+    }
+
+    // QUAL A MELHOR ABORDAGEM?
+    // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
+    lista->lista_operandos->at(ind) = valor;
+    frame->pc++;
 }
 
 void manipulador_xload_n (Frame *frame, u1 ind){
@@ -558,12 +612,19 @@ void manipulador_xaload (Frame *frame, u1 tag){
 
     Operando *a_empilhar = lista->lista_operandos->at(indice->tipo_int);
 
-    if (a_empilhar->tag != tag) return;
+    if (a_empilhar->tag != tag){
+        std::cout << "Não foi possível carregar: o operando é do tipo errado" << std::endl;
+        return;
+    }
 
     frame->pilha_operandos.push(a_empilhar);
     frame->pc++;
 }
 
+
+/**
+ *  Manipuladores dos bytecodes
+ */
 // 0 (0x00)
 void manipulador_nop (Frame *frame){
     frame->pc++;
@@ -571,7 +632,7 @@ void manipulador_nop (Frame *frame){
 
 // 1 (0x01)
 void manipulador_aconst_null (Frame *frame){
-    Operando* op = new Operando();
+    Operando *op = new Operando();
     op->tag = TAG_VAZ;
 
     frame->pilha_operandos.push(op);
@@ -580,72 +641,37 @@ void manipulador_aconst_null (Frame *frame){
 
 // 2 (0x02)
 void manipulador_iconst_m1 (Frame *frame){
-    Operando* op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = -1;
-
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_iconst(frame, -1);
 }
 
 // 3 (0x03)
 void manipulador_iconst_0 (Frame *frame){
-    Operando* op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = 0;
-
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_iconst(frame, 0);
 }
 
 // 4 (0x04)
 void manipulador_iconst_1 (Frame *frame){
-    Operando* op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = 1;
-
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_iconst(frame, 1);
 }
 
 // 5 (0x05)
 void manipulador_iconst_2 (Frame *frame){
-    Operando* op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = 2;
-
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_iconst(frame, 2);
 }
 
 // 6 (0x06)
 void manipulador_iconst_3 (Frame *frame){
-    Operando* op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = 3;
-
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_iconst(frame, 3);
 }
 
 // 7 (0x07)
 void manipulador_iconst_4 (Frame *frame){
-    Operando* op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = 4;
-
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_iconst(frame, 4);
 }
 
 // 8 (0x08)
 void manipulador_iconst_5 (Frame *frame){
-    Operando* op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = 5;
-
-    frame->pilha_operandos.push(op);
-    frame->pc++;
+    manipulador_iconst(frame, 5);
 }
 
 // 9 (0x09)
@@ -720,74 +746,116 @@ void manipulador_dconst_1 (Frame *frame){
 
 // 16 (0x10)
 void manipulador_bipush (Frame *frame){
+    u1 byte = frame->get_prox_byte();
+
     Operando* op = new Operando();
-
-    frame->pc++;
-
-    u1 byte = frame->attr_codigo->codigo[frame->pc++];
-
     op->tag = TAG_INT;
-    op->tipo_int = (u1)byte;
+    op->tipo_int = byte;
 
     frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 17 (0x11)
 void manipulador_sipush (Frame *frame){
+    u1 byte1 = frame->get_prox_byte();
+    u1 byte2 = frame->get_prox_byte();
+
     Operando* op = new Operando();
-
-    frame->pc++;
-
-    u1 byte1 = frame->attr_codigo->codigo[frame->pc++];
-    u1 byte2 = frame->attr_codigo->codigo[frame->pc++];
-
     op->tag = TAG_INT;
     op->tipo_int = (byte1 << 8) | byte2;
 
     frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 18 (0x12)
 void manipulador_ldc (Frame *frame){
-    frame->pc++;
-    Operando* op = new Operando();
+    u1 indice = frame->get_prox_byte();
 
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
+    InterCPDado *c_dados =  frame->buscar_simbolo(indice);
 
-    InterCPDado *c_dados =  dynamic_cast<TabSimbolos*>(frame->tab_simbolos)->registros[indice - 1];
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << indice << std::endl;
+        return;
+    }
+
+    if ((c_dados->tag != TAG_STR) || (c_dados->tag != TAG_FLT) || (c_dados->tag != TAG_INT)){
+        std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
+        return;
+    }
+
+    Operando *op = new Operando();
     op->tag = c_dados->tag;
 
-    switch(op->tag) {
+    switch (op->tag) {
         case TAG_STR:
-            op->tipo_string = (dynamic_cast<TabSimbolos*>(c_dados->tab_simbolos))->get_string(dynamic_cast<InfoString*>(c_dados)->ind_string);
+            op->tipo_string = (dynamic_cast<InfoString*>(c_dados))->get();
             break;
         case TAG_FLT:
-            op->tipo_float = dynamic_cast<InfoFloat*>(c_dados)->bytes;
+            op->tipo_float = std::stof((dynamic_cast<InfoFloat*>(c_dados))->get());
             break;
         case TAG_INT:
-            op->tipo_int = dynamic_cast<InfoInteiro*>(c_dados)->bytes;
+            op->tipo_int = std::stoi((dynamic_cast<InfoInteiro*>(c_dados))->get());
             break;
     }
 
     frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 19 (0x13)
 void manipulador_ldc_w (Frame *frame){
-    frame->pc += bytecodes[19].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados =  frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << indice << std::endl;
+        return;
+    }
+
+    if ((c_dados->tag != TAG_STR) || (c_dados->tag != TAG_FLT) || (c_dados->tag != TAG_INT)){
+        std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
+        return;
+    }
+
+    Operando *op = new Operando();
+    op->tag = c_dados->tag;
+
+    switch (op->tag) {
+        case TAG_STR:
+            op->tipo_string = (dynamic_cast<InfoString*>(c_dados))->get();
+            break;
+        case TAG_FLT:
+            op->tipo_float = std::stof((dynamic_cast<InfoFloat*>(c_dados))->get());
+            break;
+        case TAG_INT:
+            op->tipo_int = std::stoi((dynamic_cast<InfoInteiro*>(c_dados))->get());
+            break;
+    }
+
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 20 (0x14)
 void manipulador_ldc2_w (Frame *frame){
-    // frame->pc++;
     u1 byte_1 = frame->get_prox_byte();
     u1 byte_2 = frame->get_prox_byte();
-    u2 indice = (byte_1 << 8) + byte_2;
+    u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
 
     if (!c_dados){
         std::cout << "Não existe dados no índice: " << indice << std::endl;
+        return;
+    }
+
+    if ((c_dados->tag != TAG_DBL) || (c_dados->tag != TAG_LNG)){
+        std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
         return;
     }
 
@@ -797,12 +865,10 @@ void manipulador_ldc2_w (Frame *frame){
     switch(op->tag) {
         case TAG_DBL:
             op->tipo_double = std::stod((dynamic_cast<InfoDouble*>(c_dados))->get());
-            // std::cout << "\tA empilhar op: " << op->tipo_double << std::endl;
             break;
 
         default:
             op->tipo_long = std::stol((dynamic_cast<InfoLong*>(c_dados))->get());
-            // std::cout << "\tA empilhar op: " << op->tipo_long << std::endl;
     }
 
     frame->pilha_operandos.push(op);
@@ -976,343 +1042,273 @@ void manipulador_saload (Frame *frame){
 
 // 54 (0x36)
 void manipulador_istore (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[(int)(indice)] = op;
+    manipulador_xstore(frame, TAG_INT);
 }
 
 // 55 (0x37)
 void manipulador_lstore (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[(int)(indice)] = op;
+    manipulador_xstore(frame, TAG_DBL);
 }
 
 // 56 (0x38)
 void manipulador_fstore (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[(int)(indice)] = op;
+    manipulador_xstore(frame, TAG_FLT);
 }
 
 // 57 (0x39)
 void manipulador_dstore (Frame *frame){
-    frame->pc++;
-    u1 indice = frame->attr_codigo->codigo[frame->pc++];
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    frame->var_locais[(int)(indice)] = op;
+    manipulador_xstore(frame, TAG_DBL);
 }
 
 // 58 (0x3A)
 void manipulador_astore (Frame *frame){
-    frame->pc += bytecodes[58].bytes + 1;
+    manipulador_xstore(frame, TAG_REF);
 }
 
 // 59 (0x3B)
 void manipulador_istore_0 (Frame *frame){
-    manipulador_xstore_n(frame, 0);
+    manipulador_xstore_n(frame, 0, TAG_INT);
 }
 
 // 60 (0x3C)
 void manipulador_istore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 1);
+    manipulador_xstore_n(frame, 1, TAG_INT);
 }
 
 // 61 (0x3D)
 void manipulador_istore_2 (Frame *frame){
-    manipulador_xstore_n(frame, 2);
+    manipulador_xstore_n(frame, 2, TAG_INT);
 }
 
 // 62 (0x3E)
 void manipulador_istore_3 (Frame *frame){
-    manipulador_xstore_n(frame, 3);
+    manipulador_xstore_n(frame, 3, TAG_INT);
 }
 
 // 63 (0x3F)
 void manipulador_lstore_0 (Frame *frame){
-    manipulador_xstore_n(frame, 0);
+    manipulador_xstore_n(frame, 0, TAG_LNG);
 }
 
 // 64 (0x40)
 void manipulador_lstore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 1);
+    manipulador_xstore_n(frame, 1, TAG_LNG);
 }
 
 // 65 (0x41)
 void manipulador_lstore_2 (Frame *frame){
-    manipulador_xstore_n(frame, 2);
+    manipulador_xstore_n(frame, 2, TAG_LNG);
 }
 
 // 66 (0x42)
 void manipulador_lstore_3 (Frame *frame){
-    manipulador_xstore_n(frame, 3);
+    manipulador_xstore_n(frame, 3, TAG_LNG);
 }
 
 // 67 (0x43)
 void manipulador_fstore_0 (Frame *frame){
-    manipulador_xstore_n(frame, 0);
+    manipulador_xstore_n(frame, 0, TAG_FLT);
 }
 
 // 68 (0x44)
 void manipulador_fstore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 1);
+    manipulador_xstore_n(frame, 1, TAG_FLT);
 }
 
 // 69 (0x45)
 void manipulador_fstore_2 (Frame *frame){
-    manipulador_xstore_n(frame, 2);
+    manipulador_xstore_n(frame, 2, TAG_FLT);
 }
 
 // 70 (0x46)
 void manipulador_fstore_3 (Frame *frame){
-    manipulador_xstore_n(frame, 3);
+    manipulador_xstore_n(frame, 3, TAG_FLT);
 }
 
 // 71 (0x47)
 void manipulador_dstore_0 (Frame *frame){
-    manipulador_xstore_n(frame, 0);
+    manipulador_xstore_n(frame, 0, TAG_DBL);
 }
 
 // 72 (0x48)
 void manipulador_dstore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 1);
+    manipulador_xstore_n(frame, 1, TAG_DBL);
 }
 
 // 73 (0x49)
 void manipulador_dstore_2 (Frame *frame){
-    manipulador_xstore_n(frame, 2);
+    manipulador_xstore_n(frame, 2, TAG_DBL);
 }
 
 // 74 (0x4A)
 void manipulador_dstore_3 (Frame *frame){
-    manipulador_xstore_n(frame, 3);
+    manipulador_xstore_n(frame, 3, TAG_DBL);
 }
 
 // 75 (0x4B)
 void manipulador_astore_0 (Frame *frame){
-    manipulador_xstore_n(frame, 0);
+    manipulador_xstore_n(frame, 0, TAG_REF);
 }
 
 // 76 (0x4C)
 void manipulador_astore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 2);
+    manipulador_xstore_n(frame, 2, TAG_REF);
 }
 
 // 77 (0x4D)
 void manipulador_astore_2 (Frame *frame){
-    manipulador_xstore_n(frame, 2);
+    manipulador_xstore_n(frame, 2, TAG_REF);
 }
 
 // 78 (0x4E)
 void manipulador_astore_3 (Frame *frame){
-    manipulador_xstore_n(frame, 3);
+    manipulador_xstore_n(frame, 3, TAG_REF);
 }
 
 // 79 (0x4F)
 void manipulador_iastore (Frame *frame){
-    Operando * valor = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        lista->lista_operandos->at(indice->tipo_int) = valor;
-    }
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 80 (0x50)
 void manipulador_lastore (Frame *frame){
-    frame->pc += bytecodes[80].bytes + 1;
+    manipulador_xastore(frame, TAG_LNG);
 }
 
 // 81 (0x51)
 void manipulador_fastore (Frame *frame){
-    Operando * valor = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando * indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando * lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
-    }
+    manipulador_xastore(frame, TAG_FLT);
 }
 
 // 82 (0x52)
 void manipulador_dastore (Frame *frame){
-    frame->pc += bytecodes[82].bytes + 1;
+    manipulador_xastore(frame, TAG_DBL);
 }
 
 // 83 (0x53)
 void manipulador_aastore (Frame *frame){
-    Operando* valor = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando* indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando* lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor, sizeof(u8));
-    }
+    manipulador_xastore(frame, TAG_REF);
 }
 
 // 84 (0x54)
 void manipulador_bastore (Frame *frame){
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    u1 valor_8 = (u1) op->tipo_int;
-
-    Operando* indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando* lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor_8, sizeof(u1));
-    }
+    manipulador_xastore(frame, TAG_BYTE);
 }
 
 // 85 (0x55)
 void manipulador_castore (Frame *frame){
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    u2 valor_16 = (u2) op->tipo_int;
-
-    Operando* indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando* lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor_16, sizeof(u2));
-    }
+    manipulador_xastore(frame, TAG_CHR);
 }
 
 // 86 (0x56)
 void manipulador_sastore (Frame *frame){
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-    short valor_short = (short) op->tipo_int;
-
-    Operando* indice = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    Operando* lista = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
-
-    if (!lista) {
-        std::cout << "Exceção Ponteiro Nulo" << std::endl;
-
-    } else if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
-        std::cout << "Exceção indice de array fora dos limites" << std::endl;
-
-    } else {
-        memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor_short, sizeof(u8));
-    }
+    manipulador_xastore(frame, TAG_SHT);
 }
 
 // 87 (0x57)
 void manipulador_pop (Frame *frame){
-    frame->pilha_operandos.pop();
+    frame->desempilhar();
+    frame->pc++;
 }
 
 // 88 (0x58)
 void manipulador_pop2 (Frame *frame){
-    Operando* op = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    Operando *op = frame->desempilhar();
 
-    if(op->tag != TAG_DBL && op->tag != TAG_LNG) frame->pilha_operandos.pop();
+    if ((op->tag != TAG_DBL) && (op->tag != TAG_LNG))
+        frame->desempilhar();
+
+    frame->pc++;
 }
 
 // 89 (0x59)
 void manipulador_dup (Frame *frame){
-    frame->pc += bytecodes[89].bytes + 1;
+    Operando *op = frame->desempilhar();
+
+    frame->pilha_operandos.push(op);
+    frame->pilha_operandos.push(op);
+    frame->pc++;
 }
 
 // 90 (0x5A)
 void manipulador_dup_x1 (Frame *frame){
-    frame->pc += bytecodes[90].bytes + 1;
+    Operando *valor_1 = frame->desempilhar();
+    Operando *valor_2 = frame->desempilhar();
+
+    frame->pilha_operandos.push(valor_1);
+    frame->pilha_operandos.push(valor_2);
+    frame->pilha_operandos.push(valor_1);
+
+    frame->pc++;
 }
 
 // 91 (0x5B)
 void manipulador_dup_x2 (Frame *frame){
-    frame->pc += bytecodes[91].bytes + 1;
+    Operando *valor_1 = frame->desempilhar();
+    Operando *valor_2 = frame->desempilhar();
+
+    if (((valor_1->tag != TAG_DBL) && (valor_1->tag != TAG_LNG))
+            && ((valor_2->tag == TAG_DBL) || (valor_2->tag == TAG_LNG))){
+        frame->pilha_operandos.push(valor_1);
+        frame->pilha_operandos.push(valor_2);
+        frame->pilha_operandos.push(valor_1);
+
+    } else if (((valor_1->tag != TAG_DBL) && (valor_1->tag != TAG_LNG))
+            && ((valor_2->tag != TAG_DBL) && (valor_2->tag != TAG_LNG))){
+        Operando *valor_3 = frame->desempilhar();
+
+        frame->pilha_operandos.push(valor_1);
+        frame->pilha_operandos.push(valor_3);
+        frame->pilha_operandos.push(valor_2);
+        frame->pilha_operandos.push(valor_1);
+    }
+
+    frame->pc++;
 }
 
 // 92 (0x5C)
 void manipulador_dup2 (Frame *frame){
-    frame->pc += bytecodes[92].bytes + 1;
+    Operando *valor_1 = frame->desempilhar();
+
+    if ((valor_1->tag == TAG_DBL) || (valor_1->tag == TAG_LNG)){
+        frame->pilha_operandos.push(valor_1);
+        frame->pilha_operandos.push(valor_1);
+
+    } else {
+        Operando *valor_2 = frame->desempilhar();
+
+        frame->pilha_operandos.push(valor_2);
+        frame->pilha_operandos.push(valor_1);
+        frame->pilha_operandos.push(valor_2);
+        frame->pilha_operandos.push(valor_1);
+    }
+
+    frame->pc++;
 }
 
 // 93 (0x5D)
 void manipulador_dup2_x1 (Frame *frame){
-    Operando* op_1 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    Operando *valor_1 = frame->desempilhar();
+    Operando *valor_2 = frame->desempilhar();
 
-    Operando* op_2 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    if (((valor_1->tag == TAG_DBL) || (valor_1->tag == TAG_LNG))
+            && ((valor_2->tag != TAG_DBL) && (valor_2->tag != TAG_LNG))){
+        frame->pilha_operandos.push(valor_1);
+        frame->pilha_operandos.push(valor_2);
+        frame->pilha_operandos.push(valor_1);
 
-    Operando* op_3 = frame->pilha_operandos.top();
-    frame->pilha_operandos.pop();
+    } else if (((valor_1->tag != TAG_DBL) && (valor_1->tag != TAG_LNG))
+            && ((valor_2->tag != TAG_DBL) && (valor_2->tag != TAG_LNG))){
+        Operando *valor_3 = frame->desempilhar();
 
-    frame->pilha_operandos.push(op_2);
-    frame->pilha_operandos.push(op_1);
-    frame->pilha_operandos.push(op_3);
-    frame->pilha_operandos.push(op_2);
-    frame->pilha_operandos.push(op_1);
+        frame->pilha_operandos.push(valor_2);
+        frame->pilha_operandos.push(valor_1);
+        frame->pilha_operandos.push(valor_3);
+        frame->pilha_operandos.push(valor_2);
+        frame->pilha_operandos.push(valor_1);
+    }
+
+    frame->pc++;
 }
 
 // 94 (0x5E)

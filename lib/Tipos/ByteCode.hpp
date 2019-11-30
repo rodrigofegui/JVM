@@ -44,9 +44,15 @@
      */
     void manipulador_undef (Frame *frame);
 
-    void manipulador_xstore_n (Frame *frame, u1 ind);
+    void manipulador_iconst (Frame *frame, int valor);
+
+    void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag);
+    void manipulador_xstore (Frame *frame, u1 tag);
+    void manipulador_xastore (Frame *frame, u1 tag);
+
     void manipulador_xload_n (Frame *frame, u1 ind);
     void manipulador_xaload (Frame *frame);
+
 
     // 0 (0x00)
     void manipulador_nop (Frame *frame);
