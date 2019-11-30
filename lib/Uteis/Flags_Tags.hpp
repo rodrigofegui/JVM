@@ -42,6 +42,10 @@
     #define TAG_REF_MTD 10
     #define TAG_REF_MTD_ITF 11
     #define TAG_NOM_TIP 12
+    #define TAG_BYTE 13
+    #define TAG_REF 14
+    #define TAG_CHR 15
+    #define TAG_SHT 16
 
     /** Flags de acesso */
     #define FLG_PBC 0x0001

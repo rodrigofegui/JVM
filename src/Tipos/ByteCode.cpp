@@ -542,7 +542,7 @@ void manipulador_xload_n (Frame *frame, u1 ind){
     // frame->pilha_operandos.top()->exibir();
 }
 
-void manipulador_xaload (Frame *frame){
+void manipulador_xaload (Frame *frame, u1 tag){
     Operando *indice = frame->desempilhar();
     Operando *lista = frame->desempilhar();
 
@@ -556,7 +556,11 @@ void manipulador_xaload (Frame *frame){
         return;
     }
 
-    frame->pilha_operandos.push(lista->lista_operandos->at(indice->tipo_int));
+    Operando *a_empilhar = lista->lista_operandos->at(indice->tipo_int);
+
+    if (a_empilhar->tag != tag) return;
+
+    frame->pilha_operandos.push(a_empilhar);
     frame->pc++;
 }
 
@@ -932,42 +936,42 @@ void manipulador_aload_3 (Frame *frame){
 
 // 46 (0x2E)
 void manipulador_iaload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_INT);
 }
 
 // 47 (0x2F)
 void manipulador_laload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_LNG);
 }
 
 // 48 (0x30)
 void manipulador_faload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_FLT);
 }
 
 // 49 (0x31)
 void manipulador_daload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_DBL);
 }
 
 // 50 (0x32)
 void manipulador_aaload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_REF);
 }
 
 // 51 (0x33)
 void manipulador_baload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_BYTE);
 }
 
 // 52 (0x34)
 void manipulador_caload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_CHR);
 }
 
 // 53 (0x35)
 void manipulador_saload (Frame *frame){
-    manipulador_xaload(frame);
+    manipulador_xaload(frame, TAG_SHT);
 }
 
 // 54 (0x36)
