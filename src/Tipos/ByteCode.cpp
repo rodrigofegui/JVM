@@ -780,7 +780,7 @@ void manipulador_ldc (Frame *frame){
         return;
     }
 
-    if ((c_dados->tag != TAG_STR) || (c_dados->tag != TAG_FLT) || (c_dados->tag != TAG_INT)){
+    if ((c_dados->tag != TAG_STR) && (c_dados->tag != TAG_FLT) && (c_dados->tag != TAG_INT)){
         std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
         return;
     }
@@ -817,7 +817,7 @@ void manipulador_ldc_w (Frame *frame){
         return;
     }
 
-    if ((c_dados->tag != TAG_STR) || (c_dados->tag != TAG_FLT) || (c_dados->tag != TAG_INT)){
+    if ((c_dados->tag != TAG_STR) && (c_dados->tag != TAG_FLT) && (c_dados->tag != TAG_INT)){
         std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
         return;
     }
@@ -854,7 +854,7 @@ void manipulador_ldc2_w (Frame *frame){
         return;
     }
 
-    if ((c_dados->tag != TAG_DBL) || (c_dados->tag != TAG_LNG)){
+    if ((c_dados->tag != TAG_DBL) && (c_dados->tag != TAG_LNG)){
         std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
         return;
     }
