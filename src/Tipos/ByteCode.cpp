@@ -547,6 +547,7 @@ void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
 
     if (op->tag != tag){
         std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
+        std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
         return;
     }
 
@@ -780,8 +781,10 @@ void manipulador_ldc (Frame *frame){
         return;
     }
 
-    if ((c_dados->tag != TAG_STR) || (c_dados->tag != TAG_FLT) || (c_dados->tag != TAG_INT)){
+    if ((c_dados->tag != TAG_STR) && (c_dados->tag != TAG_FLT) && (c_dados->tag != TAG_INT)){
         std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
+        std::cout << "\t" << get_tag(c_dados->tag) << " não é " << get_tag(TAG_STR) << ", ";
+        std::cout << get_tag(TAG_FLT) << " ou " << get_tag(TAG_INT) << std::endl;
         return;
     }
 
@@ -854,8 +857,10 @@ void manipulador_ldc2_w (Frame *frame){
         return;
     }
 
-    if ((c_dados->tag != TAG_DBL) || (c_dados->tag != TAG_LNG)){
+    if ((c_dados->tag != TAG_DBL) && (c_dados->tag != TAG_LNG)){
         std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
+        std::cout << "\t" << get_tag(c_dados->tag) << " não é " << get_tag(TAG_DBL);
+        std::cout << " ou " << get_tag(TAG_LNG) << std::endl;
         return;
     }
 
