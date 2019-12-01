@@ -542,7 +542,7 @@ void manipulador_iconst (Frame *frame, int valor){
     frame->pc++;
 }
 
-void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
+void manipulador_xstorex_n (Frame *frame, int ind, u1 tag){
     Operando *op = frame->desempilhar();
 
     if (op->tag != tag){
@@ -555,7 +555,14 @@ void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
 
     frame->var_locais[ind] = op;
     frame->pc++;
+}
 
+void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
+    manipulador_xstorex_n(frame, ind, tag);
+}
+
+void manipulador_xstore2_n (Frame *frame, u2 ind, u1 tag){
+    manipulador_xstorex_n(frame, ind, tag);
 }
 
 void manipulador_xstore (Frame *frame, u1 tag){
@@ -587,17 +594,33 @@ void manipulador_xastore (Frame *frame, u1 tag){
     }
 
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
-    // memcpy(&lista->lista_operandos.at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
+    // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
 
     indice->deletar();
 
-    lista->lista_operandos.at(ind) = valor;
+    lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
 
-void manipulador_xload_n (Frame *frame, u1 ind){
-    frame->empilhar(frame->var_locais[ind]->duplicar());
+void manipulador_xloadx_n (Frame *frame, int ind, u1 tag){
+    Operando *op = frame->var_locais[ind];
+
+    if (op->tag != tag){
+        std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
+        std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
+        return;
+    }
+
+    frame->empilhar(op->duplicar());
     frame->pc++;
+}
+
+void manipulador_xload_n (Frame *frame, u1 ind, u1 tag){
+    manipulador_xloadx_n (frame, (int) ind, tag);
+}
+
+void manipulador_xload2_n (Frame *frame, u2 ind, u1 tag){
+    manipulador_xloadx_n (frame, (int) ind, tag);
 }
 
 void manipulador_xaload (Frame *frame, u1 tag){
@@ -611,12 +634,12 @@ void manipulador_xaload (Frame *frame, u1 tag){
         return;
     }
 
-    if(ind < 0 || ind >= lista->lista_operandos.size()) {
+    if(ind < 0 || ind >= lista->lista_operandos->size()) {
         std::cout << "Exceção indice de array fora dos limites" << std::endl;
         return;
     }
 
-    Operando *a_empilhar = lista->lista_operandos.at(ind);
+    Operando *a_empilhar = lista->lista_operandos->at(ind);
 
     if (a_empilhar->tag != tag){
         std::cout << "Não foi possível carregar: o operando é do tipo errado," << std::endl;
@@ -650,6 +673,24 @@ void manipulador_xreturn (Frame *frame, u1 tag){
     }
 
     frame->pode_desempilhar = true;
+    frame->pc++;
+}
+
+void manipulador_iincx (Frame *frame, int ind, int valor){
+    exibir_se_verboso("\tA somar " + std::to_string(valor)
+        + " a Var[" + std::to_string(ind) + "]: " + frame->var_locais.at(ind)->get());
+
+    if (frame->var_locais.at(ind)->tag != TAG_INT){
+        std::cout << "Não é possível somar a um não inteiro, é ";
+        std::cout << get_tag(frame->var_locais.at(ind)->tag) << std::endl;
+        return;
+    }
+
+    frame->var_locais.at(ind)->tipo_int += valor;
+
+    exibir_se_verboso("\tVar[" + std::to_string(ind) + "]: "
+        + frame->var_locais.at(ind)->get());
+
     frame->pc++;
 }
 
@@ -922,127 +963,127 @@ void manipulador_ldc2_w (Frame *frame){
 
 // 21 (0x15)
 void manipulador_iload (Frame *frame){
-    manipulador_xload_n(frame, frame->get_prox_byte());
+    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_INT);
 }
 
 // 22 (0x16)
 void manipulador_lload (Frame *frame){
-    manipulador_xload_n(frame, frame->get_prox_byte());
+    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_LNG);
 }
 
 // 23 (0x17)
 void manipulador_fload (Frame *frame){
-    manipulador_xload_n(frame, frame->get_prox_byte());
+    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_FLT);
 }
 
 // 24 (0x18)
 void manipulador_dload (Frame *frame){
-    manipulador_xload_n(frame, frame->get_prox_byte());
+    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_DBL);
 }
 
 // 25 (0x19)
 void manipulador_aload (Frame *frame){
-    manipulador_xload_n(frame, frame->get_prox_byte());
+    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_REF);
 }
 
 // 26 (0x1A)
 void manipulador_iload_0 (Frame *frame){
-    manipulador_xload_n(frame, 0);
+    manipulador_xload_n(frame, 0, TAG_INT);
 }
 
 // 27 (0x1B)
 void manipulador_iload_1 (Frame *frame){
-    manipulador_xload_n(frame, 1);
+    manipulador_xload_n(frame, 1, TAG_INT);
 }
 
 // 28 (0x1C)
 void manipulador_iload_2 (Frame *frame){
-    manipulador_xload_n(frame, 2);
+    manipulador_xload_n(frame, 2, TAG_INT);
 }
 
 // 29 (0x1D)
 void manipulador_iload_3 (Frame *frame){
-    manipulador_xload_n(frame, 3);
+    manipulador_xload_n(frame, 3, TAG_INT);
 }
 
 // 30 (0x1E)
 void manipulador_lload_0 (Frame *frame){
-    manipulador_xload_n(frame, 0);
+    manipulador_xload_n(frame, 0, TAG_LNG);
 }
 
 // 31 (0x1F)
 void manipulador_lload_1 (Frame *frame){
-    manipulador_xload_n(frame, 1);
+    manipulador_xload_n(frame, 1, TAG_LNG);
 }
 
 // 32 (0x20)
 void manipulador_lload_2 (Frame *frame){
-    manipulador_xload_n(frame, 2);
+    manipulador_xload_n(frame, 2, TAG_LNG);
 }
 
 // 33 (0x21)
 void manipulador_lload_3 (Frame *frame){
-    manipulador_xload_n(frame, 3);
+    manipulador_xload_n(frame, 3, TAG_LNG);
 }
 
 // 34 (0x22)
 void manipulador_fload_0 (Frame *frame){
-    manipulador_xload_n(frame, 0);
+    manipulador_xload_n(frame, 0, TAG_FLT);
 }
 
 // 35 (0x23)
 void manipulador_fload_1 (Frame *frame){
-    manipulador_xload_n(frame, 1);
+    manipulador_xload_n(frame, 1, TAG_FLT);
 }
 
 // 36 (0x24)
 void manipulador_fload_2 (Frame *frame){
-    manipulador_xload_n(frame, 2);
+    manipulador_xload_n(frame, 2, TAG_FLT);
 }
 
 // 37 (0x25)
 void manipulador_fload_3 (Frame *frame){
-    manipulador_xload_n(frame, 3);
+    manipulador_xload_n(frame, 3, TAG_FLT);
 }
 
 // 38 (0x26)
 void manipulador_dload_0 (Frame *frame){
-    manipulador_xload_n(frame, 0);
+    manipulador_xload_n(frame, 0, TAG_DBL);
 }
 
 // 39 (0x27)
 void manipulador_dload_1 (Frame *frame){
-    manipulador_xload_n(frame, 1);
+    manipulador_xload_n(frame, 1, TAG_DBL);
 }
 
 // 40 (0x28)
 void manipulador_dload_2 (Frame *frame){
-    manipulador_xload_n(frame, 2);
+    manipulador_xload_n(frame, 2, TAG_DBL);
 }
 
 // 41 (0x29)
 void manipulador_dload_3 (Frame *frame){
-    manipulador_xload_n(frame, 3);
+    manipulador_xload_n(frame, 3, TAG_DBL);
 }
 
 // 42 (0x2A)
 void manipulador_aload_0 (Frame *frame){
-    manipulador_xload_n(frame, 0);
+    manipulador_xload_n(frame, 0, TAG_REF);
 }
 
 // 43 (0x2B)
 void manipulador_aload_1 (Frame *frame){
-    manipulador_xload_n(frame, 1);
+    manipulador_xload_n(frame, 1, TAG_REF);
 }
 
 // 44 (0x2C)
 void manipulador_aload_2 (Frame *frame){
-    manipulador_xload_n(frame, 2);
+    manipulador_xload_n(frame, 2, TAG_REF);
 }
 
 // 45 (0x2D)
 void manipulador_aload_3 (Frame *frame){
-    manipulador_xload_n(frame, 3);
+    manipulador_xload_n(frame, 3, TAG_REF);
 }
 
 // 46 (0x2E)
@@ -2058,21 +2099,7 @@ void manipulador_iinc (Frame *frame){
     u1 indice = frame->get_prox_byte();
     int8_t valor = (int) frame->get_prox_byte();
 
-    exibir_se_verboso("\tA somar " + std::to_string(valor)
-        + " a Var[" + std::to_string(indice) + "]: " + frame->var_locais.at(indice)->get());
-
-    if (frame->var_locais.at(indice)->tag != TAG_INT){
-        std::cout << "Não é possível somar a um não inteiro, é ";
-        std::cout << get_tag(frame->var_locais.at(indice)->tag) << std::endl;
-        return;
-    }
-
-    frame->var_locais.at(indice)->tipo_int += valor;
-
-    exibir_se_verboso("\tVar[" + std::to_string(indice) + "]: "
-        + frame->var_locais.at(indice)->get());
-
-    frame->pc++;
+    manipilador_iincx (frame, indice, valor);
 }
 
 // 133 (0x85)
@@ -2634,7 +2661,15 @@ void manipulador_jsr (Frame *frame){
 
 // 169 (0xA9)
 void manipulador_ret (Frame *frame){
-    frame->pc += bytecodes[169].bytes + 1;
+    u1 indice = frame->get_prox_byte();
+    Operando *endereco = frame->var_locais.at(indice);
+
+    if (endereco->tag != TAG_END){
+        std::cout << "A variável local [" << (int) indice << "] não é " << get_tag(TAG_END) << std::endl;
+        return;
+    }
+
+    frame->pc = endereco->tipo_int;
 }
 
 // 170 (0xAA)
@@ -3052,7 +3087,53 @@ void manipulador_monitorexit (Frame *frame){
 
 // 196 (0xC4)
 void manipulador_wide (Frame *frame){
-    frame->pc += bytecodes[196].bytes + 1;
+    u1 opcode = frame->get_prox_byte();
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    // xload
+    {
+        if (!bytecodes[opcode].mnemonico.compare("iload"))
+            return manipulador_xload2_n(frame, indice, TAG_INT);
+
+        if (!bytecodes[opcode].mnemonico.compare("fload"))
+            return manipulador_xload2_n(frame, indice, TAG_FLT);
+
+        if (!bytecodes[opcode].mnemonico.compare("aload"))
+            return manipulador_xload2_n(frame, indice, TAG_REF);
+
+        if (!bytecodes[opcode].mnemonico.compare("lload"))
+            return manipulador_xload2_n(frame, indice, TAG_LNG);
+
+        if (!bytecodes[opcode].mnemonico.compare("dload"))
+            return manipulador_xload2_n(frame, indice, TAG_DBL);
+    }
+
+    // xstore
+    {
+        if (!bytecodes[opcode].mnemonico.compare("istore"))
+            return manipulador_xstore2_n(frame, indice, TAG_INT);
+
+        if (!bytecodes[opcode].mnemonico.compare("fstore"))
+            return manipulador_xstore2_n(frame, indice, TAG_FLT);
+
+        if (!bytecodes[opcode].mnemonico.compare("astore"))
+            return manipulador_xstore2_n(frame, indice, TAG_REF);
+
+        if (!bytecodes[opcode].mnemonico.compare("lstore"))
+            return manipulador_xstore2_n(frame, indice, TAG_LNG);
+
+        if (!bytecodes[opcode].mnemonico.compare("dstore"))
+            return manipulador_xstore2_n(frame, indice, TAG_DBL);
+    }
+
+    u1 valor_1 = frame->get_prox_byte();
+    u1 valor_2 = frame->get_prox_byte();
+    int16_t valor = (valor_1 << 8) | valor_2;
+
+    manipulador_iincx(frame, indice, valor);
 }
 
 // 197 (0xC5)

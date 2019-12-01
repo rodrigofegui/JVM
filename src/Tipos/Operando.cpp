@@ -45,7 +45,7 @@ Operando* Operando::duplicar(){
 }
 
 void Operando::deletar (){
-    std::vector<Operando *>().swap(this->lista_operandos);
+    std::vector<Operando *>().swap(*this->lista_operandos);
 
     if (this->obj)
         this->obj->deletar();
