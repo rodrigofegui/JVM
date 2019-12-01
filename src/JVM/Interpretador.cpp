@@ -22,7 +22,7 @@ void Interpretador::executar (){
     do {
         Frame *c_frame = topo();
 
-        // std::cout << "Frame: " << c_frame->referencia_metodo->get_nome() << std::endl;
+        //std::cout << "Frame: " << c_frame->referencia_metodo->get_nome() << std::endl;
 
         c_frame->executar();
 
@@ -54,9 +54,43 @@ void Interpretador::empilhar (std::string const &nome_metodo){
 
 void Interpretador::empilhar (std::string const &nome_metodo, std::string const &nome_classe){
     Campo *metodo = this->area_metodos->localizar(nome_classe)->get_metodo(nome_metodo);
+    std::string descritor = metodo->get_descritor();
+    int args = 0, cnt = 1;
+    std::vector<Operando*> argumentos_instancia;
+    while(descritor[cnt] != ')') {
+        char tipo = descritor[cnt];
+        if(tipo == 'L') {
+            args++;
+            while(descritor[++cnt] != ';');
+        } else if(tipo == '[') {
+            args++;
+            while(descritor[++cnt] != '[');
+            if(descritor[cnt] == 'L') while(descritor[++cnt] != ';');
+        } else {
+            args++;
+        }
+        cnt++;
+    }
+
+    for(int i=0; i<args; i++) {
+        Operando* argumento = this->topo()->desempilhar();
+        argumentos_instancia.insert(argumentos_instancia.begin(), argumento);
+        if(argumento->tag == TAG_DBL || argumento->tag == TAG_LNG){
+            Operando* op_vazio = new Operando();
+            op_vazio->tag = TAG_VAZ;
+            argumentos_instancia.insert(argumentos_instancia.begin()+1, op_vazio);
+        }
+    }
+    Operando* classe_atual = this->topo()->desempilhar();
+    argumentos_instancia.insert(argumentos_instancia.begin(), classe_atual);
+    Frame* novo_frame = new Frame(metodo);
+    
+    for(int i=0; i<argumentos_instancia.size(); i++){
+        novo_frame->var_locais.at(i) = argumentos_instancia.at(i);
+    }
 
     if (metodo)
-        empilhar(new Frame(metodo));
+        empilhar(novo_frame);
 }
 
 void Interpretador::empilhar (InterCPDado *const dados){
@@ -130,8 +164,9 @@ Frame* Interpretador::desempilhar (){
 
     this->pilha_frames.pop_back();
 
-    if (topo_->retorno)
+    if (topo_->retorno) {
         topo()->pilha_operandos.push(topo_->retorno);
+    }
 
     return topo_;
 }

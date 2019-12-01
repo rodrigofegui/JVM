@@ -543,6 +543,9 @@ void manipulador_iconst (Frame *frame, int valor){
 
 void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
     Operando *op = frame->desempilhar();
+    // std::cout << "\tVar[" << (int)ind << "]: ";
+    // op->exibir();
+    // std::cout << std::endl;
 
     if (op->tag != tag){
         std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
@@ -553,9 +556,6 @@ void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
     frame->var_locais[ind] = op;
     frame->pc++;
 
-    // std::cout << "\tVar[" << (int)ind << "]: ";
-    // op->exibir();
-    // std::cout << std::endl;
 }
 
 void manipulador_xstore (Frame *frame, u1 tag){
@@ -1184,7 +1184,7 @@ void manipulador_astore_0 (Frame *frame){
 
 // 76 (0x4C)
 void manipulador_astore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 2, TAG_REF);
+    manipulador_xstore_n(frame, 1, TAG_REF);
 }
 
 // 77 (0x4D)
@@ -2675,11 +2675,6 @@ void manipulador_putstatic (Frame *frame){
 
 // 180 (0xB4)
 void manipulador_getfield (Frame *frame){
-    frame->pc += bytecodes[180].bytes + 1;
-}
-
-// 181 (0xB5)
-void manipulador_putfield (Frame *frame){
     u1 byte_1 = frame->get_prox_byte();
     u1 byte_2 = frame->get_prox_byte();
     u2 indice = (byte_1 << 8) | byte_2;
@@ -2689,7 +2684,26 @@ void manipulador_putfield (Frame *frame){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
     }
-    std::string nome_tipo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_str_nome_tipo();
+    std::string campo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_campo();
+    Operando* instancia_classe = frame->desempilhar();
+    frame->empilhar(instancia_classe->obj->referencias[campo]);
+    frame->pc++;
+}
+
+// 181 (0xB5)
+void manipulador_putfield (Frame *frame){
+    // Erro quando objeto não é inicializado
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
+        return;
+    }
+    std::string nome_campo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_campo();
+
 
     Operando *op = frame->desempilhar();
 
@@ -2697,34 +2711,47 @@ void manipulador_putfield (Frame *frame){
 
     frame->pc++;
 
-    // /instancia_classe->
+    if(instancia_classe->obj != nullptr) {
+        Operando* atributo = instancia_classe->obj->referencias[nome_campo];
+        if(atributo == nullptr) {
+            atributo = new Operando();
+        }
 
-    // switch(op->tag){
-    // case TAG_INT:
-    //     break;
-    // case TAG_LNG:
-    //     break;
-    // // case TAG_:
-    // //     break;
-    // case TAG_CHR:
-    //     break;
-    // case TAG_SHT:
-    //     break;
-    // case TAG_BYTE:
-    //     break;
-    // case TAG_FLT:
-    //     break;
-    // case TAG_DBL:
-    //     break;
-    // case TAG_STR:
-    //     break;
-    // case TAG_CLAS:
-    //     break;
-    // // case TAG_A:
-    // //     break;
-    // default:
-    //     break;
-    // }
+        atributo->tag = op->tag;
+
+        switch(op->tag){
+            case TAG_INT:
+                atributo->tipo_int = op->tipo_int;
+                break;
+            case TAG_LNG:
+                atributo->tipo_long = op->tipo_long;
+                break;
+            case TAG_CHR:
+                atributo->tipo_char = op->tipo_char;
+                break;
+            case TAG_SHT:
+                atributo->tipo_short = op->tipo_short;
+                break;
+            case TAG_BYTE:
+                atributo->tipo_byte = op->tipo_byte;
+                break;
+            case TAG_FLT:
+                atributo->tipo_float = op->tipo_float;
+                break;
+            case TAG_DBL:
+                atributo->tipo_double = op->tipo_double;
+                break;
+            case TAG_STR:
+                atributo->tipo_string = op->tipo_string;
+                break;
+            case TAG_CLAS:
+                atributo->obj = op->obj;
+                break;
+            default:
+                break;
+        }
+        instancia_classe->obj->referencias[nome_campo] = atributo;
+    }
 }
 
 // 182 (0xB6)
