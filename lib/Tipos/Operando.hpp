@@ -30,7 +30,7 @@
             double tipo_double;
         };
         std::string tipo_string;
-        std::vector<Operando*> *lista_operandos = nullptr;
+        std::vector<Operando*> lista_operandos;
         Objeto* obj = nullptr;
 
 
@@ -41,15 +41,19 @@
 
         // VERIFICAR: ESTAR CAUSANDO MEMORY LEAK
         void deletar (){};
+
+        Operando* duplicar();
     };
 
     class Objeto{
         public:
             std::string nome;
             std::map< std::string, Operando* > referencias;
-            ArqClass * classe;
+            ArqClass *classe;
 
             /** Construtor padrão */
-            Objeto (std::string const &nome, ArqClass* classe): nome(nome), classe(classe){};
+            Objeto (std::string const &nome, ArqClass *const classe): nome(nome), classe(classe){};
+
+            Objeto* duplicar();
     };
 #endif

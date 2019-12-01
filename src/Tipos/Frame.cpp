@@ -33,7 +33,7 @@ void Frame::executar(){
     if (pc == pc_anterior)
         this->pode_desempilhar = true;
 
-    getchar();
+    // getchar();
 }
 
 u1 Frame::get_prox_byte (){

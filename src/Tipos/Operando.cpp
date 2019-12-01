@@ -1,5 +1,6 @@
 #include <string>
 #include "../../lib/Tipos/Operando.hpp"
+#include "../../lib/Uteis/Arquivos.hpp"
 
 std::string Operando::get (){
     std::string op;
@@ -12,5 +13,40 @@ std::string Operando::get (){
         default: op = "Indefinido";
     }
 
-    return op + " ~> " + get_tag(this->tag);
+    #ifdef E_VERBOSO
+        return op + " ~> " + get_tag(this->tag);
+    #else
+        return op;
+    #endif
+}
+
+Operando* Operando::duplicar(){
+    Operando *novo = new Operando();
+
+    novo->tag = this->tag;
+
+    novo->tipo_bool = this->tipo_bool;
+    novo->tipo_byte = this->tipo_byte;
+    novo->tipo_char = this->tipo_char;
+    novo->tipo_short = this->tipo_short;
+    novo->tipo_int = this->tipo_int;
+    novo->tipo_float = this->tipo_float;
+    novo->tipo_long = this->tipo_long;
+    novo->tipo_double = this->tipo_double;
+
+    novo->tipo_string = this->tipo_string;
+    novo->lista_operandos = this->lista_operandos;
+
+    if (this->obj)
+        novo->obj = this->obj->duplicar();
+
+    return novo;
+}
+
+Objeto* Objeto::duplicar(){
+    Objeto *novo = new Objeto(this->nome, this->classe);
+
+    novo->referencias = this->referencias;
+
+    return novo;
 }
