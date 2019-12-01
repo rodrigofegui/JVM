@@ -180,5 +180,7 @@ void Interpretador::deletar(){
 
     std::vector<Frame *>().swap(this->pilha_frames);
 
+    this->area_metodos = nullptr;
+
     delete this;
 }

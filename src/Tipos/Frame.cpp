@@ -49,6 +49,8 @@ InterCPDado* Frame::buscar_simbolo(u2 indice){
 Operando* Frame::desempilhar(){
     Operando *topo = this->pilha_operandos.top();
 
+    exibir_se_verboso("\tDesempilhou: " + topo->get());
+
     this->pilha_operandos.pop();
 
     return topo;
@@ -73,15 +75,26 @@ std::string Frame::get_tipo_retorno(){
 }
 
 void Frame::deletar (){
-    // for (auto &var_local : this->var_locais) var_local->deletar();
+    if (this->retorno)
+        this->retorno->deletar();
 
-    // std::vector<Operando *>().swap(this->var_locais);
+    for (auto &var_local : this->var_locais){
+        var_local->deletar();
+        delete var_local;
+    }
 
-    // std::stack<Operando *>().swap(this->pilha_operandos);
+    while (!this->pilha_operandos.empty()){
+        Operando *op = this->desempilhar();
+
+        op->deletar();
+        delete op;
+    }
 
     this->tab_simbolos = nullptr;
     this->referencia_metodo = nullptr;
     this->attr_codigo = nullptr;
+
+    this->a_empilhar = nullptr;
 
     delete this;
 }

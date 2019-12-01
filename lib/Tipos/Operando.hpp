@@ -40,7 +40,7 @@
         std::string get ();
 
         // VERIFICAR: ESTAR CAUSANDO MEMORY LEAK
-        void deletar (){};
+        void deletar ();
 
         Operando* duplicar();
     };
@@ -55,5 +55,7 @@
             Objeto (std::string const &nome, ArqClass *const classe): nome(nome), classe(classe){};
 
             Objeto* duplicar();
+
+            void deletar ();
     };
 #endif

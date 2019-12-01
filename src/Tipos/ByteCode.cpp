@@ -588,6 +588,9 @@ void manipulador_xastore (Frame *frame, u1 tag){
 
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
     // memcpy(&lista->lista_operandos.at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
+
+    indice->deletar();
+
     lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
@@ -601,22 +604,27 @@ void manipulador_xaload (Frame *frame, u1 tag){
     Operando *indice = frame->desempilhar();
     Operando *lista = frame->desempilhar();
 
+    int ind = (int) indice->tipo_int;
+
     if (!lista) {
         std::cout << "Exceção Ponteiro Nulo" << std::endl;
         return;
     }
 
-    if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos->size()) {
+    if(ind < 0 || ind >= lista->lista_operandos->size()) {
         std::cout << "Exceção indice de array fora dos limites" << std::endl;
         return;
     }
 
-    Operando *a_empilhar = lista->lista_operandos->at(indice->tipo_int);
+    Operando *a_empilhar = lista->lista_operandos->at(ind);
 
     if (a_empilhar->tag != tag){
-        std::cout << "Não foi possível carregar: o operando é do tipo errado" << std::endl;
+        std::cout << "Não foi possível carregar: o operando é do tipo errado," << std::endl;
+        std::cout << "\tdeveria ser " << get_tag(tag) << std::endl;
         return;
     }
+
+    indice->deletar();
 
     frame->empilhar(a_empilhar);
     frame->pc++;
@@ -2148,7 +2156,7 @@ void manipulador_l2d (Frame *frame){
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
-    frame->pc++;    
+    frame->pc++;
 }
 
 // 139 (0x8B)
@@ -2162,7 +2170,7 @@ void manipulador_f2i (Frame *frame){
     op->tag = TAG_INT;
 
     frame->empilhar(op);
-    frame->pc++;     
+    frame->pc++;
 }
 
 // 140 (0x8C)
@@ -2176,7 +2184,7 @@ void manipulador_f2l (Frame *frame){
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
-    frame->pc++;   
+    frame->pc++;
 }
 
 // 141 (0x8D)
@@ -2190,7 +2198,7 @@ void manipulador_f2d (Frame *frame){
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
-    frame->pc++;   
+    frame->pc++;
 }
 
 // 142 (0x8E)
@@ -2204,7 +2212,7 @@ void manipulador_d2i (Frame *frame){
     op->tag = TAG_INT;
 
     frame->empilhar(op);
-    frame->pc++;       
+    frame->pc++;
 }
 
 // 143 (0x8F)
@@ -2218,7 +2226,7 @@ void manipulador_d2l (Frame *frame){
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
-    frame->pc++;  
+    frame->pc++;
 }
 
 // 144 (0x90)
@@ -2232,7 +2240,7 @@ void manipulador_d2f (Frame *frame){
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
-    frame->pc++;     
+    frame->pc++;
 }
 
 // 145 (0x91)
@@ -2740,8 +2748,6 @@ void manipulador_putfield (Frame *frame){
 
     Operando* instancia_classe = frame->desempilhar();
 
-    frame->pc++;
-
     if(instancia_classe->obj != nullptr) {
         Operando* atributo = instancia_classe->obj->referencias[nome_campo];
         if(atributo == nullptr) {
@@ -2783,6 +2789,8 @@ void manipulador_putfield (Frame *frame){
         }
         instancia_classe->obj->referencias[nome_campo] = atributo;
     }
+
+    frame->pc++;
 }
 
 // 182 (0xB6)
@@ -2807,11 +2815,13 @@ void manipulador_invokevirtual (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/io/PrintStream")){
-        std::cout << "\tStdout: ";
-        std::cout << frame->desempilhar()->get();
+        Operando *op = frame->desempilhar();
+        std::cout << op->get();
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
+
+        op->deletar();
 
         frame->pc++;
         return;
