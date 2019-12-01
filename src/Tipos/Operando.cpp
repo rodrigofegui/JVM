@@ -2,6 +2,7 @@
 #include "../../lib/Tipos/Operando.hpp"
 #include "../../lib/Uteis/Arquivos.hpp"
 
+
 std::string Operando::get (){
     std::string op;
     switch (this->tag){
@@ -43,10 +44,23 @@ Operando* Operando::duplicar(){
     return novo;
 }
 
+void Operando::deletar (){
+    std::vector<Operando *>().swap(this->lista_operandos);
+
+    if (this->obj)
+        this->obj->deletar();
+}
+
 Objeto* Objeto::duplicar(){
     Objeto *novo = new Objeto(this->nome, this->classe);
 
     novo->referencias = this->referencias;
 
     return novo;
+}
+
+void Objeto::deletar (){
+    std::map< std::string, Operando* >().swap(this->referencias);
+
+    delete this;
 }

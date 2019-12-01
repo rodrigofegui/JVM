@@ -588,6 +588,9 @@ void manipulador_xastore (Frame *frame, u1 tag){
 
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
     // memcpy(&lista->lista_operandos.at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
+
+    indice->deletar();
+
     lista->lista_operandos.at(ind) = valor;
     frame->pc++;
 }
@@ -601,22 +604,27 @@ void manipulador_xaload (Frame *frame, u1 tag){
     Operando *indice = frame->desempilhar();
     Operando *lista = frame->desempilhar();
 
+    int ind = (int) indice->tipo_int;
+
     if (!lista) {
         std::cout << "Exceção Ponteiro Nulo" << std::endl;
         return;
     }
 
-    if((int)indice->tipo_int < 0 || indice->tipo_int >= lista->lista_operandos.size()) {
+    if(ind < 0 || ind >= lista->lista_operandos.size()) {
         std::cout << "Exceção indice de array fora dos limites" << std::endl;
         return;
     }
 
-    Operando *a_empilhar = lista->lista_operandos.at(indice->tipo_int);
+    Operando *a_empilhar = lista->lista_operandos.at(ind);
 
     if (a_empilhar->tag != tag){
-        std::cout << "Não foi possível carregar: o operando é do tipo errado" << std::endl;
+        std::cout << "Não foi possível carregar: o operando é do tipo errado," << std::endl;
+        std::cout << "\tdeveria ser " << get_tag(tag) << std::endl;
         return;
     }
+
+    indice->deletar();
 
     frame->empilhar(a_empilhar);
     frame->pc++;
@@ -2715,7 +2723,7 @@ void manipulador_getfield (Frame *frame){
 
 // 181 (0xB5)
 void manipulador_putfield (Frame *frame){
-    // Erro quando objeto não é inicializado
+    // VERIFICAR: Erro quando objeto não é inicializado
     u1 byte_1 = frame->get_prox_byte();
     u1 byte_2 = frame->get_prox_byte();
     u2 indice = (byte_1 << 8) | byte_2;
@@ -2731,8 +2739,6 @@ void manipulador_putfield (Frame *frame){
     Operando *op = frame->desempilhar();
 
     Operando* instancia_classe = frame->desempilhar();
-
-    frame->pc++;
 
     if(instancia_classe->obj != nullptr) {
         Operando* atributo = instancia_classe->obj->referencias[nome_campo];
@@ -2775,6 +2781,8 @@ void manipulador_putfield (Frame *frame){
         }
         instancia_classe->obj->referencias[nome_campo] = atributo;
     }
+
+    frame->pc++;
 }
 
 // 182 (0xB6)
@@ -2799,10 +2807,13 @@ void manipulador_invokevirtual (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/io/PrintStream")){
-        std::cout << frame->desempilhar()->get();
+        Operando *op = frame->desempilhar();
+        std::cout << op->get();
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
+
+        op->deletar();
 
         frame->pc++;
         return;
