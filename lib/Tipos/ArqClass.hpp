@@ -61,7 +61,8 @@
              */
             u1 decodificar ();
 
-            Campo* get_metodo (const std::string &nome_metodo);
+            Campo* get_metodo (const std::string &nome);
+            Campo* get_campo (const std::string &nome);
 
             /**
              *  Exibição do arquivo .class na saída padrão

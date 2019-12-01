@@ -31,7 +31,7 @@
         };
         std::string tipo_string;
         std::vector<Operando*> *lista_operandos = nullptr;
-        Objeto* obj = nullptr;
+        Objeto *obj = nullptr;
 
 
         /** Construtor padrão */

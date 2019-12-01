@@ -33,7 +33,7 @@ void Frame::executar(){
     if (pc == pc_anterior)
         this->pode_desempilhar = true;
 
-    #ifdef E_VERBOSO 
+    #ifdef E_VERBOSO
         getchar();
     #endif
 }
@@ -80,15 +80,9 @@ void Frame::deletar (){
 
     for (auto &var_local : this->var_locais){
         var_local->deletar();
-        delete var_local;
     }
 
-    while (!this->pilha_operandos.empty()){
-        Operando *op = this->desempilhar();
-
-        op->deletar();
-        delete op;
-    }
+    std::stack<Operando *>().swap(pilha_operandos);
 
     this->tab_simbolos = nullptr;
     this->referencia_metodo = nullptr;
