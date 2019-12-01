@@ -67,4 +67,6 @@
      *  @param a_verificar Flag a ser analisada
      */
     std::string get_flag(u2 a_verificar);
+
+    std::string get_tag(u1 a_verificar);
 #endif

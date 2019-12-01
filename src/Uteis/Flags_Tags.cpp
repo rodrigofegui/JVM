@@ -52,3 +52,53 @@ std::string get_flag(u2 a_verificar){
 
     return flag;
 }
+
+std::string get_tag(u1 a_verificar){
+    if (a_verificar == TAG_VAZ)
+        return "'Indefinido'";
+
+    if (a_verificar == TAG_UTF)
+        return "'UTF-8'";
+
+    if (a_verificar == TAG_INT)
+        return "'Inteiro'";
+
+    if (a_verificar == TAG_FLT)
+        return "'Float'";
+
+    if (a_verificar == TAG_LNG)
+        return "'Longo'";
+
+    if (a_verificar == TAG_DBL)
+        return "'Double'";
+
+    if (a_verificar == TAG_CLAS)
+        return "'Classe'";
+
+    if (a_verificar == TAG_STR)
+        return "'String'";
+
+    if (a_verificar == TAG_REF_CMP)
+        return "'Ref. para campo'";
+
+    if (a_verificar == TAG_REF_MTD)
+        return "'Ref. para método'";
+
+    if (a_verificar == TAG_REF_MTD_ITF)
+        return "'Ref. para método de interface'";
+
+    if (a_verificar == TAG_NOM_TIP)
+        return "'Nome e tipo'";
+
+    if (a_verificar == TAG_BYTE)
+        return "'Byte'";
+
+    if (a_verificar == TAG_REF)
+        return "'Referência'";
+
+    if (a_verificar == TAG_CHR)
+        return "'Char'";
+
+    if (a_verificar == TAG_SHT)
+        return "'Short'";
+}
