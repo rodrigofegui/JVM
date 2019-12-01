@@ -1064,7 +1064,7 @@ void manipulador_aaload (Frame *frame){
 
 // 51 (0x33)
 void manipulador_baload (Frame *frame){
-    manipulador_xaload(frame, TAG_BYTE);
+    manipulador_xaload(frame, TAG_INT);
 }
 
 // 52 (0x34)
@@ -1229,7 +1229,7 @@ void manipulador_aastore (Frame *frame){
 
 // 84 (0x54)
 void manipulador_bastore (Frame *frame){
-    manipulador_xastore(frame, TAG_BYTE);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 85 (0x55)
@@ -1831,11 +1831,11 @@ void manipulador_ishl (Frame *frame){
     u4 ivalor1 = valor_1->tipo_int;
     u4 ivalor2 = valor_2->tipo_int;
 
-    ivalor2 &= 0x0000003F;
+    ivalor1 &= 0x0000001F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = ivalor1 << ivalor2;
+    resultado->tipo_int = ivalor2 << ivalor1;
 
     valor_1->deletar();
     valor_2->deletar();
@@ -1873,11 +1873,11 @@ void manipulador_ishr (Frame *frame){
     u4 ivalor1 = valor_1->tipo_int;
     u4 ivalor2 = valor_2->tipo_int;
 
-    ivalor2 &= 0x0000003F;
+    ivalor1 &= 0x0000001F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = ivalor1 >> ivalor2;
+    resultado->tipo_int = ivalor2 >> ivalor1;
 
     valor_1->deletar();
     valor_2->deletar();
@@ -2239,7 +2239,8 @@ void manipulador_d2f (Frame *frame){
 void manipulador_i2b (Frame *frame){
     Operando *op = frame->desempilhar();
 
-    u4 valor = (u4) op->tipo_int;
+    int valor = (int8_t) op->tipo_int;
+
     std::memcpy(&op->tipo_byte, &valor, sizeof(u4));
 
     frame->empilhar(op);
@@ -2248,24 +2249,33 @@ void manipulador_i2b (Frame *frame){
 
 // 146 (0x92)
 void manipulador_i2c (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    char valor = (char) op->tipo_int;
-    std::memcpy(&op->tipo_char, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para char");
+
+    char valor_convertido =  (char) topo->tipo_int;
+
+    memcpy(&op->tipo_char,&valor_convertido,sizeof(char));
+
+    op->tag = TAG_CHR;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;         
 }
 
 // 147 (0x93)
 void manipulador_i2s (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    short valor = (short) op->tipo_int;
-    std::memcpy(&op->tipo_short, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para short");
+
+    op->tipo_short = (short) ((int) topo->tipo_int);
+    op->tag = TAG_SHT;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;    
 }
 
 // 148 (0x94)
@@ -2814,7 +2824,6 @@ void manipulador_invokevirtual (Frame *frame){
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
 
-        frame->pc++;
         return;
     }
 
@@ -2928,62 +2937,62 @@ void manipulador_newarray (Frame *frame){
     u4 indice = quantidade->tipo_int;
 
     Operando* array = new Operando();
-    array->tag = TAG_ARR;
+    array->tag = TAG_REF;
     array->lista_operandos = new std::vector<Operando*>();
 
-    u1 tipo = frame->attr_codigo->codigo[frame->pc++];
+    u1 tipo = frame->attr_codigo->codigo[++frame->pc];
 
     switch (tipo){
-    case TAG_BLN:
+    case 4:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_BLN;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_CHR:
+    case 5:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_CHR;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_FLT:
+    case 6:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_FLT;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_DBL:
+    case 7:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_DBL;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_BYTE:
+    case 8:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_BYTE;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_SHT:
+    case 9:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_SHT;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_INT:
+    case 10:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_INT;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_LNG:
+    case 11:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_LNG;
@@ -2993,6 +3002,7 @@ void manipulador_newarray (Frame *frame){
     default:
         break;
     }
+    frame->pc++;
     frame->empilhar(array);
 }
 
