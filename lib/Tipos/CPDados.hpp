@@ -30,6 +30,8 @@
              *  @param qnt_tabs Quantidade de TABs
              */
             void exibir (const u1 qnt_tabs) override;
+
+            std::string get() override;
     };
 
     /**
@@ -57,6 +59,8 @@
              *  @param qnt_tabs Quantidade de TABs
              */
             void exibir (const u1 qnt_tabs) override;
+
+            std::string get () override;
 
             std::string get_nome ();
     };
@@ -91,6 +95,8 @@
              *  @param qnt_tabs Quantidade de TABs
              */
             void exibir (const u1 qnt_tabs) override;
+
+            std::string get () override;
     };
 
     /**
@@ -98,6 +104,9 @@
      *  Dados da tabela de símbolos do tipo __CONSTANT_NameAndType__
      */
     class InfoNomeTipo : public InterCPDado {
+        private:
+            std::string get_nome();
+            std::string get_descritor();
         public:
             /** Estrutura dos dados da __CONSTANT_NameAndType__ */
             u2 ind_nome = 0;
@@ -119,6 +128,8 @@
              *  @param qnt_tabs Quantidade de TABs
              */
             void exibir (const u1 qnt_tabs) override;
+
+            std::string get () override;
     };
 
     /**
@@ -148,15 +159,15 @@
             void exibir (const u1 qnt_tabs) override;
 
             /**
-             *  Destrutor dos dados da __CONSTANT_Utf8__
-             */
-            void deletar () override;
-
-            /**
              *  Recuperação da string armazenada
              *  @return A string em UTF-8
              */
-            std::string get_string ();
+            std::string get () override;
+
+            /**
+             *  Destrutor dos dados da __CONSTANT_Utf8__
+             */
+            void deletar () override;
     };
 
     /**
@@ -191,6 +202,8 @@
              *  @param qnt_tabs Quantidade de TABs
              */
             void exibir (const u1 qnt_tabs) override;
+
+            std::string get () override;
     };
 
     /**
@@ -225,6 +238,8 @@
              *  @param qnt_tabs Quantidade de TABs
              */
             void exibir (const u1 qnt_tabs) override;
+
+            std::string get () override;
     };
 
     /**
@@ -245,7 +260,7 @@
              */
             void decodificar (FILE *const arq) override;
 
-            std::string get();
+            std::string get() override;
 
             /**
              *  Exibição dos dados da __CONSTANT_String__ na saída padrão com controle de
@@ -273,7 +288,7 @@
              */
             void decodificar (FILE *const arq) override;
 
-            std::string get();
+            std::string get() override;
 
             /**
              *  Exibição dos dados da __CONSTANT_Integer__ na saída padrão com controle de
@@ -305,7 +320,7 @@
              *  Recuperação do valor float armazenado, podendo ser `Infinity`, `-Infinity`, `NaN` ou o valor correto
              *  @returns String com o valor do float
              */
-            std::string get();
+            std::string get() override;
 
             /**
              *  Exibição dos dados da __CONSTANT_Float__ na saída padrão com controle de
@@ -338,7 +353,7 @@
              *  Recuperação do valor long armazenado
              *  @returns String com o valor do long
              */
-            std::string get();
+            std::string get() override;
 
             /**
              *  Exibição dos dados da __CONSTANT_Long__ na saída padrão com controle de
@@ -371,7 +386,7 @@
              *  Recuperação do valor double armazenado, podendo ser `Infinity`, `-Infinity` ou `NaN`
              *  @returns String com o valor do double
              */
-            std::string get();
+            std::string get() override;
 
             /**
              *  Exibição dos dados da __CONSTANT_Double__ na saída padrão com controle de

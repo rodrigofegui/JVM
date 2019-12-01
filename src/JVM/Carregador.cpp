@@ -1,32 +1,29 @@
 #include <iostream>
 #include "../../lib/Uteis/Flags_Tags.hpp"
+#include "../../lib/Uteis/Arquivos.hpp"
 #include "../../lib/JVM/Carregador.hpp"
 
 
 void Carregador::analise_semantica (std::vector<std::string> const &nomes_arqs){
-    std::cout << std::endl << "++++++++++++++++++++++++" << std::endl;
+    exibir_se_verboso("++++++++++++++++++++++++");
 
     for (auto &nome_arq : nomes_arqs){
         ArqClass arq_class(nome_arq);
 
         u1 status = arq_class.decodificar();
 
-        std::cout << "O arquivo '" << nome_arq << "'";
-
         if (status == ARQ_MAIN) {
             set_nome_arq_main(nome_arq);
+            exibir_se_verboso("O arquivo '" + nome_arq + "' é válido");
 
         } else if (status != SUCESSO) {
-            std::cout << " não";
-
+            exibir_se_verboso("O arquivo '" + nome_arq + "' não é válido");
         }
-
-        std::cout << " é válido" << std::endl;
 
         arq_class.deletar();
     }
 
-    std::cout << "++++++++++++++++++++++++" << std::endl;
+    exibir_se_verboso("++++++++++++++++++++++++");
 }
 
 u1 Carregador::carregar (const std::string &nome_arq){
@@ -85,6 +82,5 @@ void Carregador::deletar (){
         delete arq_class;
     }
 
-    std::vector<ArqClass *>().swap(this->arquivos);
-
+    std::vector<ArqClass*>().swap(this->arquivos);
 }

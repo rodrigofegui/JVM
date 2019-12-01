@@ -9,7 +9,8 @@
     #include <map>
     #include "../Interfaces/InterTabela.hpp"
     #include "../Tipos/ArqClass.hpp"
-    
+    #include "../Uteis/Flags_Tags.hpp"
+
     class Objeto;
     /**
      *  @class Operando
@@ -17,14 +18,14 @@
      */
     class Operando{
     public:
-        u1 tag;
+        u1 tag = TAG_VAZ;
         union {
             u4 tipo_bool;
             u4 tipo_byte;
             u4 tipo_char;
             u4 tipo_short;
             u4 tipo_int;
-            u4 tipo_float;
+            float tipo_float;
             u8 tipo_long;
             double tipo_double;
         };
@@ -36,7 +37,7 @@
         /** Construtor padrão */
         Operando (){};
 
-        void exibir ();
+        std::string get ();
 
         // VERIFICAR: ESTAR CAUSANDO MEMORY LEAK
         void deletar (){};
@@ -49,6 +50,6 @@
             ArqClass * classe;
 
             /** Construtor padrão */
-            Objeto (std::string nome, ArqClass* classe): nome(nome), classe(classe){};
+            Objeto (std::string const &nome, ArqClass* classe): nome(nome), classe(classe){};
     };
 #endif

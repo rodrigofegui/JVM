@@ -1,15 +1,16 @@
-#include <iostream>
+#include <string>
 #include "../../lib/Tipos/Operando.hpp"
-#include "../../lib/Uteis/Flags_Tags.hpp"
 
-
-void Operando::exibir (){
+std::string Operando::get (){
+    std::string op;
     switch (this->tag){
-        case TAG_INT: std::cout << (int) this->tipo_int << std::endl; break;
-        case TAG_DBL: std::cout << (double) this->tipo_double << std::endl; break;
-        case TAG_LNG: std::cout << (long) this->tipo_long << std::endl; break;
-        case TAG_STR: std::cout << this->tipo_string << std::endl; break;
-        default:
-            std::cout << "Indefinido, tag: " << (int)this->tag << std::endl;
+        case TAG_INT: op = std::to_string((int) this->tipo_int); break;
+        case TAG_FLT: op = std::to_string(this->tipo_float); break;
+        case TAG_DBL: op = std::to_string(this->tipo_double); break;
+        case TAG_LNG: op = std::to_string((long) this->tipo_long); break;
+        case TAG_STR: op = this->tipo_string; break;
+        default: op = "Indefinido";
     }
+
+    return op + " ~> " + get_tag(this->tag);
 }

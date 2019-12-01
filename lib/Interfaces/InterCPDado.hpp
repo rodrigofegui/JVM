@@ -39,6 +39,8 @@
              */
             virtual void exibir (const u1 qnt_tabs) = 0;
 
+            virtual std::string get () = 0;
+
             /**
              *  Destrutor de um dado da tabela de símbolos e suas eventuais dependências
              */

@@ -2,6 +2,7 @@
 #include "../../lib/Tipos/ByteCode.hpp"
 #include "../../lib/Tabelas/TabSimbolos.hpp"
 #include "../../lib/Tipos/CPDados.hpp"
+#include "../../lib/Uteis/Arquivos.hpp"
 
 std::vector<ByteCode> bytecodes;
 
@@ -543,15 +544,14 @@ void manipulador_iconst (Frame *frame, int valor){
 
 void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag){
     Operando *op = frame->desempilhar();
-    // std::cout << "\tVar[" << (int)ind << "]: ";
-    // op->exibir();
-    // std::cout << std::endl;
 
     if (op->tag != tag){
         std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
         std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
         return;
     }
+
+    exibir_se_verboso("\tVar[" + std::to_string((int)ind) + "]: " + op->get());
 
     frame->var_locais[ind] = op;
     frame->pc++;
@@ -633,7 +633,12 @@ void manipulador_xreturn (Frame *frame, u1 tag){
             return;
         }
 
+        exibir_se_verboso("\tRetornando: " + op->get() + " do tipo " + get_tag(tag));
+
         frame->retorno = op;
+
+    } else {
+        exibir_se_verboso("\tRetorno vazio");
     }
 
     frame->pode_desempilhar = true;
@@ -1445,19 +1450,17 @@ void manipulador_ladd (Frame *frame){
 
 // 98 (0x62)
 void manipulador_fadd (Frame *frame){
-    Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
+    Operando *valor_1 = frame->desempilhar();
 
-    float fvalor_1, fvalor_2;
+    float f1 = valor_1->tipo_float,
+          f2 = valor_2->tipo_float;
 
-    std::memcpy(&fvalor_1, &valor_1->tipo_float, sizeof(float));
-    std::memcpy(&fvalor_2, &valor_2->tipo_float, sizeof(float));
-    fvalor_1 += fvalor_2;
+    exibir_se_verboso("\tA somar " + std::to_string(f1) + " e " + std::to_string(f2));
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_FLT;
-
-    memcpy(&resultado->tipo_float, &fvalor_1, sizeof(float));
+    resultado->tipo_float = f1 + f2;
 
     valor_1->deletar();
     valor_2->deletar();
@@ -1655,17 +1658,17 @@ void manipulador_ldiv (Frame *frame){
 
 // 110 (0x6E)
 void manipulador_fdiv (Frame *frame){
-    Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
+    Operando *valor_1 = frame->desempilhar();
 
-    float fvalor_1, fvalor_2;
-    std::memcpy(&fvalor_1, &valor_1->tipo_float, sizeof(float));
-    std::memcpy(&fvalor_2, &valor_2->tipo_float, sizeof(float));
-    fvalor_2 /= fvalor_1;
+    float f1 = valor_1->tipo_float,
+          f2 = valor_2->tipo_float;
 
-    Operando* resultado = new Operando();
+    exibir_se_verboso("\tA dividir " + std::to_string(f1) + " por " + std::to_string(f2));
+
+    Operando *resultado = new Operando();
     resultado->tag = TAG_FLT;
-    memcpy(&resultado->tipo_float, &fvalor_2, sizeof(float));
+    resultado->tipo_float = f1 / f2;
 
     valor_1->deletar();
     valor_2->deletar();
@@ -1790,11 +1793,11 @@ void manipulador_lneg (Frame *frame){
 // 118 (0x76)
 void manipulador_fneg (Frame *frame){
     Operando *valor = frame->desempilhar();
-    float fvalor, fvalor_neg;
+    u4 fvalor_neg;
 
-    std::memcpy(&fvalor, &valor->tipo_float, sizeof(float));
+    std::memcpy(&fvalor_neg, &valor->tipo_float, sizeof(u4));
 
-    fvalor_neg = (~valor->tipo_float) + 1;
+    fvalor_neg = (~fvalor_neg) + 1;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_FLT;
@@ -2044,10 +2047,22 @@ void manipulador_lxor (Frame *frame){
 
 // 132 (0x84)
 void manipulador_iinc (Frame *frame){
-    u1 campo = frame->get_prox_byte();
-    u1 valor = frame->get_prox_byte();
+    u1 indice = frame->get_prox_byte();
+    int8_t valor = (int) frame->get_prox_byte();
 
-    frame->var_locais.at((int)campo)->tipo_int += valor;
+    exibir_se_verboso("\tA somar " + std::to_string(valor)
+        + " a Var[" + std::to_string(indice) + "]");
+
+    if (frame->var_locais.at(indice)->tag != TAG_INT){
+        std::cout << "Não é possível somar a um não inteiro, é "
+        std::cout << get_tag(frame->var_locais.at(indice)->tag) << std::endl;
+        return;
+    }
+
+    frame->var_locais.at(indice)->tipo_int += valor;
+
+    exibir_se_verboso("\tVar[" + std::to_string(indice) + "]: "
+        + frame->var_locais.at(indice)->get());
 
     frame->pc++;
 }
@@ -2056,9 +2071,9 @@ void manipulador_iinc (Frame *frame){
 void manipulador_i2l (Frame *frame){
     Operando *op = frame->desempilhar();
 
-    u8 valor_convertido = (u8) op->tipo_int;
+    exibir_se_verboso("\tA converter " + std::to_string((int) op->tipo_int) + " para long");
 
-    std::memcpy(&op->tipo_long, &valor_convertido, sizeof(u8));
+    op->tipo_long = (long) ((int) op->tipo_int);
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
@@ -2069,9 +2084,9 @@ void manipulador_i2l (Frame *frame){
 void manipulador_i2f (Frame *frame){
     Operando *op = frame->desempilhar();
 
-    float valor_convertido = (float) op->tipo_int;
+    exibir_se_verboso("\tA converter " + std::to_string((int) op->tipo_int) + " para float");
 
-    std::memcpy(&op->tipo_float, &valor_convertido, sizeof(u4));
+    op->tipo_float = (float) ((int) op->tipo_int);
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
@@ -2436,6 +2451,9 @@ void manipulador_ifle (Frame *frame){
         deslocamento = get_deslocamento(frame);
     }
 
+    exibir_se_verboso("\t" + std::to_string((int)op->tipo_int) + " <= 0?");
+    exibir_se_verboso("\tVai pular para: " + std::to_string(frame->pc + deslocamento));
+
     op->deletar();
 
     frame->pc += deslocamento;
@@ -2776,7 +2794,7 @@ void manipulador_invokevirtual (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/io/PrintStream")){
-        frame->desempilhar()->exibir();
+        std::cout << frame->desempilhar()->get();
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
@@ -2808,6 +2826,8 @@ void manipulador_invokespecial (Frame *frame){
         std::cout << " nem " << get_tag(TAG_REF_MTD_ITF) << std::endl;
         return;
     }
+
+    exibir_se_verboso("\t#" + std::to_string((int) indice) + " -> " + c_dados->get());
 
     frame->a_empilhar = c_dados;
     frame->pc++;

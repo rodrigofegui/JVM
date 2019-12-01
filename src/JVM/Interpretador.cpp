@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../../lib/JVM/Interpretador.hpp"
 #include "../../lib/Uteis/Flags_Tags.hpp"
+#include "../../lib/Uteis/Arquivos.hpp"
 #include "../../lib/Tipos/CPDados.hpp"
 
 
@@ -22,18 +23,18 @@ void Interpretador::executar (){
     do {
         Frame *c_frame = topo();
 
-        //std::cout << "Frame: " << c_frame->referencia_metodo->get_nome() << std::endl;
+        exibir_se_verboso("Frame: " + c_frame->referencia_metodo->get_nome());
 
         c_frame->executar();
 
         if (c_frame->a_empilhar){
             empilhar(c_frame->a_empilhar);
-            // std::cout << std::endl << std::endl;
+            exibir_se_verboso("\n");
         }
 
         else if (c_frame->pode_desempilhar){
             desempilhar()->deletar();
-            // std::cout << std::endl << std::endl;
+            exibir_se_verboso("\n");
         }
 
         // getchar();
@@ -53,6 +54,10 @@ void Interpretador::empilhar (std::string const &nome_metodo){
 }
 
 void Interpretador::empilhar (std::string const &nome_metodo, std::string const &nome_classe){
+    exibir_se_verboso(
+        "\tA empilhar o frame para o método: '" + nome_metodo
+        + "' da classe: '" + nome_classe + "'");
+
     Campo *metodo = this->area_metodos->localizar(nome_classe)->get_metodo(nome_metodo);
     std::string descritor = metodo->get_descritor();
     int args = 0, cnt = 1;
@@ -84,7 +89,7 @@ void Interpretador::empilhar (std::string const &nome_metodo, std::string const 
     Operando* classe_atual = this->topo()->desempilhar();
     argumentos_instancia.insert(argumentos_instancia.begin(), classe_atual);
     Frame* novo_frame = new Frame(metodo);
-    
+
     for(int i=0; i<argumentos_instancia.size(); i++){
         novo_frame->var_locais.at(i) = argumentos_instancia.at(i);
     }

@@ -2,7 +2,7 @@
 #include "../../lib/Tipos/Frame.hpp"
 #include "../../lib/Tipos/ByteCode.hpp"
 #include "../../lib/Tabelas/TabSimbolos.hpp"
-
+#include "../../lib/Uteis/Arquivos.hpp"
 
 Frame::Frame (Campo *const metodo) : Frame() {
     this->pc = 0;
@@ -26,14 +26,14 @@ void Frame::executar(){
 
     u1 opcode = this->attr_codigo->codigo[pc];
 
-    //std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
+    exibir_se_verboso("A executar [" + std::to_string((int) pc) + "]: " + bytecodes[opcode].mnemonico);
 
     bytecodes[opcode].manipulador(this);
 
     if (pc == pc_anterior)
         this->pode_desempilhar = true;
 
-    // std::cout << std::endl;
+    getchar();
 }
 
 u1 Frame::get_prox_byte (){
@@ -55,8 +55,7 @@ Operando* Frame::desempilhar(){
 void Frame::empilhar(Operando *op){
     this->pilha_operandos.push(op);
 
-    // std::cout << "\tEmpilhou: ";
-    // op->exibir();
+    exibir_se_verboso("\tEmpilhou: " + op->get());
 }
 
 std::string Frame::get_tipo_parametros(){

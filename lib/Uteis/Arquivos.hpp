@@ -9,6 +9,9 @@
     #include <stdio.h>
     #include <string>
     #include "../Tipos/Basicos.hpp"
+    #include "../Principal.hpp"
+
+    #define E_VERBOSO
 
     /**
      *  Abertura de um arquivo binário, verificando a ocorrência ou não erros no processo
@@ -60,4 +63,6 @@
      *  @returns String no formato "0xFFFFFFFF"
      */
     std::string get_hex_4 (const u4 fonte);
+
+    void exibir_se_verboso (std::string const &mensagem);
 #endif

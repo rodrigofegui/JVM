@@ -83,7 +83,7 @@
             /** Consrutor padrão */
             Parametros(){};
 
-            /** 
+            /**
              *  Configuração de todas as entradas necessárias para o sistema
              *  @param argc Quantidade de parâmetros
              *  @param argv Argumentos
