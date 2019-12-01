@@ -22,7 +22,7 @@ void Interpretador::executar (){
     do {
         Frame *c_frame = topo();
 
-        std::cout << "Frame: " << c_frame->referencia_metodo->get_nome() << std::endl;
+        // std::cout << "Frame: " << c_frame->referencia_metodo->get_nome() << std::endl;
 
         c_frame->executar();
 
