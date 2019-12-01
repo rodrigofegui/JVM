@@ -587,13 +587,13 @@ void manipulador_xastore (Frame *frame, u1 tag){
     }
 
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
-    // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
+    // memcpy(&lista->lista_operandos.at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
     lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
 
 void manipulador_xload_n (Frame *frame, u1 ind){
-    frame->empilhar(frame->var_locais[ind]);
+    frame->empilhar(frame->var_locais[ind]->duplicar());
     frame->pc++;
 }
 
@@ -2597,7 +2597,12 @@ void manipulador_if_acmpne (Frame *frame){
 
 // 167 (0xA7)
 void manipulador_goto (Frame *frame){
-    frame->pc += get_deslocamento(frame);
+    int16_t deslocamento = get_deslocamento(frame);
+
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
+
+    frame->pc += deslocamento;
 }
 
 // 168 (0xA8)

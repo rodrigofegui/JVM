@@ -11,8 +11,6 @@
     #include "../Tipos/Basicos.hpp"
     #include "../Principal.hpp"
 
-    //#define E_VERBOSO
-
     /**
      *  Abertura de um arquivo binário, verificando a ocorrência ou não erros no processo
      *  @param nome_arq Nome do arquivo a ser manipulado

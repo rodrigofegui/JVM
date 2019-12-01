@@ -37,8 +37,6 @@ void Interpretador::executar (){
             exibir_se_verboso("\n");
         }
 
-        // getchar();
-
     } while (!this->pilha_frames.empty());
 }
 
