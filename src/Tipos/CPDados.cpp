@@ -25,6 +25,9 @@ void InfoClasse::exibir (const u1 qnt_tabs){
     std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome) << std::endl;
 }
 
+std::string InfoClasse::get_nome() {
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome);
+}
 
 
 void InfoRefCampo::decodificar (FILE *const arq){

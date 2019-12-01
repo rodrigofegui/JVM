@@ -22,7 +22,7 @@ void Interpretador::executar (){
     do {
         Frame *c_frame = topo();
 
-        // std::cout << "Frame: " << c_frame << std::endl;
+        std::cout << "Frame: " << c_frame->referencia_metodo->get_nome() << std::endl;
 
         c_frame->executar();
 
@@ -61,9 +61,9 @@ void Interpretador::empilhar (InterCPDado *const dados){
     if ((dados->tag == TAG_REF_MTD) || (dados->tag == TAG_REF_MTD_ITF))
         return empilhar_frame(dados);
 
-    if (dados->tag == TAG_REF_CMP)
+    if (dados->tag == TAG_CLAS) {
         return empilhar_operandos(dados);
-
+    }
 }
 
 void Interpretador::empilhar_frame (InterCPDado *const dados){
@@ -71,6 +71,10 @@ void Interpretador::empilhar_frame (InterCPDado *const dados){
         (dynamic_cast<InfoRefMetodo*>(dados))->get_nome_classe() : \
         (dynamic_cast<InfoRefMetInterface*>(dados))->get_nome_classe();
     nome_classe += ".class";
+
+    if(nome_classe.find("java/") == std::string::npos) {
+        nome_classe = "CasosTestes/" + nome_classe;
+    }
 
     u1 status = this->area_metodos->carregar(nome_classe);
 
@@ -85,18 +89,34 @@ void Interpretador::empilhar_frame (InterCPDado *const dados){
 }
 
 void Interpretador::empilhar_operandos (InterCPDado *const dados){
-    std::string nome_classe = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_classe();
-    nome_classe += ".class";
+    // std::string nome_classe = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_classe();
+    // std::cout << nome_classe << std::endl;
 
-    u1 status = this->area_metodos->carregar(nome_classe);
+    // u1 status = this->area_metodos->carregar(nome_classe);
 
-    if ((status != JA_EXISTIA) && (status != SUCESSO))
-        return;
+    // if ((status != JA_EXISTIA) && (status != SUCESSO))
+    //     return;
 
-    std::string nome_campo = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_campo();
+    // std::string nome_campo = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_campo();
 
     // A PENSAR
-    // empilhar(nome_metodo, nome_classe);
+    if(dados->tag == TAG_CLAS) {
+        std::string nome_classe = (dynamic_cast<InfoClasse*>(dados))->get_nome();
+        Operando* op = new Operando();
+        if(nome_classe == "java/lang/StringBuilder" || nome_classe == "Ljava/lang/String") {
+            op->tag = TAG_STR;
+            op->tipo_string = "";
+        }else{
+            op->tag = TAG_CLAS;
+            u1 status = this->area_metodos->carregar("CasosTestes/"+ nome_classe +".class");
+            if ((status != JA_EXISTIA) && (status != SUCESSO))
+                return;
+
+            ArqClass * arquivo_classe = this->area_metodos->localizar("CasosTestes/"+ nome_classe +".class");
+            op->obj = new Objeto(nome_classe, arquivo_classe);
+        }
+        this->topo()->pilha_operandos.push(op);
+    }
 }
 
 Frame* Interpretador::topo (){

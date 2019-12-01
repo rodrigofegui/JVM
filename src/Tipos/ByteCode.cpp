@@ -3,7 +3,6 @@
 #include "../../lib/Tabelas/TabSimbolos.hpp"
 #include "../../lib/Tipos/CPDados.hpp"
 
-
 std::vector<ByteCode> bytecodes;
 
 /**
@@ -2673,7 +2672,53 @@ void manipulador_getfield (Frame *frame){
 
 // 181 (0xB5)
 void manipulador_putfield (Frame *frame){
-    frame->pc += bytecodes[181].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
+        return;
+    }
+    std::string nome_tipo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_str_nome_tipo();
+
+    Operando* op = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    Operando* instancia_classe = frame->pilha_operandos.top();
+    frame->pilha_operandos.pop();
+
+    frame->pc++;
+
+    // /instancia_classe->
+
+    // switch(op->tag){
+    // case TAG_INT:
+    //     break;
+    // case TAG_LNG:
+    //     break;
+    // // case TAG_:
+    // //     break;
+    // case TAG_CHR:
+    //     break;
+    // case TAG_SHT:
+    //     break;
+    // case TAG_BYTE:
+    //     break;
+    // case TAG_FLT:
+    //     break;
+    // case TAG_DBL:
+    //     break;
+    // case TAG_STR:
+    //     break;
+    // case TAG_CLAS:
+    //     break;
+    // // case TAG_A:
+    // //     break;    
+    // default:
+    //     break;
+    // }
 }
 
 // 182 (0xB6)
@@ -2768,7 +2813,19 @@ void manipulador_invokedynamic (Frame *frame){
 
 // 187 (0xBB)
 void manipulador_new (Frame *frame){
-    frame->pc += bytecodes[187].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << indice << std::endl;
+        return;
+    }
+
+    frame->a_empilhar = c_dados;
+    frame->pc++;
 }
 
 // 188 (0xBC)
