@@ -30,7 +30,7 @@
             double tipo_double;
         };
         std::string tipo_string;
-        std::vector<Operando*> lista_operandos;
+        std::vector<Operando*> *lista_operandos = nullptr;
         Objeto* obj = nullptr;
 
 

@@ -576,7 +576,7 @@ void manipulador_xastore (Frame *frame, u1 tag){
         return;
     }
 
-    if ((ind < 0) || (ind >= lista->lista_operandos.size())) {
+    if ((ind < 0) || (ind >= lista->lista_operandos->size())) {
         std::cout << "Exceção indice de array fora dos limites" << std::endl;
         return;
     }
@@ -2059,7 +2059,7 @@ void manipulador_iinc (Frame *frame){
     int8_t valor = (int) frame->get_prox_byte();
 
     exibir_se_verboso("\tA somar " + std::to_string(valor)
-        + " a Var[" + std::to_string(indice) + "]");
+        + " a Var[" + std::to_string(indice) + "]: " + frame->var_locais.at(indice)->get());
 
     if (frame->var_locais.at(indice)->tag != TAG_INT){
         std::cout << "Não é possível somar a um não inteiro, é ";
@@ -2077,11 +2077,12 @@ void manipulador_iinc (Frame *frame){
 
 // 133 (0x85)
 void manipulador_i2l (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    exibir_se_verboso("\tA converter " + std::to_string((int) op->tipo_int) + " para long");
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para long");
 
-    op->tipo_long = (long) ((int) op->tipo_int);
+    op->tipo_long = (long) ((int) topo->tipo_int);
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
@@ -2090,11 +2091,12 @@ void manipulador_i2l (Frame *frame){
 
 // 134 (0x86)
 void manipulador_i2f (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    exibir_se_verboso("\tA converter " + std::to_string((int) op->tipo_int) + " para float");
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para float");
 
-    op->tipo_float = (float) ((int) op->tipo_int);
+    op->tipo_float = (float) ((int) topo->tipo_int);
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
@@ -2103,11 +2105,12 @@ void manipulador_i2f (Frame *frame){
 
 // 135 (0x87)
 void manipulador_i2d (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    double valor_convertido = (double) op->tipo_int;
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para double");
 
-    std::memcpy(&op->tipo_double, &valor_convertido, sizeof(u8));
+    op->tipo_double = (double) ((int) topo->tipo_int);
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
@@ -2116,10 +2119,12 @@ void manipulador_i2d (Frame *frame){
 
 // 136 (0x88)
 void manipulador_l2i (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    int valor_convertido = (int) op->tipo_long;
-    std::memcpy(&op->tipo_int, &valor_convertido, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((long) topo->tipo_long) + " para int");
+
+    op->tipo_int = (int) ((long) topo->tipo_long);
     op->tag = TAG_INT;
 
     frame->empilhar(op);
@@ -2128,10 +2133,12 @@ void manipulador_l2i (Frame *frame){
 
 // 137 (0x89)
 void manipulador_l2f (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    float valor_convertido = (float) op->tipo_long;
-    std::memcpy(&op->tipo_float, &valor_convertido, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((long) topo->tipo_long) + " para float");
+
+    op->tipo_float = (float) ((long) topo->tipo_long);
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
@@ -2140,10 +2147,12 @@ void manipulador_l2f (Frame *frame){
 
 // 138 (0x8A)
 void manipulador_l2d (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    double valor_convertido = (double) op->tipo_long;
-    std::memcpy(&op->tipo_double, &valor_convertido, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((long) topo->tipo_long) + " para double");
+
+    op->tipo_double = (double) ((long) topo->tipo_long);
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
@@ -2152,12 +2161,12 @@ void manipulador_l2d (Frame *frame){
 
 // 139 (0x8B)
 void manipulador_f2i (Frame *frame){
-    Operando *op = frame->desempilhar();
-    float valor_float;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_float, &op->tipo_float, sizeof(float));
-    int valor = (int) valor_float;
-    std::memcpy(&op->tipo_int, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((float) topo->tipo_float) + " para int");
+
+    op->tipo_int = (int) ((float) topo->tipo_float);
     op->tag = TAG_INT;
 
     frame->empilhar(op);
@@ -2166,12 +2175,12 @@ void manipulador_f2i (Frame *frame){
 
 // 140 (0x8C)
 void manipulador_f2l (Frame *frame){
-    Operando *op = frame->desempilhar();
-    float valor_float;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_float, &op->tipo_float, sizeof(float));
-    long valor = (long) valor_float;
-    std::memcpy(&op->tipo_long, &valor, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((float) topo->tipo_float) + " para long");
+
+    op->tipo_long = (long) ((float) topo->tipo_float);
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
@@ -2180,12 +2189,12 @@ void manipulador_f2l (Frame *frame){
 
 // 141 (0x8D)
 void manipulador_f2d (Frame *frame){
-    Operando *op = frame->desempilhar();
-    float valor_float;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_float, &op->tipo_float, sizeof(float));
-    double valor = (double) valor_float;
-    std::memcpy(&op->tipo_double, &valor, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((float) topo->tipo_float) + " para double");
+
+    op->tipo_double = (double) ((float) topo->tipo_float);
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
@@ -2194,12 +2203,12 @@ void manipulador_f2d (Frame *frame){
 
 // 142 (0x8E)
 void manipulador_d2i (Frame *frame){
-    Operando *op = frame->desempilhar();
-    double valor_double;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_double, &op->tipo_double, sizeof(double));
-    int valor = (int) valor_double;
-    std::memcpy(&op->tipo_int, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((double) topo->tipo_double) + " para int");
+
+    op->tipo_int = (int) ((double) topo->tipo_double);
     op->tag = TAG_INT;
 
     frame->empilhar(op);
@@ -2208,12 +2217,12 @@ void manipulador_d2i (Frame *frame){
 
 // 143 (0x8F)
 void manipulador_d2l (Frame *frame){
-    Operando *op = frame->desempilhar();
-    double valor_double;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_double, &op->tipo_double, sizeof(double));
-    long valor = (long) valor_double;
-    std::memcpy(&op->tipo_long, &valor, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((double) topo->tipo_double) + " para long");
+
+    op->tipo_long = (long) ((double) topo->tipo_double);
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
@@ -2222,12 +2231,12 @@ void manipulador_d2l (Frame *frame){
 
 // 144 (0x90)
 void manipulador_d2f (Frame *frame){
-    Operando *op = frame->desempilhar();
-    double valor_double;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_double, &op->tipo_double, sizeof(double));
-    float valor = (float) valor_double;
-    std::memcpy(&op->tipo_float, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((double) topo->tipo_double) + " para float");
+
+    op->tipo_float = (float) ((double) topo->tipo_double);
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
@@ -2876,7 +2885,28 @@ void manipulador_invokestatic (Frame *frame){
 // rever-
 // 185 (0xB9)
 void manipulador_invokeinterface (Frame *frame){
-    frame->pc += bytecodes[185].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
+        return;
+    }
+
+    if ((c_dados->tag != TAG_REF_MTD) && (c_dados->tag != TAG_REF_MTD_ITF)){
+        std::cout << "Não é possível acessar um método com a referência errada" << std::endl;
+        std::cout << "\t" << get_tag(c_dados->tag) << " não é " << get_tag(TAG_REF_MTD);
+        std::cout << " nem " << get_tag(TAG_REF_MTD_ITF) << std::endl;
+        return;
+    }
+
+    exibir_se_verboso("\t#" + std::to_string((int) indice) + " -> " + c_dados->get());
+
+    frame->a_empilhar = c_dados;
+    frame->pc++;
 }
 
 // add
@@ -2904,7 +2934,76 @@ void manipulador_new (Frame *frame){
 
 // 188 (0xBC)
 void manipulador_newarray (Frame *frame){
-    frame->pc += bytecodes[188].bytes + 1;
+    Operando* quantidade = frame->desempilhar();
+    u4 indice = quantidade->tipo_int;
+
+    Operando* array = new Operando();
+    array->tag = TAG_ARR;
+    array->lista_operandos = new std::vector<Operando*>();
+
+    u1 tipo = frame->attr_codigo->codigo[frame->pc++];
+
+    switch (tipo){
+    case TAG_BLN:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_BLN;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_CHR:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_CHR;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_FLT:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_FLT;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_DBL:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_DBL;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_BYTE:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_BYTE;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_SHT:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_SHT;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_INT:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_INT;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_LNG:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_LNG;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    default:
+        break;
+    }
+    frame->empilhar(array);
 }
 
 // 189 (0xBD)
@@ -2914,8 +3013,16 @@ void manipulador_anewarray (Frame *frame){
 
 // 190 (0xBE)
 void manipulador_arraylength (Frame *frame){
-    frame->pc += bytecodes[190].bytes + 1;
-    // VERIFICAR: checar o tipo pra array
+    Operando* array = frame->desempilhar();
+
+    Operando* tamanho = new Operando();
+    tamanho->tag = TAG_INT;
+
+    if(array->tag != TAG_ARR || array->lista_operandos == nullptr) tamanho->tipo_int = 0;
+    else tamanho->tipo_int = array->lista_operandos->size();
+
+    frame->empilhar(tamanho);
+    frame->pc++;
 }
 
 // 191 (0xBF)
@@ -3011,15 +3118,18 @@ void manipulador_jsr_w (Frame *frame){
 
 // 202 (0xCA)
 void manipulador_break_point (Frame *frame){
+    //RESERVADO DO JAVA
     frame->pc += bytecodes[202].bytes + 1;
 }
 
 // 254 (0xFE)
 void manipulador_impdep_1 (Frame *frame){
+    //RESERVADO DO JAVA
     frame->pc += bytecodes[254].bytes + 1;
 }
 
 // 255 (0xFF)
 void manipulador_impdep_2 (Frame *frame){
+    //RESERVADO DO JAVA
     frame->pc += bytecodes[255].bytes + 1;
 }

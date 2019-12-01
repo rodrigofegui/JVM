@@ -5,5 +5,5 @@
     #include <vector>
     #include "JVM/Maquina_Virtual.hpp"
 
-    // #define E_VERBOSO
+    //#define E_VERBOSO
 #endif
