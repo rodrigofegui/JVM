@@ -587,13 +587,13 @@ void manipulador_xastore (Frame *frame, u1 tag){
     }
 
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
-    // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
+    // memcpy(&lista->lista_operandos.at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
     lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
 
 void manipulador_xload_n (Frame *frame, u1 ind){
-    frame->empilhar(frame->var_locais[ind]);
+    frame->empilhar(frame->var_locais[ind]->duplicar());
     frame->pc++;
 }
 
@@ -2606,7 +2606,12 @@ void manipulador_if_acmpne (Frame *frame){
 
 // 167 (0xA7)
 void manipulador_goto (Frame *frame){
-    frame->pc += get_deslocamento(frame);
+    int16_t deslocamento = get_deslocamento(frame);
+
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
+
+    frame->pc += deslocamento;
 }
 
 // 168 (0xA8)
@@ -2803,6 +2808,7 @@ void manipulador_invokevirtual (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/io/PrintStream")){
+        std::cout << "\tStdout: ";
         std::cout << frame->desempilhar()->get();
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
@@ -2869,7 +2875,28 @@ void manipulador_invokestatic (Frame *frame){
 // rever-
 // 185 (0xB9)
 void manipulador_invokeinterface (Frame *frame){
-    frame->pc += bytecodes[185].bytes + 1;
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
+    u2 indice = (byte_1 << 8) | byte_2;
+
+    InterCPDado *c_dados = frame->buscar_simbolo(indice);
+
+    if (!c_dados){
+        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
+        return;
+    }
+
+    if ((c_dados->tag != TAG_REF_MTD) && (c_dados->tag != TAG_REF_MTD_ITF)){
+        std::cout << "Não é possível acessar um método com a referência errada" << std::endl;
+        std::cout << "\t" << get_tag(c_dados->tag) << " não é " << get_tag(TAG_REF_MTD);
+        std::cout << " nem " << get_tag(TAG_REF_MTD_ITF) << std::endl;
+        return;
+    }
+
+    exibir_se_verboso("\t#" + std::to_string((int) indice) + " -> " + c_dados->get());
+
+    frame->a_empilhar = c_dados;
+    frame->pc++;
 }
 
 // add
@@ -2897,7 +2924,76 @@ void manipulador_new (Frame *frame){
 
 // 188 (0xBC)
 void manipulador_newarray (Frame *frame){
-    frame->pc += bytecodes[188].bytes + 1;
+    Operando* quantidade = frame->desempilhar();
+    u4 indice = quantidade->tipo_int;
+
+    Operando* array = new Operando();
+    array->tag = TAG_ARR;
+    array->lista_operandos = new std::vector<Operando*>();
+
+    u1 tipo = frame->attr_codigo->codigo[frame->pc++];
+
+    switch (tipo){
+    case TAG_BLN:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_BLN;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_CHR:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_CHR;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_FLT:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_FLT;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_DBL:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_DBL;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_BYTE:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_BYTE;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_SHT:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_SHT;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_INT:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_INT;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    case TAG_LNG:
+        for(int i=0; i<(int)indice; i++) {
+            Operando* op = new Operando();
+            op->tag = TAG_LNG;
+            array->lista_operandos->emplace_back(op);
+        }
+        break;
+    default:
+        break;
+    }
+    frame->empilhar(array);
 }
 
 // 189 (0xBD)
@@ -2907,8 +3003,16 @@ void manipulador_anewarray (Frame *frame){
 
 // 190 (0xBE)
 void manipulador_arraylength (Frame *frame){
-    frame->pc += bytecodes[190].bytes + 1;
-    // VERIFICAR: checar o tipo pra array
+    Operando* array = frame->desempilhar();
+
+    Operando* tamanho = new Operando();
+    tamanho->tag = TAG_INT;
+
+    if(array->tag != TAG_ARR || array->lista_operandos == nullptr) tamanho->tipo_int = 0;
+    else tamanho->tipo_int = array->lista_operandos->size();
+
+    frame->empilhar(tamanho);
+    frame->pc++;
 }
 
 // 191 (0xBF)
@@ -3004,15 +3108,18 @@ void manipulador_jsr_w (Frame *frame){
 
 // 202 (0xCA)
 void manipulador_break_point (Frame *frame){
+    //RESERVADO DO JAVA
     frame->pc += bytecodes[202].bytes + 1;
 }
 
 // 254 (0xFE)
 void manipulador_impdep_1 (Frame *frame){
+    //RESERVADO DO JAVA
     frame->pc += bytecodes[254].bytes + 1;
 }
 
 // 255 (0xFF)
 void manipulador_impdep_2 (Frame *frame){
+    //RESERVADO DO JAVA
     frame->pc += bytecodes[255].bytes + 1;
 }
