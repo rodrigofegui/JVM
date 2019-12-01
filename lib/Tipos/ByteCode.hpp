@@ -53,6 +53,8 @@
     void manipulador_xload_n (Frame *frame, u1 ind);
     void manipulador_xaload (Frame *frame);
 
+    void manipulador_xreturn (Frame *frame, u1 tag);
+
 
     // 0 (0x00)
     void manipulador_nop (Frame *frame);

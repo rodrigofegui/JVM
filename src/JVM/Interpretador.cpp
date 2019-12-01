@@ -108,6 +108,9 @@ Frame* Interpretador::desempilhar (){
 
     this->pilha_frames.pop_back();
 
+    if (topo_->retorno)
+        topo()->pilha_operandos.push(topo_->retorno);
+
     return topo_;
 }
 

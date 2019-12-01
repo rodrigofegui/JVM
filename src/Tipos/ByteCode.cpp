@@ -622,6 +622,23 @@ void manipulador_xaload (Frame *frame, u1 tag){
     frame->pc++;
 }
 
+void manipulador_xreturn (Frame *frame, u1 tag){
+    if (tag != TAG_VAZ){
+        Operando *op = frame->desempilhar();
+
+        if (to_tag(frame->get_tipo_retorno()[0]) != tag){
+            std::cout << "O operando deveria ser do tipo " << get_tag(tag);
+            std::cout << " mas é " << get_tag(op->tag) << std::endl;
+
+            return;
+        }
+
+        frame->retorno = op;
+    }
+
+    frame->pode_desempilhar = true;
+    frame->pc++;
+}
 
 /**
  *  Manipuladores dos bytecodes
@@ -820,8 +837,10 @@ void manipulador_ldc_w (Frame *frame){
         return;
     }
 
-    if ((c_dados->tag != TAG_STR) || (c_dados->tag != TAG_FLT) || (c_dados->tag != TAG_INT)){
+    if ((c_dados->tag != TAG_STR) && (c_dados->tag != TAG_FLT) && (c_dados->tag != TAG_INT)){
         std::cout << "Não foi possível armazenar: símbolo não é do tipo correto" << std::endl;
+        std::cout << "\t" << get_tag(c_dados->tag) << " não é " << get_tag(TAG_STR) << ", ";
+        std::cout << get_tag(TAG_FLT) << " ou " << get_tag(TAG_INT) << std::endl;
         return;
     }
 
@@ -2583,33 +2602,32 @@ void manipulador_lookupswitch (Frame *frame){
 
 // 172 (0xAC)
 void manipulador_ireturn (Frame *frame){
-    frame->pc += bytecodes[172].bytes + 1;
+    manipulador_xreturn(frame, TAG_INT);
 }
 
 // 173 (0xAD)
 void manipulador_lreturn (Frame *frame){
-    frame->pc += bytecodes[173].bytes + 1;
+    manipulador_xreturn(frame, TAG_LNG);
 }
 
 // 174 (0xAE)
 void manipulador_freturn (Frame *frame){
-    frame->pc += bytecodes[174].bytes + 1;
+    manipulador_xreturn(frame, TAG_FLT);
 }
 
 // 175 (0xAF)
 void manipulador_dreturn (Frame *frame){
-    frame->pc += bytecodes[175].bytes + 1;
+    manipulador_xreturn(frame, TAG_DBL);
 }
 
 // 176 (0xB0)
 void manipulador_areturn (Frame *frame){
-    frame->pc += bytecodes[176].bytes + 1;
+    manipulador_xreturn(frame, TAG_REF);
 }
 
 // 177 (0xB1)
 void manipulador_return (Frame *frame){
-    manipulador_nop(frame);
-    frame->pode_desempilhar = true;
+    manipulador_xreturn(frame, TAG_VAZ);
 }
 
 // 178 (0xB2)
@@ -2621,12 +2639,13 @@ void manipulador_getstatic (Frame *frame){
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
 
     if (!c_dados){
-        std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
+        std::cout << "Não existe dados no índice: " << indice << std::endl;
         return;
     }
 
     if (c_dados->tag != TAG_REF_CMP){
         std::cout << "Não é possível acessar um campo estático com a referência errada" << std::endl;
+        std::cout << "\tDeveria ser " << get_tag(TAG_REF_CMP) << " mas é " << get_tag(c_dados->tag) << std::endl;
         return;
     }
 

@@ -46,6 +46,7 @@
     #define TAG_REF 14
     #define TAG_CHR 15
     #define TAG_SHT 16
+    #define TAG_BLN 17
 
     /** Flags de acesso */
     #define FLG_PBC 0x0001
@@ -66,7 +67,9 @@
      *  Recuperação de uma flag traduzida
      *  @param a_verificar Flag a ser analisada
      */
-    std::string get_flag(u2 a_verificar);
+    std::string get_flag (u2 a_verificar);
 
-    std::string get_tag(u1 a_verificar);
+    std::string get_tag (u1 a_verificar);
+
+    u1 to_tag (char a_verificar);
 #endif

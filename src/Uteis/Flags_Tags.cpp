@@ -3,7 +3,7 @@
 #include "../../lib/Uteis/Flags_Tags.hpp"
 
 
-std::string get_flag(u2 a_verificar){
+std::string get_flag (u2 a_verificar){
     std::string flag;
 
     if (a_verificar & FLG_PBC)
@@ -53,7 +53,7 @@ std::string get_flag(u2 a_verificar){
     return flag;
 }
 
-std::string get_tag(u1 a_verificar){
+std::string get_tag (u1 a_verificar){
     if (a_verificar == TAG_VAZ)
         return "'Indefinido'";
 
@@ -101,4 +101,35 @@ std::string get_tag(u1 a_verificar){
 
     if (a_verificar == TAG_SHT)
         return "'Short'";
+}
+
+u1 to_tag (char a_verificar){
+    if (a_verificar == 'B')
+        return TAG_BYTE;
+
+    if (a_verificar == 'C')
+        return TAG_CHR;
+
+    if (a_verificar == 'D')
+        return TAG_DBL;
+
+    if (a_verificar == 'F')
+        return TAG_FLT;
+
+    if (a_verificar == 'I')
+        return TAG_INT;
+
+    if (a_verificar == 'J')
+        return TAG_LNG;
+
+    if ((a_verificar == 'L') || (a_verificar == '['))
+        return TAG_REF;
+
+    if (a_verificar == 'S')
+        return TAG_SHT;
+
+    if (a_verificar == 'Z')
+        return TAG_BLN;
+
+    return TAG_VAZ;
 }
