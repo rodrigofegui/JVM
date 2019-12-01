@@ -37,6 +37,10 @@
 
             Operando* desempilhar();
 
+            std::string get_tipo_parametros();
+
+            std::string get_tipo_retorno();
+
             void deletar();
     };
 #endif

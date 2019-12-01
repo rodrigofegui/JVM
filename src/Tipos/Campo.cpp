@@ -28,6 +28,10 @@ std::string Campo::get_nome (){
     return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome);
 }
 
+std::string Campo::get_descritor (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_descritor);
+}
+
 void Campo::exibir (const u1 qnt_tabs){
     if (!this) return;
 
@@ -38,7 +42,7 @@ void Campo::exibir (const u1 qnt_tabs){
     std::cout << tabs + "Flag de acesso: " << get_flag(this->flag_acesso) << std::endl;
     std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
     std::cout << tabs + "Índice para o descritor: " << this->ind_descritor;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_descritor) << std::endl;
+    std::cout << " -> " << get_descritor() << std::endl;
     std::cout << tabs + "Qnt. de entradas na tabela de atributos: " << this->tam_tab_atributos << std::endl;
 
     if (this->tab_atributos)

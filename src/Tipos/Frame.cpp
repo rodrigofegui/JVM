@@ -22,13 +22,18 @@ Frame::Frame (Campo *const metodo) : Frame() {
 void Frame::executar(){
     if (this->a_empilhar) this->a_empilhar = nullptr;
 
+    u4 pc_anterior = pc;
+
     u1 opcode = this->attr_codigo->codigo[pc];
 
-    // std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
+    std::cout << "A executar [" << pc << "]: " << bytecodes[opcode].mnemonico << std::endl;
 
     bytecodes[opcode].manipulador(this);
 
-    // std::cout << std::endl;
+    if (pc == pc_anterior)
+        this->pode_desempilhar = true;
+
+    std::cout << std::endl;
 }
 
 u1 Frame::get_prox_byte (){
@@ -45,6 +50,18 @@ Operando* Frame::desempilhar(){
     this->pilha_operandos.pop();
 
     return topo;
+}
+
+std::string Frame::get_tipo_parametros(){
+    std::string descritivo = this->referencia_metodo->get_descritor();
+
+    return descritivo.substr(1, descritivo.rfind(")") - 1);
+}
+
+std::string Frame::get_tipo_retorno(){
+    std::string descritivo = this->referencia_metodo->get_descritor();
+
+    return descritivo.substr(descritivo.rfind(")") + 1);
 }
 
 void Frame::deletar (){
