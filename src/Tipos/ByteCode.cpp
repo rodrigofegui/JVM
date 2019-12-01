@@ -2051,10 +2051,10 @@ void manipulador_iinc (Frame *frame){
     int8_t valor = (int) frame->get_prox_byte();
 
     exibir_se_verboso("\tA somar " + std::to_string(valor)
-        + " a Var[" + std::to_string(indice) + "]");
+        + " a Var[" + std::to_string(indice) + "]: " + frame->var_locais.at(indice)->get());
 
     if (frame->var_locais.at(indice)->tag != TAG_INT){
-        std::cout << "Não é possível somar a um não inteiro, é "
+        std::cout << "Não é possível somar a um não inteiro, é ";
         std::cout << get_tag(frame->var_locais.at(indice)->tag) << std::endl;
         return;
     }
@@ -2069,11 +2069,12 @@ void manipulador_iinc (Frame *frame){
 
 // 133 (0x85)
 void manipulador_i2l (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    exibir_se_verboso("\tA converter " + std::to_string((int) op->tipo_int) + " para long");
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para long");
 
-    op->tipo_long = (long) ((int) op->tipo_int);
+    op->tipo_long = (long) ((int) topo->tipo_int);
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
@@ -2082,11 +2083,12 @@ void manipulador_i2l (Frame *frame){
 
 // 134 (0x86)
 void manipulador_i2f (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    exibir_se_verboso("\tA converter " + std::to_string((int) op->tipo_int) + " para float");
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para float");
 
-    op->tipo_float = (float) ((int) op->tipo_int);
+    op->tipo_float = (float) ((int) topo->tipo_int);
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
@@ -2095,11 +2097,12 @@ void manipulador_i2f (Frame *frame){
 
 // 135 (0x87)
 void manipulador_i2d (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    double valor_convertido = (double) op->tipo_int;
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para double");
 
-    std::memcpy(&op->tipo_double, &valor_convertido, sizeof(u8));
+    op->tipo_double = (double) ((int) topo->tipo_int);
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
@@ -2108,10 +2111,12 @@ void manipulador_i2d (Frame *frame){
 
 // 136 (0x88)
 void manipulador_l2i (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    int valor_convertido = (int) op->tipo_long;
-    std::memcpy(&op->tipo_int, &valor_convertido, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((long) topo->tipo_long) + " para int");
+
+    op->tipo_int = (int) ((long) topo->tipo_long);
     op->tag = TAG_INT;
 
     frame->empilhar(op);
@@ -2120,10 +2125,12 @@ void manipulador_l2i (Frame *frame){
 
 // 137 (0x89)
 void manipulador_l2f (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    float valor_convertido = (float) op->tipo_long;
-    std::memcpy(&op->tipo_float, &valor_convertido, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((long) topo->tipo_long) + " para float");
+
+    op->tipo_float = (float) ((long) topo->tipo_long);
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
@@ -2132,98 +2139,100 @@ void manipulador_l2f (Frame *frame){
 
 // 138 (0x8A)
 void manipulador_l2d (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    double valor_convertido = (double) op->tipo_long;
-    std::memcpy(&op->tipo_double, &valor_convertido, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((long) topo->tipo_long) + " para double");
+
+    op->tipo_double = (double) ((long) topo->tipo_long);
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;    
 }
 
 // 139 (0x8B)
 void manipulador_f2i (Frame *frame){
-    Operando *op = frame->desempilhar();
-    float valor_float;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_float, &op->tipo_float, sizeof(float));
-    int valor = (int) valor_float;
-    std::memcpy(&op->tipo_int, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((float) topo->tipo_float) + " para int");
+
+    op->tipo_int = (int) ((float) topo->tipo_float);
     op->tag = TAG_INT;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;     
 }
 
 // 140 (0x8C)
 void manipulador_f2l (Frame *frame){
-    Operando *op = frame->desempilhar();
-    float valor_float;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_float, &op->tipo_float, sizeof(float));
-    long valor = (long) valor_float;
-    std::memcpy(&op->tipo_long, &valor, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((float) topo->tipo_float) + " para long");
+
+    op->tipo_long = (long) ((float) topo->tipo_float);
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;   
 }
 
 // 141 (0x8D)
 void manipulador_f2d (Frame *frame){
-    Operando *op = frame->desempilhar();
-    float valor_float;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_float, &op->tipo_float, sizeof(float));
-    double valor = (double) valor_float;
-    std::memcpy(&op->tipo_double, &valor, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((float) topo->tipo_float) + " para double");
+
+    op->tipo_double = (double) ((float) topo->tipo_float);
     op->tag = TAG_DBL;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;   
 }
 
 // 142 (0x8E)
 void manipulador_d2i (Frame *frame){
-    Operando *op = frame->desempilhar();
-    double valor_double;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_double, &op->tipo_double, sizeof(double));
-    int valor = (int) valor_double;
-    std::memcpy(&op->tipo_int, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((double) topo->tipo_double) + " para int");
+
+    op->tipo_int = (int) ((double) topo->tipo_double);
     op->tag = TAG_INT;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;       
 }
 
 // 143 (0x8F)
 void manipulador_d2l (Frame *frame){
-    Operando *op = frame->desempilhar();
-    double valor_double;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_double, &op->tipo_double, sizeof(double));
-    long valor = (long) valor_double;
-    std::memcpy(&op->tipo_long, &valor, sizeof(u8));
+    exibir_se_verboso("\tA converter " + std::to_string((double) topo->tipo_double) + " para long");
+
+    op->tipo_long = (long) ((double) topo->tipo_double);
     op->tag = TAG_LNG;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;  
 }
 
 // 144 (0x90)
 void manipulador_d2f (Frame *frame){
-    Operando *op = frame->desempilhar();
-    double valor_double;
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    std::memcpy(&valor_double, &op->tipo_double, sizeof(double));
-    float valor = (float) valor_double;
-    std::memcpy(&op->tipo_float, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((double) topo->tipo_double) + " para float");
+
+    op->tipo_float = (float) ((double) topo->tipo_double);
     op->tag = TAG_FLT;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;     
 }
 
 // 145 (0x91)
