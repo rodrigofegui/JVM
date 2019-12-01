@@ -58,7 +58,7 @@
              */
             void exibir (const u1 qnt_tabs) override;
 
-            std::string get_nome();
+            std::string get_nome ();
     };
 
     /**

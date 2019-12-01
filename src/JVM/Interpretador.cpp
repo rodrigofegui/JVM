@@ -107,7 +107,7 @@ void Interpretador::empilhar_operandos (InterCPDado *const dados){
             op->tag = TAG_STR;
             op->tipo_string = "";
         }else{
-            op->tag = TAG_CLAS;
+            op->tag = TAG_REF; // TAG_CLAS?
             u1 status = this->area_metodos->carregar("CasosTestes/"+ nome_classe +".class");
             if ((status != JA_EXISTIA) && (status != SUCESSO))
                 return;
