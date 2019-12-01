@@ -640,10 +640,9 @@ void manipulador_xreturn (Frame *frame, u1 tag){
 }
 
 int16_t get_deslocamento (Frame *frame){
-    int16_t deslocamento = frame->get_prox_byte();
-    deslocamento = (deslocamento << 8) | frame->get_prox_byte();
-    deslocamento += deslocamento < 0 ? 2 : -2;
-
+    int16_t deslocamento =  frame->attr_codigo->codigo[frame->pc+1];
+    deslocamento = (deslocamento << 8) | frame->attr_codigo->codigo[frame->pc+2];
+    // deslocamento += deslocamento < 0 ? 2 : -2;
     return deslocamento;
 }
 
@@ -1846,7 +1845,7 @@ void manipulador_lushr (Frame *frame){
     Operando *valor_2 = frame->desempilhar();
 
     u8 lvalor1 = valor_1->tipo_long;
-    u8 lvalor2 = op2->tipo_long;
+    u8 lvalor2 = valor_2->tipo_long;
 
     lvalor2 &= 0x0000003F;
 
