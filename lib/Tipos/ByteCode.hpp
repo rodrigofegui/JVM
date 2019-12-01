@@ -55,6 +55,8 @@
 
     void manipulador_xreturn (Frame *frame, u1 tag);
 
+    void get_deslocamento (Frame *frame);
+
 
     // 0 (0x00)
     void manipulador_nop (Frame *frame);
