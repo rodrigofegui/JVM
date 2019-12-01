@@ -656,12 +656,28 @@ int16_t get_deslocamento (Frame *frame){
 /**
  *  Manipuladores dos bytecodes
  */
+
+
 // 0 (0x00)
+ /**
+ * @brief Função de operação da instrução nop
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Não executa nenhuma instrução.
+ */
 void manipulador_nop (Frame *frame){
     frame->pc++;
 }
 
 // 1 (0x01)
+ /**
+ * @brief Função de operação da instrução aconst_null
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a referência nula de objeto no topo da pilha de operandos.
+ */
 void manipulador_aconst_null (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_VAZ;
@@ -671,41 +687,97 @@ void manipulador_aconst_null (Frame *frame){
 }
 
 // 2 (0x02)
+/**
+ * @brief Função de operação da instrução iconst_m1
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo inteira -1 no topo da pilha de operandos.
+ */
 void manipulador_iconst_m1 (Frame *frame){
     manipulador_iconst(frame, -1);
 }
 
 // 3 (0x03)
+/**
+ * @brief Função de operação da instrução iconst_0
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo inteira 0 no topo da pilha de operandos.
+ */
 void manipulador_iconst_0 (Frame *frame){
     manipulador_iconst(frame, 0);
 }
 
 // 4 (0x04)
+/**
+ * @brief Função de operação da instrução iconst_1
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo inteira 1 no topo da pilha de operandos.
+ */
 void manipulador_iconst_1 (Frame *frame){
     manipulador_iconst(frame, 1);
 }
 
 // 5 (0x05)
+/**
+ * @brief Função de operação da instrução iconst_2
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo inteira 2 no topo da pilha de operandos.
+ */
 void manipulador_iconst_2 (Frame *frame){
     manipulador_iconst(frame, 2);
 }
 
 // 6 (0x06)
+/**
+ * @brief Função de operação da instrução iconst_3
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo inteira 3 no topo da pilha de operandos.
+ */
 void manipulador_iconst_3 (Frame *frame){
     manipulador_iconst(frame, 3);
 }
 
 // 7 (0x07)
+/**
+ * @brief Função de operação da instrução iconst_4
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo inteira 4 no topo da pilha de operandos.
+ */
 void manipulador_iconst_4 (Frame *frame){
     manipulador_iconst(frame, 4);
 }
 
 // 8 (0x08)
+/**
+ * @brief Função de operação da instrução iconst_5
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo inteira 5 no topo da pilha de operandos.
+ */
 void manipulador_iconst_5 (Frame *frame){
     manipulador_iconst(frame, 5);
 }
 
 // 9 (0x09)
+/**
+ * @brief Função de operação da instrução lconst_0
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo longo 0 no topo da pilha de operandos.
+ */
 void manipulador_lconst_0 (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_LNG;
@@ -716,6 +788,13 @@ void manipulador_lconst_0 (Frame *frame){
 }
 
 // 10 (0x0A)
+/**
+ * @brief Função de operação da instrução lconst_1
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo longo 1 no topo da pilha de operandos.
+ */
 void manipulador_lconst_1 (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_LNG;
@@ -726,6 +805,13 @@ void manipulador_lconst_1 (Frame *frame){
 }
 
 // 11 (0x0B)
+/**
+ * @brief Função de operação da instrução fconst_0
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo flutuante 0.0 no topo da pilha de operandos.
+ */
 void manipulador_fconst_0 (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_FLT;
@@ -736,6 +822,13 @@ void manipulador_fconst_0 (Frame *frame){
 }
 
 // 12 (0x0C)
+/**
+ * @brief Função de operação da instrução fconst_1
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo flutuante 1.0 no topo da pilha de operandos.
+ */
 void manipulador_fconst_1 (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_FLT;
@@ -746,6 +839,13 @@ void manipulador_fconst_1 (Frame *frame){
 }
 
 // 13 (0x0D)
+/**
+ * @brief Função de operação da instrução fconst_2
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo flutuante 2.0 no topo da pilha de operandos.
+ */
 void manipulador_fconst_2 (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_FLT;
@@ -756,6 +856,13 @@ void manipulador_fconst_2 (Frame *frame){
 }
 
 // 14 (0x0E)
+/**
+ * @brief Função de operação da instrução dconst_0
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo double 0.0 no topo da pilha de operandos.
+ */
 void manipulador_dconst_0 (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_DBL;
@@ -766,6 +873,13 @@ void manipulador_dconst_0 (Frame *frame){
 }
 
 // 15 (0x0F)
+/**
+ * @brief Função de operação da instrução dconst_1
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Coloca a constante tipo double 1.0 no topo da pilha de operandos.
+ */
 void manipulador_dconst_1 (Frame *frame){
     Operando *op = new Operando();
     op->tag = TAG_DBL;
@@ -776,6 +890,13 @@ void manipulador_dconst_1 (Frame *frame){
 }
 
 // 16 (0x10)
+/**
+ * @brief Função de operação da instrução bipush
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Extende o sinal do byte imediato para um valor do tipo inteiro.
+ */
 void manipulador_bipush (Frame *frame){
     u1 byte = frame->get_prox_byte();
 
@@ -788,6 +909,13 @@ void manipulador_bipush (Frame *frame){
 }
 
 // 17 (0x11)
+/**
+ * @brief Função de operação da instrução sipush
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Os valores dos bytes imediatos byte1 e byte2 são colocados em um intermediário de tipo short, onde o valor do short é (byte1 << 8) | byte2. O tipo do valor do intermediário é, então, extendido para um valor do tipo inteiro. Esse valor é colocado no topo da pilha de operandos.
+ */
 void manipulador_sipush (Frame *frame){
     u1 byte1 = frame->get_prox_byte();
     u1 byte2 = frame->get_prox_byte();
@@ -801,6 +929,17 @@ void manipulador_sipush (Frame *frame){
 }
 
 // 18 (0x12)
+/**
+ * @brief Função de operação da instrução ldc
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice é um byte sem sinal que precisa ser um índice valido para a pool de constantes em tempo de execução da classe atual. O acesso à pool de constantes em tempo de execução no índice deve ser uma constante em tempo de execução do tipo inteiro, flutuante, referência para um literal de uma string ou referência simbólica para uma classe, tipo de método ou handle de método.
+ * Se o acesso em tempo de execução à pool de constante for do tipo inteiro ou flutuante, o valor numérico dessa constante em tempo de execução é colocado no topo da pilha de operandos como inteiro ou flutuante, respectivamente.
+ * Caso contrário, se a pool de constante em tempo de execução é uma referência para uma instância da classe String, representando um literal de uma string, então uma referência para essa instância, op, é colocado no topo da pilha de operandos.
+ * Caso contrário, se a pool de constante em tempo de execução é uma referência para uma classe, então a classe nomeada é resolvida, e uma referência para o Class object representando essa classe, op, é colocado no topo da pilha de operandos.
+ * Caso contrário, a pool de constante em tempo de execução deve ser uma referência simbólica para um tipo ou handle de método. O tipo de método ou handle, é resolvido, e uma referência para a instância resultante de java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle, po, é colocado no topo da pilha de operandos.
+ */
 void manipulador_ldc (Frame *frame){
     u1 indice = frame->get_prox_byte();
 
@@ -838,6 +977,17 @@ void manipulador_ldc (Frame *frame){
 }
 
 // 19 (0x13)
+/**
+ * @brief Função de operação da instrução ldc_w
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Os bytes sem sinal, byte1 e byte2 são montados em um índice sem sinal de 16-bits em uma pool de constante em tempo de execução da classe atual, onde o valor do índice é calculado como (byte1 << 8) | byte2. O acesso à pool de constantes em tempo de execução no índice deve ser válido e deve ser uma constante em tempo de execução do tipo inteiro, flutuante, referência para um literal de string ou uma referência simbólica para uma classe, tipo de método ou handle de método.
+ * Se o acesso em tempo de execução à pool de constante for do tipo inteiro ou flutuante, o valor numérico dessa constante em tempo de execução é colocado no topo da pilha de operandos como inteiro ou flutuante, respectivamente.
+ * Caso contrário, se a pool de constante em tempo de execução é uma referência para uma instância da classe String, representando um literal de uma string, então uma referência para essa instância, op, é colocado no topo da pilha de operandos.
+ * Caso contrário, se a pool de constante em tempo de execução é uma referência para uma classe, então a classe nomeada é resolvida, e uma referência para o Class object representando essa classe, op, é colocado no topo da pilha de operandos.
+ * Caso contrário, a pool de constante em tempo de execução deve ser uma referência simbólica para um tipo ou handle de método. O tipo de método ou handle, é resolvido, e uma referência para a instância resultante de java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle, po, é colocado no topo da pilha de operandos.
+ */
 void manipulador_ldc_w (Frame *frame){
     u1 byte_1 = frame->get_prox_byte();
     u1 byte_2 = frame->get_prox_byte();
@@ -877,6 +1027,13 @@ void manipulador_ldc_w (Frame *frame){
 }
 
 // 20 (0x14)
+/**
+ * @brief Função de operação da instrução ldc2_w
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Os bytes sem sinal, byte1 e byte2 são montados em um índice sem sinal de 16-bits em uma pool de constante em tempo de execução da classe atual, onde o valor do índice é calculado como (byte1 << 8) | byte2. O acesso à pool de constantes em tempo de execução no índice deve ser válido e deve ser uma constante em tempo de execução do tipo longo ou double, o valor numérico dessa constante em tempo de execução é colocado no topo da pilha de operandos como flutuante ou double, respectivamente.
+ */
 void manipulador_ldc2_w (Frame *frame){
     u1 byte_1 = frame->get_prox_byte();
     u1 byte_2 = frame->get_prox_byte();
@@ -913,66 +1070,157 @@ void manipulador_ldc2_w (Frame *frame){
 }
 
 // 21 (0x15)
+/**
+ * @brief Função de operação da instrução iload
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (passsado para manipulador_xload_n como o próximo byte do frame) é um byte sem sinal que deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um inteiro. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_iload (Frame *frame){
     manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 22 (0x16)
+/**
+ * @brief Função de operação da instrução lload
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (passsado para manipulador_xload_n como o próximo byte do frame) é um byte sem sinal. Tanto o índice quanto o índice+1 devem ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um tipo longo. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_lload (Frame *frame){
     manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 23 (0x17)
+/**
+ * @brief Função de operação da instrução fload
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (passsado para manipulador_xload_n como o próximo byte do frame) é um byte sem sinal que deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um tipo flutuante. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_fload (Frame *frame){
     manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 24 (0x18)
+/**
+ * @brief Função de operação da instrução dload
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Tanto o índice (passsado para manipulador_xload_n como o próximo byte do frame) quanto o índice+1 devem ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um tipo double. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_dload (Frame *frame){
     manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 25 (0x19)
+/**
+ * @brief Função de operação da instrução aload
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (passsado para manipulador_xload_n como o próximo byte do frame) é um byte sem sinal que deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter uma referência. O objectref na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_aload (Frame *frame){
     manipulador_xload_n(frame, frame->get_prox_byte());
 }
 
 // 26 (0x1A)
+/**
+ * @brief Função de operação da instrução iload_0
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (0) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um inteiro. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_iload_0 (Frame *frame){
     manipulador_xload_n(frame, 0);
 }
 
 // 27 (0x1B)
+/**
+ * @brief Função de operação da instrução iload_1
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (1) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um inteiro. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_iload_1 (Frame *frame){
     manipulador_xload_n(frame, 1);
 }
 
 // 28 (0x1C)
+/**
+ * @brief Função de operação da instrução iload_2
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (2) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um inteiro. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_iload_2 (Frame *frame){
     manipulador_xload_n(frame, 2);
 }
 
 // 29 (0x1D)
+/**
+ * @brief Função de operação da instrução iload_3
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice (3) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um inteiro. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_iload_3 (Frame *frame){
     manipulador_xload_n(frame, 3);
 }
 
 // 30 (0x1E)
+/**
+ * @brief Função de operação da instrução lload_0
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Tanto o índice (0) quanto o índice+1 (1) devem ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um tipo longo. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_lload_0 (Frame *frame){
     manipulador_xload_n(frame, 0);
 }
 
 // 31 (0x1F)
+/**
+ * @brief Função de operação da instrução lload_1
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Tanto o índice (1) quanto o índice+1 (2) devem ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um tipo longo. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_lload_1 (Frame *frame){
     manipulador_xload_n(frame, 1);
 }
 
 // 32 (0x20)
+/**
+ * @brief Função de operação da instrução lload_2
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Tanto o índice (2) quanto o índice+1 (3) devem ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um tipo longo. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_lload_2 (Frame *frame){
     manipulador_xload_n(frame, 2);
 }
 
 // 33 (0x21)
+/**
+ * @brief Função de operação da instrução lload_3
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * Tanto o índice (3) quanto o índice+1 (4) devem ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter um tipo longo. O valor da variável local na posição do índice é colocado no topo da pilha de operandos.
+ */
 void manipulador_lload_3 (Frame *frame){
     manipulador_xload_n(frame, 3);
 }
@@ -1950,6 +2198,13 @@ void manipulador_lushr (Frame *frame){
 }
 
 // 126 (0x7E)
+/**
+ * @brief Realiza a operação iand com variáveis de tipo inteiro
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ *
+ *  O valor1 e o valor2 devem ser do tipo inteiro. Eles são removidos da pilha de operandos. Um resultado inteiro é calculado usando AND (bit a bit) de valor1 e valor2. O resultado é enviado para a pilha de operandos.
+ */
 void manipulador_iand (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -1966,6 +2221,13 @@ void manipulador_iand (Frame *frame){
 }
 
 // 127 (0x7F)
+/**
+ * @brief Realiza a operação and com variáveis de tipo longo
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo longo. Eles são removidos da pilha de operandos. Um resultado longo é calculado usando AND bit a bit de valor1 e valor2. O resultado é enviado para a pilha de operandos.
+ */
 void manipulador_land (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -1982,6 +2244,13 @@ void manipulador_land (Frame *frame){
 }
 
 // 128 (0x80)
+/**
+ * @brief Realiza a operação or com variáveis de tipo inteiro
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo inteiro. Eles são removidos da pilha de operandos. Um resultado inteiro é calculado usando o OR inclusivo bit a bit de value1 e value2. O resultado é enviado para a pilha de operandos.
+ */
 void manipulador_ior (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -1998,6 +2267,13 @@ void manipulador_ior (Frame *frame){
 }
 
 // 129 (0x81)
+/**
+ * @brief Realiza a operação or com variáveis de tipo longo
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo longo. Eles são removidos da pilha de operandos. Um resultado longo é calculado usando o OR inclusivo bit a bit de value1 e value2. O resultado é enviado para a pilha de operandos.
+ */
 void manipulador_lor (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -2014,6 +2290,13 @@ void manipulador_lor (Frame *frame){
 }
 
 // 130 (0x82)
+/**
+ * @brief Realiza a operação xor com variáveis de tipo inteiro
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo inteiro. Eles são removidos da pilha de operandos. Um resultado inteiro é calculado utilizando o OR bit a bit exclusivo de value1 e value2. O resultado é enviado para a pilha de operandos.
+ */
 void manipulador_ixor (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -2030,6 +2313,13 @@ void manipulador_ixor (Frame *frame){
 }
 
 // 131 (0x83)
+/**
+ * @brief Realiza a operação xor com variáveis de tipo longo
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo longo. Eles são removidos da pilha de operandos. Um resultado longo é calculado usando o OR exclusivo bit a bit de value1 e value2. O resultado é enviado para a pilha de operandos.
+ */
 void manipulador_lxor (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -2046,6 +2336,13 @@ void manipulador_lxor (Frame *frame){
 }
 
 // 132 (0x84)
+/**
+ * @brief Incrementa a variável local por uma constante
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O índice é um unsigned byte que deve ser um índice no array de variáveis locais do frame atual. O const é um unsigned byte imediato. A variável local no índice deve conter um inteiro. O valor constante é primeiro estendido para um sinal de inteiro e, em seguida, a variável local no índice é incrementada por esse valor.
+ */
 void manipulador_iinc (Frame *frame){
     u1 indice = frame->get_prox_byte();
     int8_t valor = (int) frame->get_prox_byte();
@@ -2067,6 +2364,13 @@ void manipulador_iinc (Frame *frame){
     frame->pc++;
 }
 
+/**
+ * @brief Converte inteiro para longo
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos e estendido para um resultado longo. Esse resultado é enviado para a pilha de operandos.
+ */
 // 133 (0x85)
 void manipulador_i2l (Frame *frame){
     Operando *op = new Operando();
@@ -2082,6 +2386,13 @@ void manipulador_i2l (Frame *frame){
 }
 
 // 134 (0x86)
+/**
+ * @brief Converte inteiro para flutuante
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos e convertido no resultado em flutuante usando o IEEE 754 arredondado para o modo mais próximo. O resultado é empilhado na pilha de operandos.
+ */
 void manipulador_i2f (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2096,6 +2407,13 @@ void manipulador_i2f (Frame *frame){
 }
 
 // 135 (0x87)
+/**
+ * @brief Converte inteiro para double
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos e convertido em um resultado double. O resultado é empilhado na pilha de operandos.
+ */
 void manipulador_i2d (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2110,6 +2428,13 @@ void manipulador_i2d (Frame *frame){
 }
 
 // 136 (0x88)
+/**
+ * @brief Converte longo para inteiro
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo longo. Ele é retirado da pilha de operandos e convertido em um resultado inteiro, retirando os 32 bits de ordem baixa do valor longo e descartando os 32 bits de ordem superior. O resultado é empilhado na pilha de operandos.
+ */
 void manipulador_l2i (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2124,6 +2449,13 @@ void manipulador_l2i (Frame *frame){
 }
 
 // 137 (0x89)
+/**
+ * @brief Converte longo para flutuante
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo longo. Ele é retirado da pilha de operandos e convertido em um resultado flutuante usando o IEEE 754 arredondado para o modo mais próximo. O resultado é empilhado na pilha de operandos.
+ */
 void manipulador_l2f (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2138,6 +2470,13 @@ void manipulador_l2f (Frame *frame){
 }
 
 // 138 (0x8A)
+/**
+ * @brief Converte longo para double
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo longo. Ele é retirado da pilha de operandos e convertido em um resultado double usando o IEEE 754 arredondado para o modo mais próximo. O resultado é empilhado na pilha de operandos.
+ */
 void manipulador_l2d (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2152,6 +2491,13 @@ void manipulador_l2d (Frame *frame){
 }
 
 // 139 (0x8B)
+/**
+ * @brief Converte flutuante para inteiro
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo longo. Ele é retirado da pilha de operandos e convertido em um resultado double usando o IEEE 754 arredondado para o modo mais próximo. O resultado é empilhado na pilha de operandos.
+ */
 void manipulador_f2i (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2166,6 +2512,18 @@ void manipulador_f2i (Frame *frame){
 }
 
 // 140 (0x8C)
+/**
+ * @brief Converte flutuante para longo
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo flutuante. Ele é retirado da pilha de operandos e sofre conversão de valores0. Esse valor é convertido em um resultado do tipo inteiro e o resultado é empilhado na pilha de operandos
+ * Se esse valor não for numérico, o resultado da conversão será um inteiro 0.
+ * Caso contrário, se esse valor não for um infinito, ele será arredondado para um valor inteiro V, arredondando para zero usando IEEE 754 arredondado para o modo zero.
+ * Se esse valor inteiro puder ser representado como inteiro, o resultado será o próprio valor.
+ * Caso contrário, se esse valor for muito pequeno (um valor negativo de grande magnitude ou infinito negativo) e o resultado é o menor valor representável do tipo inteiro ou o valor deve ser grande (um valor positivo de grade magnitude ou positivo) e o resultado é o maior valor responsável do tipo inteiro
+ * 
+ */
 void manipulador_f2l (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2180,6 +2538,14 @@ void manipulador_f2l (Frame *frame){
 }
 
 // 141 (0x8D)
+/**
+ * @brief Converte flutuante para double
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo flutuante. Ele é retirado da pilha de operandos e sofre conversão de conjunto de valores, resultando em um valor. Então o este valor é convertido em um resultado double. Este resultado empilhado na pilha de operandos.
+ * 
+ */
 void manipulador_f2d (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2193,7 +2559,19 @@ void manipulador_f2d (Frame *frame){
     frame->pc++;   
 }
 
+
 // 142 (0x8E)
+/**
+ * @brief Converte double para inteiro
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo double. Ele é retirado da pilha de operandos e sofre conversão resultando em um valor. Então o valor é convertido em inteiro e empilhado na pilha de operandos.
+ * Se o valor não é não numérico o resultado da conversõa é um inteiro 0.
+ * Caso contrário, se o valor não for um infinito, ele será arredondado para um valor inteiro V, arredondando para zero usando IEEE 754 arredondado para o modo zero. Se esse valor inteiro V puder ser representado como um inteiro, o resultado será o valor V. 
+ * Caso contrário, o valor deve ser muito pequeno (um valor negativo de grande magnitude ou infinito negativo) e o resultado é o menor valor representável do tipo inteiro ou o valor deve ser muito grande (um valor positivo de grande magnitude ou infinito positivo) e o resultado é o maior valor representável do tipo inteiro.
+ * 
+ */
 void manipulador_d2i (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2208,6 +2586,18 @@ void manipulador_d2i (Frame *frame){
 }
 
 // 143 (0x8F)
+/**
+ * @brief Converte double para longo
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo double. Ele é retirado da pilha de operandos e sofre conversão resultando em um valor. Então o valor é convertido em longo
+ * O resultado é empilhado na pilha de operandos. 
+ * Se o valor não é não numérico o resultado da conversão é um longo 0.
+ * Caso contrário, se o valor não for um infinito, ele será arredondado para um valor inteiro V, arredondando para zero usando IEEE 754 arredondado para o modo zero. Se esse valor inteiro V puder ser representado como um inteiro, o resultado será o valor longo V. 
+ * Caso contrário, o valor deve ser muito pequeno (um valor negativo de grande magnitude ou infinito negativo) e o resultado é o menor valor representável do tipo longo ou o valor deve ser muito grande (um valor positivo de grande magnitude ou infinito positivo) e o resultado é o maior valor representável do tipo longo.
+ * 
+ */
 void manipulador_d2l (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2222,6 +2612,16 @@ void manipulador_d2l (Frame *frame){
 }
 
 // 144 (0x90)
+/**
+ * @brief Converte double para flutuante
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo double. Ele é retirado da pilha de operandos e sofre conversão de conjunto de valores, resultando em um valor. Em seguida, este valor é convertido em um resultado em flutuante usando o IEEE 754 arredondado para o modo mais próximo. O resultado é enviado para a pilha de operandos.
+ * Onde uma instrução d2f é FP estrita, o resultado da conversão é sempre arredondado para o valor representável mais próximo no valor flutuante definido.
+ * Onde uma instrução d2f não é estrita para FP, o resultado da conversão pode ser obtido do valor do expoente flutuante estendido. não é necessário o arredondado para o valor representável mais próximo no conjunto de valores flutuantes.
+ * Um valor finito muito pequeno para ser representado como um flutuate é convertido em zero do mesmo sinal. Um valor finito muito grande para ser representado como um flutuante é convertido em um infinito do mesmo sinal. Um NaN duplo é convertido em NaN flutuante.
+ */
 void manipulador_d2f (Frame *frame){
     Operando *op = new Operando();
     Operando *topo = frame->desempilhar();
@@ -2236,6 +2636,13 @@ void manipulador_d2f (Frame *frame){
 }
 
 // 145 (0x91)
+/**
+ * @brief Converte inteiro para byte
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos, truncado para um byte e depois estendido para um resultado inteiro. Esse resultado é enviado para a pilha de operandos.
+ */
 void manipulador_i2b (Frame *frame){
     Operando *op = frame->desempilhar();
 
@@ -2247,6 +2654,13 @@ void manipulador_i2b (Frame *frame){
 }
 
 // 146 (0x92)
+/**
+ * @brief Converte inteiro para character
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor do topo da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos, truncado para char e estendido em zero a um resultado int. Esse resultado é enviado para a pilha de operandos.
+ */
 void manipulador_i2c (Frame *frame){
     Operando *op = frame->desempilhar();
 
@@ -2258,6 +2672,13 @@ void manipulador_i2c (Frame *frame){
 }
 
 // 147 (0x93)
+/**
+ * @brief Converte inteiro para short
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor na parte superior da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos, truncado para um short e estendido para um resultado inteiro. Esse resultado é empilhado na pilha de operandos.
+ */
 void manipulador_i2s (Frame *frame){
     Operando *op = frame->desempilhar();
 
@@ -2269,6 +2690,15 @@ void manipulador_i2s (Frame *frame){
 }
 
 // 148 (0x94)
+/**
+ * @brief Compara dois valores do tipo longo
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo longo. Ambos são removidos da pilha de operandos e uma comparação de número inteiro sem sinal é executada. Se o valor1 for maior que o valor2, o valor inteiro 1 será empilhado na pilha de operandos. Se o valor1 for igual ao valor2, o valor int 0 será empilhado na pilha de operandos. Se o valor1 for menor que o valor2, o valor inteiro -1 será empurrado para a pilha de operandos.
+ * 
+ */
+
 void manipulador_lcmp (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -2291,6 +2721,19 @@ void manipulador_lcmp (Frame *frame){
 }
 
 // 149 (0x95)
+/**
+ * @brief Compara dois valores do tipo float
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo longo. Ambos são removidos da pilha de operandos e uma comparação de número inteiro sem sinal é executada. Se o valor1 for maior que o valor2, o valor int 1 será empilhado para a pilha de operandos. Se o valor1 for igual ao valor2, o valor int 0 será empilhado na pilha de operandos. Se o valor1 for menor que o valor2, o valor int -1 será empilhado na pilha de operandos.
+ * Se o novo valor1 for maior que o novo valor2, o valor inteiro 1 é empilhado na pilha de operandos.
+ * Caso contrário, se o novo valor1 for igual ao novo valor2, o valor inteiro 0 será empilhado na pilha de operandos.
+ * Caso contrário, se o novo valor1 for menor que o novo valor2, o valor inteiro -1 será empilhado na pilha de operandos.
+ * Caso contrário, pelo menos um dos value1 ou value2 novos é NaN. A instrução fcmpl envia o valor int -1 para a pilha de operandos.
+ * A comparação de ponto flutuante é realizada de acordo com a IEEE 754. Todos os valores diferentes de NaN são ordenados, com infinito negativo menor que todos os valores finitos e infinito positivo maior que todos os valores finitos. O zero positivo e o zero negativo são considerados iguais.
+ * 
+ */
 void manipulador_fcmpl (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
@@ -2314,6 +2757,20 @@ void manipulador_fcmpl (Frame *frame){
 }
 
 // 150 (0x96)
+/**
+ * @brief Compara dois valores do tipo float
+ * 
+ * @param frame Recebe o frame que é relacionado com o método e contém o array de variáveis locais, pilha de operandos, referência para tabela de símbolos
+ * 
+ * O valor1 e o valor2 devem ser do tipo longo. Ambos são removidos da pilha de operandos e uma comparação de número inteiro sem sinal é executada. Se o valor1 for maior que o valor2, o valor int 1 será empilhado para a pilha de operandos. Se o valor1 for igual ao valor2, o valor int 0 será empilhado na pilha de operandos. Se o valor1 for menor que o valor2, o valor int -1 será empilhado na pilha de operandos.
+ * Se o novo valor1 for maior que o novo valor2, o valor inteiro 1 é empilhado na pilha de operandos.
+ * Caso contrário, se o novo valor1 for igual ao novo valor2, o valor inteiro 0 será empilhado na pilha de operandos.
+ * Caso contrário, se o novo valor1 for menor que o novo valor2, o valor inteiro -1 será empilhado na pilha de operandos.
+ * Caso contrário, pelo menos um dos value1 ou value2 novos é NaN. A instrução fcmpg envia o valor inteiro 1 para a pilha de operandos.
+ * A comparação de ponto flutuante é realizada de acordo com a IEEE 754. Todos os valores diferentes de NaN são ordenados, com infinito negativo menor que todos os valores finitos e infinito positivo maior que todos os valores finitos. O zero positivo e o zero negativo são considerados iguais.
+ * 
+ */
+
 void manipulador_fcmpg (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
