@@ -1064,7 +1064,7 @@ void manipulador_aaload (Frame *frame){
 
 // 51 (0x33)
 void manipulador_baload (Frame *frame){
-    manipulador_xaload(frame, TAG_BYTE);
+    manipulador_xaload(frame, TAG_INT);
 }
 
 // 52 (0x34)
@@ -1229,7 +1229,7 @@ void manipulador_aastore (Frame *frame){
 
 // 84 (0x54)
 void manipulador_bastore (Frame *frame){
-    manipulador_xastore(frame, TAG_BYTE);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 85 (0x55)
@@ -2724,7 +2724,6 @@ void manipulador_getfield (Frame *frame){
 
 // 181 (0xB5)
 void manipulador_putfield (Frame *frame){
-    // Erro quando objeto não é inicializado
     u1 byte_1 = frame->get_prox_byte();
     u1 byte_2 = frame->get_prox_byte();
     u2 indice = (byte_1 << 8) | byte_2;
@@ -2931,59 +2930,60 @@ void manipulador_newarray (Frame *frame){
     array->tag = TAG_ARR;
     array->lista_operandos = new std::vector<Operando*>();
 
-    u1 tipo = frame->attr_codigo->codigo[frame->pc++];
+
+    u1 tipo = frame->attr_codigo->codigo[++frame->pc];
 
     switch (tipo){
-    case TAG_BLN:
+    case 4:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_BLN;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_CHR:
+    case 5:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_CHR;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_FLT:
+    case 6:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_FLT;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_DBL:
+    case 7:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_DBL;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_BYTE:
+    case 8:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_BYTE;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_SHT:
+    case 9:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_SHT;
             array->lista_operandos->emplace_back(op);
         }
         break;
-    case TAG_INT:
+    case 10:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_INT;
             array->lista_operandos->emplace_back(op);
-        }
+        }   
         break;
-    case TAG_LNG:
+    case 11:
         for(int i=0; i<(int)indice; i++) {
             Operando* op = new Operando();
             op->tag = TAG_LNG;
@@ -2993,6 +2993,7 @@ void manipulador_newarray (Frame *frame){
     default:
         break;
     }
+    frame->pc++;
     frame->empilhar(array);
 }
 
