@@ -596,7 +596,7 @@ void manipulador_xastore (Frame *frame, u1 tag){
 }
 
 void manipulador_xload_n (Frame *frame, u1 ind){
-    frame->empilhar(frame->var_locais[ind]->duplicar());
+    frame->empilhar(frame->var_locais[ind]);
     frame->pc++;
 }
 

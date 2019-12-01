@@ -75,20 +75,20 @@ std::string Frame::get_tipo_retorno(){
 }
 
 void Frame::deletar (){
-    if (this->retorno)
-        this->retorno->deletar();
+    // if (this->retorno)
+    //     this->retorno->deletar();
 
-    for (auto &var_local : this->var_locais){
-        var_local->deletar();
-        delete var_local;
-    }
+    // for (auto &var_local : this->var_locais){
+    //     var_local->deletar();
+    //     delete var_local;
+    // }
 
-    while (!this->pilha_operandos.empty()){
-        Operando *op = this->desempilhar();
+    // while (!this->pilha_operandos.empty()){
+    //     Operando *op = this->desempilhar();
 
-        op->deletar();
-        delete op;
-    }
+    //     op->deletar();
+    //     delete op;
+    // }
 
     this->tab_simbolos = nullptr;
     this->referencia_metodo = nullptr;
