@@ -36,6 +36,8 @@ void Interpretador::executar (){
             // std::cout << std::endl << std::endl;
         }
 
+        // getchar();
+
     } while (!this->pilha_frames.empty());
 }
 
@@ -99,7 +101,7 @@ void Interpretador::empilhar_operandos (InterCPDado *const dados){
 
     // std::string nome_campo = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_campo();
 
-    // A PENSAR
+    // VERIFICAR
     if(dados->tag == TAG_CLAS) {
         std::string nome_classe = (dynamic_cast<InfoClasse*>(dados))->get_nome();
         Operando* op = new Operando();

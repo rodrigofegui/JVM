@@ -52,6 +52,13 @@ Operando* Frame::desempilhar(){
     return topo;
 }
 
+void Frame::empilhar(Operando *op){
+    this->pilha_operandos.push(op);
+
+    // std::cout << "\tEmpilhou: ";
+    // op->exibir();
+}
+
 std::string Frame::get_tipo_parametros(){
     std::string descritivo = this->referencia_metodo->get_descritor();
 
