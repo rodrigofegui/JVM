@@ -48,6 +48,7 @@
     #define TAG_SHT 16
     #define TAG_BLN 17
     #define TAG_ARR 18
+    #define TAG_END 19
 
     /** Flags de acesso */
     #define FLG_PBC 0x0001

@@ -22,6 +22,8 @@
 
             void empilhar_operandos (InterCPDado *const dados);
 
+            void manipular_estaticos(InterCPDado *const dados);
+
             Frame* topo ();
 
             Frame* desempilhar ();

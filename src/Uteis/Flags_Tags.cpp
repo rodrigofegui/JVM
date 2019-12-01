@@ -101,6 +101,12 @@ std::string get_tag (u1 a_verificar){
 
     if (a_verificar == TAG_SHT)
         return "'Short'";
+
+    if (a_verificar == TAG_ARR)
+        return "'Vetor'";
+
+    if (a_verificar == TAG_END)
+        return "'Endereço'";
 }
 
 u1 to_tag (char a_verificar){

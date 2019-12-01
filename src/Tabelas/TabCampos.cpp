@@ -16,6 +16,15 @@ u1 TabCampos::decodificar (FILE *const arq){
     return 0;
 }
 
+Campo* TabCampos::buscar (const std::string &nome){
+    for (u1 cnt = 0; cnt < this->registros.size(); cnt++){
+        if (!this->registros[cnt].get_nome().compare(nome))
+            return &this->registros[cnt];
+    }
+
+    return nullptr;
+}
+
 void TabCampos::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
     if (!this->tam){

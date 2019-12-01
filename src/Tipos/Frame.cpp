@@ -33,7 +33,7 @@ void Frame::executar(){
     if (pc == pc_anterior)
         this->pode_desempilhar = true;
 
-    #ifdef E_VERBOSO 
+    #ifdef E_VERBOSO
         getchar();
     #endif
 }
@@ -48,6 +48,8 @@ InterCPDado* Frame::buscar_simbolo(u2 indice){
 
 Operando* Frame::desempilhar(){
     Operando *topo = this->pilha_operandos.top();
+
+    exibir_se_verboso("\tDesempilhou: " + topo->get());
 
     this->pilha_operandos.pop();
 
@@ -73,15 +75,22 @@ std::string Frame::get_tipo_retorno(){
 }
 
 void Frame::deletar (){
-    // for (auto &var_local : this->var_locais) var_local->deletar();
+    if (this->retorno){
+        this->retorno->deletar();
+        delete this->retorno;
+    }
 
-    // std::vector<Operando *>().swap(this->var_locais);
+    for (auto &var_local : this->var_locais){
+        var_local->deletar();
+    }
 
-    // std::stack<Operando *>().swap(this->pilha_operandos);
+    std::stack<Operando *>().swap(pilha_operandos);
 
     this->tab_simbolos = nullptr;
     this->referencia_metodo = nullptr;
     this->attr_codigo = nullptr;
+
+    this->a_empilhar = nullptr;
 
     delete this;
 }

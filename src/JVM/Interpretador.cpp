@@ -100,9 +100,11 @@ void Interpretador::empilhar (InterCPDado *const dados){
     if ((dados->tag == TAG_REF_MTD) || (dados->tag == TAG_REF_MTD_ITF))
         return empilhar_frame(dados);
 
-    if (dados->tag == TAG_CLAS) {
+    if (dados->tag == TAG_CLAS)
         return empilhar_operandos(dados);
-    }
+
+    if (dados->tag == TAG_REF_CMP)
+        return manipular_estaticos(dados);
 }
 
 void Interpretador::empilhar_frame (InterCPDado *const dados){
@@ -128,16 +130,6 @@ void Interpretador::empilhar_frame (InterCPDado *const dados){
 }
 
 void Interpretador::empilhar_operandos (InterCPDado *const dados){
-    // std::string nome_classe = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_classe();
-    // std::cout << nome_classe << std::endl;
-
-    // u1 status = this->area_metodos->carregar(nome_classe);
-
-    // if ((status != JA_EXISTIA) && (status != SUCESSO))
-    //     return;
-
-    // std::string nome_campo = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_campo();
-
     // VERIFICAR
     if(dados->tag == TAG_CLAS) {
         std::string nome_classe = (dynamic_cast<InfoClasse*>(dados))->get_nome();
@@ -156,6 +148,30 @@ void Interpretador::empilhar_operandos (InterCPDado *const dados){
         }
         this->topo()->pilha_operandos.push(op);
     }
+}
+
+void Interpretador::manipular_estaticos(InterCPDado *const dados){
+    std::string nome_classe = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_classe();
+    nome_classe += ".class";
+
+    if(nome_classe.find("java/") == std::string::npos) {
+        nome_classe = "CasosTestes/" + nome_classe;
+    }
+
+    u1 status = this->area_metodos->carregar(nome_classe);
+
+    if ((status != JA_EXISTIA) && (status != SUCESSO))
+        return;
+
+    std::string nome_campo = (dynamic_cast<InfoRefCampo*>(dados))->get_nome_campo();
+
+    Campo *campo = this->area_metodos->localizar(nome_classe)->get_campo(nome_campo);
+
+    // VERIFICAR: Referência cíclica para conseguir o putstatic
+    // if (!this->topo()->retorno)
+    //     this->topo()->empilhar(campo->valor->duplicar());
+    // else
+    //     campo->valor = this->topo()->retorno;
 }
 
 Frame* Interpretador::topo (){
@@ -179,6 +195,8 @@ void Interpretador::deletar(){
         frame->deletar();
 
     std::vector<Frame *>().swap(this->pilha_frames);
+
+    this->area_metodos = nullptr;
 
     delete this;
 }
