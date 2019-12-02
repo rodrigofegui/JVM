@@ -6,6 +6,7 @@
      */
     #include <vector>
     #include "../Interfaces/InterTabela.hpp"
+    // #include "Operando.hpp" // VERIFICAR: para o putstatic
 
     /**
      *  @class Campo
@@ -22,6 +23,7 @@
             u2 ind_descritor = 0;
             u2 tam_tab_atributos = 0;
             InterTabela *tab_atributos = nullptr;
+            // Operando *valor = nullptr; // VERIFICAR: para o putstatic
 
             /** Construtor padrão */
             Campo (){};
@@ -43,6 +45,8 @@
             std::string get_nome ();
 
             std::string get_descritor ();
+
+            int get_quantidade_argumentos ();
 
             /**
              *  Exibição de um campo na saída padrão, com controle de tabulação

@@ -9,6 +9,7 @@
         private:
             Carregador *area_metodos = nullptr;
             std::vector<Frame *> pilha_frames;
+            std::map<Campo*, Operando *> link_campo_operando;
 
             void empilhar (Frame *const frame);
 
@@ -21,6 +22,8 @@
             void empilhar_frame (InterCPDado *const dados);
 
             void empilhar_operandos (InterCPDado *const dados);
+
+            void manipular_estaticos(InterCPDado *const dados);
 
             Frame* topo ();
 

@@ -46,14 +46,22 @@
 
     void manipulador_iconst (Frame *frame, int valor);
 
+    void manipulador_xstorex_n (Frame *frame, int ind, u1 tag);
     void manipulador_xstore_n (Frame *frame, u1 ind, u1 tag);
+    void manipulador_xstore2_n (Frame *frame, u2 ind, u1 tag);
     void manipulador_xstore (Frame *frame, u1 tag);
+
     void manipulador_xastore (Frame *frame, u1 tag);
 
-    void manipulador_xload_n (Frame *frame, u1 ind);
+    void manipulador_xloadx_n (Frame *frame, int ind, u1 tag);
+    void manipulador_xload_n (Frame *frame, u1 ind, u1 tag);
+    void manipulador_xload2_n (Frame *frame, u2 ind, u1 tag);
+
     void manipulador_xaload (Frame *frame);
 
     void manipulador_xreturn (Frame *frame, u1 tag);
+
+    void manipulador_iincx (Frame *frame, int ind, int valor);
 
     int16_t get_deslocamento (Frame *frame);
 

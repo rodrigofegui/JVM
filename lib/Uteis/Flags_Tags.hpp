@@ -48,6 +48,7 @@
     #define TAG_SHT 16
     #define TAG_BLN 17
     #define TAG_ARR 18
+    #define TAG_END 19
 
     /** Flags de acesso */
     #define FLG_PBC 0x0001
@@ -63,6 +64,16 @@
     #define FLG_ABS 0x0400
     #define FLG_STT 0x0800
     #define FLG_SNT 0X1000
+
+    /** Tipos de array */
+    #define ARR_BLN 4
+    #define ARR_CHR 5
+    #define ARR_FLT 6
+    #define ARR_DBL 7
+    #define ARR_BYTE 8
+    #define ARR_SHT 9
+    #define ARR_INT 10
+    #define ARR_LNG 11
 
     /**
      *  Recuperação de uma flag traduzida

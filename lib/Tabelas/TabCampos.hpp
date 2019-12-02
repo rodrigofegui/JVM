@@ -28,6 +28,8 @@
              */
             u1 decodificar (FILE *const arq) override;
 
+            Campo* buscar (const std::string &nome);
+
             /**
              *  Exibição da tabela na saída padrão com controle de tabulação
              *  @param qnt_tabs Quantidade de TABs

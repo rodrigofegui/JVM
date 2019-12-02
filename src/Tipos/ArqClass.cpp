@@ -107,6 +107,10 @@ Campo* ArqClass::get_metodo (const std::string &nome){
     return (dynamic_cast<TabMetodos*>(this->tab_metodos))->buscar(nome);
 }
 
+Campo* ArqClass::get_campo (const std::string &nome){
+    return (dynamic_cast<TabCampos*>(this->tab_campos))->buscar(nome);
+}
+
 void ArqClass::exibir (){
     std::cout << "Nome do arquivo: " << this->nome_arq << std::endl;
 

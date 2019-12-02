@@ -2,6 +2,7 @@
 #include "../../lib/Tipos/Operando.hpp"
 #include "../../lib/Uteis/Arquivos.hpp"
 
+
 std::string Operando::get (){
     std::string op;
     switch (this->tag){
@@ -12,6 +13,15 @@ std::string Operando::get (){
         case TAG_DBL: op = std::to_string(this->tipo_double); break;
         case TAG_LNG: op = std::to_string((long) this->tipo_long); break;
         case TAG_STR: op = this->tipo_string; break;
+        case TAG_BYTE: op = get_hex_2(this->tipo_byte); break;
+        case TAG_ARR:
+            op += "[";
+            for (u2 cnt = 0; cnt < this->lista_operandos->size(); cnt++){
+                op += "'" + this->lista_operandos->at(cnt)->get() + "'";
+                op += cnt + 1 < this->lista_operandos->size()? ", " : "";
+            }
+            op += "]";
+            break;
         default: op = "Indefinido";
     }
 
@@ -45,10 +55,21 @@ Operando* Operando::duplicar(){
     return novo;
 }
 
+void Operando::deletar (){
+    if (this->obj)
+        this->obj->deletar();
+}
+
 Objeto* Objeto::duplicar(){
     Objeto *novo = new Objeto(this->nome, this->classe);
 
     novo->referencias = this->referencias;
 
     return novo;
+}
+
+void Objeto::deletar (){
+    std::map< std::string, Operando* >().swap(this->referencias);
+
+    delete this;
 }
