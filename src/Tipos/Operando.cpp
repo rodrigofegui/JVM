@@ -14,8 +14,6 @@ std::string Operando::get (){
         case TAG_LNG: op = std::to_string((long) this->tipo_long); break;
         case TAG_STR: op = this->tipo_string; break;
         case TAG_BYTE: op = get_hex_4(this->tipo_byte); break;
-        case TAG_CHR: op = std::to_string((char) this->tipo_char); break;
-        case TAG_SHT: op = std::to_string((short) this->tipo_short); break;
         case TAG_ARR:
             op += "[";
             for (u2 cnt = 0; cnt < this->lista_operandos->size(); cnt++){
@@ -78,8 +76,8 @@ void Operando::atualizar_tipo (u1 tag){
 }
 
 void Operando::deletar (){
-    if (this->obj)
-        this->obj->deletar();
+    // if (this->obj)
+    //     this->obj->deletar();
 }
 
 Objeto* Objeto::duplicar(){

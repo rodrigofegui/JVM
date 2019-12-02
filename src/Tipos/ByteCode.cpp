@@ -599,14 +599,15 @@ void manipulador_xastore (Frame *frame, u1 tag){
     // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
 
     valor->atualizar_tipo(tag);
-    // indice->deletar();
-	// delete indice;
-
     lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
 
 void manipulador_xloadx_n (Frame *frame, int ind, u1 tag){
+    if (!frame->var_locais[ind]){
+        std::cout << "Não existe var local" << std::endl;
+    }
+
     exibir_se_verboso("\tA empilhar a Var[" + std::to_string(ind)
         + "]: " + frame->var_locais[ind]->get());
 
@@ -661,12 +662,7 @@ void manipulador_xaload (Frame *frame, u1 tag){
         return;
     }
 
-    a_empilhar->atualizar_tipo(tag);
-
-    indice->deletar();
-	delete indice;
-
-    frame->empilhar(a_empilhar);
+    a_empilhar->atualizar_tipo(tag);    frame->empilhar(a_empilhar);
     frame->pc++;
 }
 
@@ -682,7 +678,6 @@ void manipulador_xreturn (Frame *frame, u1 tag){
         }
 
         exibir_se_verboso("\tRetornando: " + op->get() + " do tipo " + get_tag(tag));
-
         frame->retorno = op;
 
     } else {
@@ -1311,11 +1306,7 @@ void manipulador_sastore (Frame *frame){
 
 // 87 (0x57)
 void manipulador_pop (Frame *frame){
-    Operando *op = frame->desempilhar();
-
-    op->deletar();
-    delete op;
-
+    frame->desempilhar();
     frame->pc++;
 }
 
@@ -1324,14 +1315,8 @@ void manipulador_pop2 (Frame *frame){
     Operando *op = frame->desempilhar();
 
     if ((op->tag != TAG_DBL) && (op->tag != TAG_LNG)){
-        Operando *op_2 = frame->desempilhar();
-
-        op_2->deletar();
-        delete op_2;
+        frame->desempilhar();
     }
-
-    op->deletar();
-	delete op;
 
     frame->pc++;
 }
@@ -1618,11 +1603,6 @@ void manipulador_dsub (Frame *frame){
     resultado->tag = TAG_DBL;
     resultado->tipo_double = valor_1->tipo_double - valor_2->tipo_double;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1636,11 +1616,6 @@ void manipulador_imul (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = valor_1->tipo_int * valor_2->tipo_int;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1653,11 +1628,6 @@ void manipulador_lmul (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
     resultado->tipo_long = valor_1->tipo_long * valor_2->tipo_long;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1677,11 +1647,6 @@ void manipulador_fmul (Frame *frame){
     resultado->tag = TAG_FLT;
     memcpy(&resultado->tipo_float, &fvalor_1, sizeof(float));
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1694,11 +1659,6 @@ void manipulador_dmul (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
     resultado->tipo_double = valor_1->tipo_double * valor_2->tipo_double;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1713,11 +1673,6 @@ void manipulador_idiv (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = floor(valor_2->tipo_int / valor_1->tipo_int);
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1730,11 +1685,6 @@ void manipulador_ldiv (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
     resultado->tipo_int = floor(valor_2->tipo_long / valor_1->tipo_long);
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1754,11 +1704,6 @@ void manipulador_fdiv (Frame *frame){
     resultado->tag = TAG_FLT;
     resultado->tipo_float = f1 / f2;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1771,11 +1716,6 @@ void manipulador_ddiv (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
     resultado->tipo_double = valor_1->tipo_double / valor_2->tipo_double;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1790,11 +1730,6 @@ void manipulador_irem (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = valor_2->tipo_int % valor_1->tipo_int;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1807,11 +1742,6 @@ void manipulador_lrem (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
     resultado->tipo_int = valor_2->tipo_long % valor_1->tipo_long;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1831,11 +1761,6 @@ void manipulador_frem (Frame *frame){
     resultado->tag = TAG_FLT;
     memcpy(&resultado->tipo_float, &fvalor_1, sizeof(float));
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1849,11 +1774,6 @@ void manipulador_drem (Frame *frame){
     resultado->tag = TAG_DBL;
     resultado->tipo_double = fmod(valor_2->tipo_double, valor_1->tipo_double);
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1864,12 +1784,7 @@ void manipulador_ineg (Frame *frame){
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = (~valor->tipo_int) + 1;
-
-    valor->deletar();
-	delete valor;
-
-    frame->empilhar(resultado);
+    resultado->tipo_int = (~valor->tipo_int) + 1;    frame->empilhar(resultado);
     frame->pc++;
 }
 
@@ -1879,12 +1794,7 @@ void manipulador_lneg (Frame *frame){
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = (~valor->tipo_long) + 1;
-
-    valor->deletar();
-	delete valor;
-
-    frame->empilhar(resultado);
+    resultado->tipo_long = (~valor->tipo_long) + 1;    frame->empilhar(resultado);
     frame->pc++;
 }
 
@@ -1899,12 +1809,7 @@ void manipulador_fneg (Frame *frame){
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_FLT;
-    std::memcpy(&resultado->tipo_float, &valor2, sizeof(float));
-
-    valor->deletar();
-	delete valor;
-
-    frame->empilhar(resultado);
+    std::memcpy(&resultado->tipo_float, &valor2, sizeof(float));    frame->empilhar(resultado);
     frame->pc++;
 }
 
@@ -1914,12 +1819,7 @@ void manipulador_dneg (Frame *frame){
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-    resultado->tipo_double = valor->tipo_double * -1;
-
-    valor->deletar();
-	delete valor;
-
-    frame->empilhar(resultado);
+    resultado->tipo_double = valor->tipo_double * -1;    frame->empilhar(resultado);
     frame->pc++;
 }
 
@@ -1936,11 +1836,6 @@ void manipulador_ishl (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
     resultado->tipo_int = ivalor2 << ivalor1;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1959,11 +1854,6 @@ void manipulador_lshl (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
     resultado->tipo_long = lvalor2 << lvalor1;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1984,11 +1874,6 @@ void manipulador_ishr (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = ivalor2 >> ivalor1;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -2006,11 +1891,6 @@ void manipulador_lshr (Frame *frame){
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
     resultado->tipo_long = lvalor2 >> lvalor1;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -2030,11 +1910,6 @@ void manipulador_iushr (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = ivalor1 >> ivalor2;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -2053,11 +1928,6 @@ void manipulador_lushr (Frame *frame){
     resultado->tag = TAG_LNG;
     resultado->tipo_long = lvalor1 >> lvalor2;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -2070,11 +1940,6 @@ void manipulador_iand (Frame *frame){
     int resultado = valor_1->tipo_int & valor_2->tipo_int;
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(int));
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(valor_1);
     frame->pc++;
@@ -2089,11 +1954,6 @@ void manipulador_land (Frame *frame){
 
     std::memcpy(&valor_1->tipo_long, &resultado, sizeof(u8));
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(valor_1);
     frame->pc++;
 }
@@ -2106,11 +1966,6 @@ void manipulador_ior (Frame *frame){
     int resultado = valor_1->tipo_int | valor_2->tipo_int;
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(valor_1);
     frame->pc++;
@@ -2125,11 +1980,6 @@ void manipulador_lor (Frame *frame){
 
     std::memcpy(&valor_1->tipo_long, &resultado, sizeof(u8));
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(valor_1);
     frame->pc++;
 }
@@ -2143,11 +1993,6 @@ void manipulador_ixor (Frame *frame){
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(valor_1);
     frame->pc++;
 }
@@ -2160,11 +2005,6 @@ void manipulador_lxor (Frame *frame){
     u8 resultado = valor_1->tipo_long ^ valor_2->tipo_long;
 
     std::memcpy(&valor_1->tipo_long, &resultado, sizeof(u8));
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(valor_1);
     frame->pc++;
@@ -2372,7 +2212,7 @@ void manipulador_i2c (Frame *frame){
     op->tag = TAG_CHR;
 
     frame->empilhar(op);
-    frame->pc++;         
+    frame->pc++;
 }
 
 // 147 (0x93)
@@ -2386,7 +2226,7 @@ void manipulador_i2s (Frame *frame){
     op->tag = TAG_INT;
 
     frame->empilhar(op);
-    frame->pc++;    
+    frame->pc++;
 }
 
 // 148 (0x94)
@@ -2403,12 +2243,7 @@ void manipulador_lcmp (Frame *frame){
         resultado = -1;
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;
-
-    valor_2->deletar();
-	delete valor_2;
-
-    frame->empilhar(valor_1);
+    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
     frame->pc++;
 }
 
@@ -2427,12 +2262,7 @@ void manipulador_fcmpl (Frame *frame){
         resultado = -1;
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;
-
-    valor_2->deletar();
-	delete valor_2;
-
-    frame->empilhar(valor_1);
+    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
     frame->pc++;
 }
 
@@ -2451,12 +2281,7 @@ void manipulador_fcmpg (Frame *frame){
         resultado = -1;
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;
-
-    valor_2->deletar();
-	delete valor_2;
-
-    frame->empilhar(valor_1);
+    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
     frame->pc++;
 }
 
@@ -2475,12 +2300,7 @@ void manipulador_dcmpl (Frame *frame){
         resultado = -1;
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;
-
-    valor_2->deletar();
-	delete valor_2;
-
-    frame->empilhar(valor_1);
+    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
     frame->pc++;
 }
 
@@ -2498,12 +2318,7 @@ void manipulador_dcmpg (Frame *frame){
         resultado = -1;
 
     std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;
-
-    valor_2->deletar();
-	delete valor_2;
-
-    frame->empilhar(valor_1);
+    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
     frame->pc++;
 }
 
@@ -2514,12 +2329,7 @@ void manipulador_ifeq (Frame *frame){
 
     if ((int)op->tipo_int == 0) {
         deslocamento = get_deslocamento(frame);
-    }
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    }    frame->pc += deslocamento;
 }
 
 // 154 (0x9A)
@@ -2529,12 +2339,7 @@ void manipulador_ifne (Frame *frame){
 
     if ((int)op->tipo_int != 0) {
         deslocamento = get_deslocamento(frame);
-    }
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    }    frame->pc += deslocamento;
 }
 
 // 155 (0x9B)
@@ -2544,12 +2349,7 @@ void manipulador_iflt (Frame *frame){
 
     if ((int)op->tipo_int < 0) {
         deslocamento = get_deslocamento(frame);
-    }
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    }    frame->pc += deslocamento;
 }
 
 // 156 (0x9C)
@@ -2559,12 +2359,7 @@ void manipulador_ifge (Frame *frame){
 
     if ((int)op->tipo_int >= 0) {
         deslocamento = get_deslocamento(frame);
-    }
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    }    frame->pc += deslocamento;
 }
 
 // 157 (0x9D)
@@ -2574,12 +2369,7 @@ void manipulador_ifgt (Frame *frame){
 
     if ((int)op->tipo_int > 0) {
         deslocamento = get_deslocamento(frame);
-    }
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    }    frame->pc += deslocamento;
 }
 
 // 158 (0x9E)
@@ -2592,12 +2382,7 @@ void manipulador_ifle (Frame *frame){
     }
 
     exibir_se_verboso("\t" + std::to_string((int)op->tipo_int) + " <= 0?");
-    exibir_se_verboso("\tVai pular para: " + std::to_string(frame->pc + deslocamento));
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    exibir_se_verboso("\tVai pular para: " + std::to_string(frame->pc + deslocamento));    frame->pc += deslocamento;
 }
 
 // 159 (0x9F)
@@ -2615,11 +2400,6 @@ void manipulador_if_icmpeq (Frame *frame){
     exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " == " + std::to_string(i1));
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
-
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2641,11 +2421,6 @@ void manipulador_if_icmpne (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
-
     frame->pc += deslocamento;
 }
 
@@ -2665,11 +2440,6 @@ void manipulador_if_icmplt (Frame *frame){
     exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " < " + std::to_string(i1));
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
-
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2691,11 +2461,6 @@ void manipulador_if_icmpge (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
-
     frame->pc += deslocamento;
 }
 
@@ -2715,11 +2480,6 @@ void manipulador_if_icmpgt (Frame *frame){
     exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " > " + std::to_string(i1));
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
-
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2741,11 +2501,6 @@ void manipulador_if_icmple (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
-
     frame->pc += deslocamento;
 }
 
@@ -2759,11 +2514,6 @@ void manipulador_if_acmpeq (Frame *frame){
     if ((valor_2->tag == valor_1->tag) && (((u4) valor_2->tipo_byte) == ((u4) valor_1->tipo_byte))){
         deslocamento = get_deslocamento(frame);
     }
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->pc += deslocamento;
 }
@@ -2779,11 +2529,6 @@ void manipulador_if_acmpne (Frame *frame){
             || (((u4) valor_2->tipo_byte) != ((u4) valor_1->tipo_byte))){
         deslocamento = get_deslocamento(frame);
     }
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->pc += deslocamento;
 }
@@ -3011,7 +2756,7 @@ void manipulador_invokevirtual (Frame *frame){
     u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
-    
+
     if (!c_dados){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
@@ -3030,6 +2775,8 @@ void manipulador_invokevirtual (Frame *frame){
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
+
+        frame->pc++;
 
         return;
     }
@@ -3149,7 +2896,6 @@ void manipulador_newarray (Frame *frame){
 
     u1 tipo_array = frame->get_prox_byte();
 
-
     int qnt = (int) quantidade->tipo_int;
 
     Operando *array = new Operando();
@@ -3172,15 +2918,10 @@ void manipulador_newarray (Frame *frame){
             default: op->tag = TAG_VAZ;
         }
 
-        if (op->tag == TAG_VAZ)
-            delete op;
-        else{
+        if (op->tag != TAG_VAZ)
             array->lista_operandos->push_back(op);
-        }
-    }
 
-    quantidade->deletar();
-    delete quantidade;
+    }
 
     exibir_se_verboso("\tCriado um vetor com " + std::to_string(qnt) + " itens do tipo "
         + std::to_string(tipo_array));
@@ -3204,9 +2945,6 @@ void manipulador_arraylength (Frame *frame){
         tamanho->tipo_int = 0;
     else
         tamanho->tipo_int = array->lista_operandos->size();
-
-    array->deletar();
-	delete array;
 
     frame->empilhar(tamanho);
     frame->pc++;
@@ -3300,12 +3038,7 @@ void manipulador_ifnull (Frame *frame){
 
     if (!op->tipo_int) {
         deslocamento = get_deslocamento(frame);
-    }
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    }    frame->pc += deslocamento;
 }
 
 // 199 (0xC7)
@@ -3315,12 +3048,7 @@ void manipulador_ifnonnull (Frame *frame){
 
     if (op->tipo_int) {
         deslocamento = get_deslocamento(frame);
-    }
-
-    op->deletar();
-	delete op;
-
-    frame->pc += deslocamento;
+    }    frame->pc += deslocamento;
 }
 
 // 200 (0xC8)

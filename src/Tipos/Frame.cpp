@@ -68,12 +68,6 @@ void Frame::empilhar(Operando *op){
     exibir_se_verboso("\tEmpilhou: " + this->pilha_operandos.top()->get());
 }
 
-std::string Frame::get_tipo_parametros(){
-    std::string descritivo = this->referencia_metodo->get_descritor();
-
-    return descritivo.substr(1, descritivo.rfind(")") - 1);
-}
-
 std::string Frame::get_tipo_retorno(){
     std::string descritivo = this->referencia_metodo->get_descritor();
 
@@ -81,16 +75,16 @@ std::string Frame::get_tipo_retorno(){
 }
 
 void Frame::deletar (){
-    if (this->retorno){
-        this->retorno->deletar();
-        delete this->retorno;
-    }
+    // if (this->retorno){
+    //     this->retorno->deletar();
+    //     delete this->retorno;
+    // }
 
-    for (auto &var_local : this->var_locais){
-        var_local->deletar();
-    }
+    // for (auto &var_local : this->var_locais){
+    //     var_local->deletar();
+    // }
 
-    std::stack<Operando *>().swap(pilha_operandos);
+    // std::stack<Operando *>().swap(pilha_operandos);
 
     this->tab_simbolos = nullptr;
     this->referencia_metodo = nullptr;

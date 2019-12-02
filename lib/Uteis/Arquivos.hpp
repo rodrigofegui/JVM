@@ -48,8 +48,6 @@
      */
     int get_padding (const int tam);
 
-    std::string get_hex (const u1 fonte);
-
     /**
      *  Recuperação da representação em hexadecimal de um número de 2 bytes
      *  @param fonte Número a ser exibido
