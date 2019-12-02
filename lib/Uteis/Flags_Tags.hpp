@@ -65,6 +65,16 @@
     #define FLG_STT 0x0800
     #define FLG_SNT 0X1000
 
+    /** Tipos de array */
+    #define ARR_BLN 4
+    #define ARR_CHR 5
+    #define ARR_FLT 6
+    #define ARR_DBL 7
+    #define ARR_BYTE 8
+    #define ARR_SHT 9
+    #define ARR_INT 10
+    #define ARR_LNG 11
+
     /**
      *  Recuperação de uma flag traduzida
      *  @param a_verificar Flag a ser analisada

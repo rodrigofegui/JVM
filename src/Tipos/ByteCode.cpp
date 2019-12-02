@@ -604,6 +604,9 @@ void manipulador_xastore (Frame *frame, u1 tag){
 }
 
 void manipulador_xloadx_n (Frame *frame, int ind, u1 tag){
+    exibir_se_verboso("\tA carregar a Var[" + std::to_string(ind)
+        + "]: ");
+
     Operando *op = frame->var_locais[ind];
 
     if (op->tag != tag){
@@ -1070,22 +1073,22 @@ void manipulador_dload_3 (Frame *frame){
 
 // 42 (0x2A)
 void manipulador_aload_0 (Frame *frame){
-    manipulador_xload_n(frame, 0, TAG_REF);
+    manipulador_xload_n(frame, 0, TAG_ARR);
 }
 
 // 43 (0x2B)
 void manipulador_aload_1 (Frame *frame){
-    manipulador_xload_n(frame, 1, TAG_REF);
+    manipulador_xload_n(frame, 1, TAG_ARR);
 }
 
 // 44 (0x2C)
 void manipulador_aload_2 (Frame *frame){
-    manipulador_xload_n(frame, 2, TAG_REF);
+    manipulador_xload_n(frame, 2, TAG_ARR);
 }
 
 // 45 (0x2D)
 void manipulador_aload_3 (Frame *frame){
-    manipulador_xload_n(frame, 3, TAG_REF);
+    manipulador_xload_n(frame, 3, TAG_ARR);
 }
 
 // 46 (0x2E)
@@ -2598,10 +2601,16 @@ void manipulador_if_icmpeq (Frame *frame){
     Operando *op_1 = frame->desempilhar();
     Operando *op_2 = frame->desempilhar();
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int) op_1->tipo_int;
 
-    if ((int)op_2->tipo_int == (int)op_1->tipo_int) {
+    if (i2 == i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " == " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -2617,10 +2626,16 @@ void manipulador_if_icmpne (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int) op_1->tipo_int;
 
-    if ((int)op_2->tipo_int != (int)op_1->tipo_int) {
+    if (i2 != i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " != " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -2636,10 +2651,16 @@ void manipulador_if_icmplt (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int < (int)op_1->tipo_int) {
+    if (i2 < i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " < " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -2655,10 +2676,16 @@ void manipulador_if_icmpge (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int >= (int)op_1->tipo_int) {
+    if (i2 >= i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " >= " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -2674,10 +2701,16 @@ void manipulador_if_icmpgt (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int > (int)op_1->tipo_int) {
+    if (i2 > i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " > " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -2693,10 +2726,16 @@ void manipulador_if_icmple (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int <= (int)op_1->tipo_int) {
+    if (i2 <= i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " <= " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -2845,6 +2884,8 @@ void manipulador_getstatic (Frame *frame){
         return;
     }
 
+    exibir_se_verboso("\tInd: " + std::to_string((int) indice));
+
     frame->a_empilhar = c_dados;
     frame->pc++;
 }
@@ -2979,14 +3020,10 @@ void manipulador_invokevirtual (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/io/PrintStream")){
-        Operando *op = frame->desempilhar();
-        std::cout << op->get();
+        std::cout << frame->desempilhar()->get();
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
-
-        op->deletar();
-	delete op;
 
         frame->pc++;
         return;
@@ -3024,8 +3061,8 @@ void manipulador_invokespecial (Frame *frame){
 
 // 184 (0xB8)
 void manipulador_invokestatic (Frame *frame){
-    u1 byte_1 = frame->attr_codigo->codigo[frame->pc+1];
-    u1 byte_2 = frame->attr_codigo->codigo[frame->pc+2];
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
     u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
@@ -3098,79 +3135,49 @@ void manipulador_new (Frame *frame){
 
 // 188 (0xBC)
 void manipulador_newarray (Frame *frame){
-    Operando* quantidade = frame->desempilhar();
-    u4 indice = quantidade->tipo_int;
+    Operando *quantidade = frame->desempilhar();
 
-    Operando* array = new Operando();
+    if (!quantidade){
+        std::cout << "Não houve o que desempilhar" << std::endl;
+        return;
+    }
+
+    u1 tipo_array = frame->get_prox_byte();
+
+    int qnt = (int) quantidade->tipo_int;
+
+    Operando *array = new Operando();
     array->tag = TAG_ARR;
 
     array->lista_operandos = new std::vector<Operando*>();
 
+    for (int cnt = 0; cnt < qnt; cnt++){
+        Operando *op = new Operando();
 
-    u1 tipo = frame->attr_codigo->codigo[++frame->pc];
+        switch (tipo_array){
+            case ARR_BLN: op->tag = TAG_BLN; break;
+            case ARR_CHR: op->tag = TAG_CHR; break;
+            case ARR_FLT: op->tag = TAG_FLT; break;
+            case ARR_DBL: op->tag = TAG_DBL; break;
+            case ARR_BYTE: op->tag = TAG_BYTE; break;
+            case ARR_SHT: op->tag = TAG_SHT; break;
+            case ARR_INT: op->tag = TAG_INT; break;
+            case ARR_LNG: op->tag = TAG_LNG; break;
+            default: op->tag = TAG_VAZ;
+        }
 
-    switch (tipo){
-    case 4:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_BLN;
-            array->lista_operandos->emplace_back(op);
+        if (op->tag == TAG_VAZ)
+            delete op;
+        else{
+            array->lista_operandos->push_back(op);
         }
-        break;
-    case 5:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_CHR;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 6:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_FLT;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 7:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_DBL;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 8:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_BYTE;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 9:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_SHT;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 10:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_INT;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 11:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_LNG;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    default:
-        break;
     }
-    frame->pc++;
+
+    quantidade->deletar();
+    delete quantidade;
+
     frame->empilhar(array);
+    frame->pc++;
 }
 
 // 189 (0xBD)

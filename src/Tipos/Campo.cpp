@@ -32,6 +32,28 @@ std::string Campo::get_descritor (){
     return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_descritor);
 }
 
+int Campo::get_quantidade_argumentos (){
+    std::string descritor = get_descritor();
+    int qnt_args = 0;
+
+    for (int pos = 1; pos < descritor.size(); pos++){
+        if (descritor[pos] == ')') break;
+
+        if (descritor[pos] == 'L'){
+            qnt_args++;
+            pos++;
+
+            while (descritor[pos++] != ';');
+        }
+
+        qnt_args++;
+
+        if (descritor[pos] == '[') break;
+    }
+
+    return qnt_args;
+}
+
 void Campo::exibir (const u1 qnt_tabs){
     if (!this) return;
 

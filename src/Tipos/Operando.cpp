@@ -11,6 +11,15 @@ std::string Operando::get (){
         case TAG_DBL: op = std::to_string(this->tipo_double); break;
         case TAG_LNG: op = std::to_string((long) this->tipo_long); break;
         case TAG_STR: op = this->tipo_string; break;
+        case TAG_BYTE: op = get_hex_2(this->tipo_byte); break;
+        case TAG_ARR:
+            op += "[";
+            for (u2 cnt = 0; cnt < this->lista_operandos->size(); cnt++){
+                op += "'" + this->lista_operandos->at(cnt)->get() + "'";
+                op += cnt + 1 < this->lista_operandos->size()? ", " : "";
+            }
+            op += "]";
+            break;
         default: op = "Indefinido";
     }
 

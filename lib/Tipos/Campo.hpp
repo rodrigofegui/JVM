@@ -46,6 +46,8 @@
 
             std::string get_descritor ();
 
+            int get_quantidade_argumentos ();
+
             /**
              *  Exibição de um campo na saída padrão, com controle de tabulação
              *  @param qnt_tabs Quantidade de TABs

@@ -52,48 +52,44 @@ void Interpretador::empilhar (std::string const &nome_metodo){
 }
 
 void Interpretador::empilhar (std::string const &nome_metodo, std::string const &nome_classe){
-    exibir_se_verboso(
-        "\tA empilhar o frame para o método: '" + nome_metodo
-        + "' da classe: '" + nome_classe + "'");
+    exibir_se_verboso("\tA empilhar o frame para o método '" + nome_metodo
+        + "' da classe '" + nome_classe + "'");
 
     Campo *metodo = this->area_metodos->localizar(nome_classe)->get_metodo(nome_metodo);
-    std::string descritor = metodo->get_descritor();
-    int args = 0, cnt = 1;
+
+    if (!metodo){
+        std::cout << "Não existe " << nome_classe << ":" << nome_metodo << std::endl;
+        return;
+    }
+
+    int qnt_args = metodo->get_quantidade_argumentos();
+
+    exibir_se_verboso("\tQuant. de argumentos esperados: " + std::to_string(qnt_args));
+
     std::vector<Operando*> argumentos_instancia;
-    while(descritor[cnt] != ')') {
-        char tipo = descritor[cnt];
-        if(tipo == 'L') {
-            args++;
-            while(descritor[++cnt] != ';');
-        } else if(tipo == '[') {
-            args++;
-            while(descritor[++cnt] != '[');
-            if(descritor[cnt] == 'L') while(descritor[++cnt] != ';');
-        } else {
-            args++;
-        }
-        cnt++;
-    }
+    for(int i = 0; i < qnt_args; i++) {
+        Operando *argumento = this->topo()->desempilhar();
 
-    for(int i=0; i<args; i++) {
-        Operando* argumento = this->topo()->desempilhar();
         argumentos_instancia.insert(argumentos_instancia.begin(), argumento);
-        if(argumento->tag == TAG_DBL || argumento->tag == TAG_LNG){
-            Operando* op_vazio = new Operando();
+
+        if((argumento->tag == TAG_DBL) || (argumento->tag == TAG_LNG)){
+            Operando *op_vazio = new Operando();
             op_vazio->tag = TAG_VAZ;
-            argumentos_instancia.insert(argumentos_instancia.begin()+1, op_vazio);
+
+            argumentos_instancia.insert(argumentos_instancia.begin() + 1, op_vazio);
         }
     }
-    Operando* classe_atual = this->topo()->desempilhar();
-    argumentos_instancia.insert(argumentos_instancia.begin(), classe_atual);
-    Frame* novo_frame = new Frame(metodo);
 
-    for(int i=0; i<argumentos_instancia.size(); i++){
+    Frame *novo_frame = new Frame(metodo);
+
+    for(int i = 0; i < argumentos_instancia.size(); i++){
         novo_frame->var_locais.at(i) = argumentos_instancia.at(i);
     }
 
-    if (metodo)
-        empilhar(novo_frame);
+    exibir_se_verboso("\tQuant. de argumentos configurados: "
+        + std::to_string(novo_frame->var_locais.size()));
+
+    empilhar(novo_frame);
 }
 
 void Interpretador::empilhar (InterCPDado *const dados){
@@ -167,11 +163,13 @@ void Interpretador::manipular_estaticos(InterCPDado *const dados){
 
     Campo *campo = this->area_metodos->localizar(nome_classe)->get_campo(nome_campo);
 
-    // VERIFICAR: Referência cíclica para conseguir o putstatic
-    // if (!this->topo()->retorno)
-    //     this->topo()->empilhar(campo->valor->duplicar());
-    // else
-    //     campo->valor = this->topo()->retorno;
+    if (!this->topo()->retorno)
+        this->topo()->empilhar(this->link_campo_operando[campo]);
+    else{
+        this->link_campo_operando[campo] = this->topo()->retorno;
+        exibir_se_verboso("\tO campo " + nome_classe + ":" + nome_campo
+            + " = " + this->topo()->retorno->get());
+    }
 }
 
 Frame* Interpretador::topo (){
@@ -195,6 +193,8 @@ void Interpretador::deletar(){
         frame->deletar();
 
     std::vector<Frame *>().swap(this->pilha_frames);
+
+    std::map<Campo*, Operando *>().swap(this->link_campo_operando);
 
     this->area_metodos = nullptr;
 
