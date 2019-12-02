@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <inttypes.h>
 #include "../../lib/Tabelas/TabSimbolos.hpp"
 #include "../../lib/Tipos/CPDados.hpp"
 #include "../../lib/Uteis/Arquivos.hpp"
@@ -278,12 +279,12 @@ std::string InfoFloat::get (){
     if (((this->bytes >= 0x7f800001) && (this->bytes <= 0x7fffffff))
             || ((this->bytes >= 0xff800001) && (this->bytes <= 0xffffffff)))
         return "NaN";
+        
+    float valor;
+    std::memcpy(&valor, &this->bytes, sizeof(float));
+    
 
-    int sinal = ((this->bytes >> 31) == 0) ? 1 : -1,
-        expoente = ((this->bytes >> 23) & 0xff),
-        mantissa = (expoente == 0) ? (this->bytes & 0x7fffff) << 1 : (this->bytes & 0x7fffff) | 0x800000;
-
-    return std::to_string(sinal * mantissa * pow(2, expoente - 150));
+    return std::to_string(valor);
 }
 
 
@@ -304,10 +305,12 @@ void InfoLong::exibir (const u1 qnt_tabs){
 }
 
 std::string InfoLong::get (){
-    return std::to_string(((long) this->bytes_mais << 32) + this->bytes_menos);
+	uint64_t bytes = ((uint64_t)(this->bytes_mais) << 32 )+ this->bytes_menos;
+	long valor;
+	std::memcpy(&valor, &bytes, sizeof(long));
+	
+    return std::to_string(valor);
 }
-
-
 
 void InfoDouble::decodificar (FILE *const arq){
     ler_u4(arq, &this->bytes_mais);
@@ -325,7 +328,9 @@ void InfoDouble::exibir (const u1 qnt_tabs){
 }
 
 std::string InfoDouble::get (){
-    unsigned long int bytes = ((long) this->bytes_mais << 32) + this->bytes_menos;
+    uint64_t bytes = ((uint64_t)(this->bytes_mais) << 32 )+ this->bytes_menos;
+    double valor;
+    std::memcpy(&valor, &bytes, sizeof(double));
 
     if (bytes == 0x7FF0000000000000L)
         return "Infinity";
@@ -336,10 +341,6 @@ std::string InfoDouble::get (){
     if (((bytes >= 0x7FF0000000000001L) && (bytes <= 0x7FFFFFFFFFFFFFFFL))
             || ((bytes >= 0xFFF0000000000001L) && (bytes <= 0xFFFFFFFFFFFFFFFFL)))
         return "NaN";
-
-    int sinal = ((bytes >> 63) == 0) ? 1 : -1,
-        expoente = ((bytes >> 52) & 0x7FFL);
-    long mantissa = (expoente == 0) ? (bytes & 0xfffffffffffffL) << 1 : (bytes & 0xfffffffffffffL) | 0x10000000000000L;
-
-    return std::to_string(sinal * mantissa * pow(2, expoente - 1075));
+    
+    return std::to_string(valor);
 }

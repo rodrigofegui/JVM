@@ -1,6 +1,5 @@
 #include "../lib/Principal.hpp"
 
-
 int main(int argc, char *argv[]){
     MaquinaVirtual maqVirtual;
 

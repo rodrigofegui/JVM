@@ -1,0 +1,88 @@
+# Project: project
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = src/Principal.o src/Uteis/Arquivos.o src/Uteis/Flags_Tags.o src/Uteis/Parametros.o src/Tipos/ArqClass.o src/Tipos/Atributos.o src/Tipos/ByteCode.o src/Tipos/Campo.o src/Tipos/CPDados.o src/Tipos/Excessao.o src/Tipos/Frame.o src/Tipos/Operando.o src/Tabelas/TabAtributos.o src/Tabelas/TabCampos.o src/Tabelas/TabInterfaces.o src/Tabelas/TabMetodos.o src/Tabelas/TabSimbolos.o src/JVM/Carregador.o src/JVM/Interpretador.o src/JVM/Maquina_Virtual.o src/Interfaces/InterAtributo.o
+LINKOBJ  = src/Principal.o src/Uteis/Arquivos.o src/Uteis/Flags_Tags.o src/Uteis/Parametros.o src/Tipos/ArqClass.o src/Tipos/Atributos.o src/Tipos/ByteCode.o src/Tipos/Campo.o src/Tipos/CPDados.o src/Tipos/Excessao.o src/Tipos/Frame.o src/Tipos/Operando.o src/Tabelas/TabAtributos.o src/Tabelas/TabCampos.o src/Tabelas/TabInterfaces.o src/Tabelas/TabMetodos.o src/Tabelas/TabSimbolos.o src/JVM/Carregador.o src/JVM/Interpretador.o src/JVM/Maquina_Virtual.o src/Interfaces/InterAtributo.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = project.exe
+CXXFLAGS = $(CXXINCS) -std=c++11 -lm
+CFLAGS   = $(INCS) -std=c++11 -lm
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+src/Principal.o: src/Principal.cpp
+	$(CPP) -c src/Principal.cpp -o src/Principal.o $(CXXFLAGS)
+
+src/Uteis/Arquivos.o: src/Uteis/Arquivos.cpp
+	$(CPP) -c src/Uteis/Arquivos.cpp -o src/Uteis/Arquivos.o $(CXXFLAGS)
+
+src/Uteis/Flags_Tags.o: src/Uteis/Flags_Tags.cpp
+	$(CPP) -c src/Uteis/Flags_Tags.cpp -o src/Uteis/Flags_Tags.o $(CXXFLAGS)
+
+src/Uteis/Parametros.o: src/Uteis/Parametros.cpp
+	$(CPP) -c src/Uteis/Parametros.cpp -o src/Uteis/Parametros.o $(CXXFLAGS)
+
+src/Tipos/ArqClass.o: src/Tipos/ArqClass.cpp
+	$(CPP) -c src/Tipos/ArqClass.cpp -o src/Tipos/ArqClass.o $(CXXFLAGS)
+
+src/Tipos/Atributos.o: src/Tipos/Atributos.cpp
+	$(CPP) -c src/Tipos/Atributos.cpp -o src/Tipos/Atributos.o $(CXXFLAGS)
+
+src/Tipos/ByteCode.o: src/Tipos/ByteCode.cpp
+	$(CPP) -c src/Tipos/ByteCode.cpp -o src/Tipos/ByteCode.o $(CXXFLAGS)
+
+src/Tipos/Campo.o: src/Tipos/Campo.cpp
+	$(CPP) -c src/Tipos/Campo.cpp -o src/Tipos/Campo.o $(CXXFLAGS)
+
+src/Tipos/CPDados.o: src/Tipos/CPDados.cpp
+	$(CPP) -c src/Tipos/CPDados.cpp -o src/Tipos/CPDados.o $(CXXFLAGS)
+
+src/Tipos/Excessao.o: src/Tipos/Excessao.cpp
+	$(CPP) -c src/Tipos/Excessao.cpp -o src/Tipos/Excessao.o $(CXXFLAGS)
+
+src/Tipos/Frame.o: src/Tipos/Frame.cpp
+	$(CPP) -c src/Tipos/Frame.cpp -o src/Tipos/Frame.o $(CXXFLAGS)
+
+src/Tipos/Operando.o: src/Tipos/Operando.cpp
+	$(CPP) -c src/Tipos/Operando.cpp -o src/Tipos/Operando.o $(CXXFLAGS)
+
+src/Tabelas/TabAtributos.o: src/Tabelas/TabAtributos.cpp
+	$(CPP) -c src/Tabelas/TabAtributos.cpp -o src/Tabelas/TabAtributos.o $(CXXFLAGS)
+
+src/Tabelas/TabCampos.o: src/Tabelas/TabCampos.cpp
+	$(CPP) -c src/Tabelas/TabCampos.cpp -o src/Tabelas/TabCampos.o $(CXXFLAGS)
+
+src/Tabelas/TabInterfaces.o: src/Tabelas/TabInterfaces.cpp
+	$(CPP) -c src/Tabelas/TabInterfaces.cpp -o src/Tabelas/TabInterfaces.o $(CXXFLAGS)
+
+src/Tabelas/TabMetodos.o: src/Tabelas/TabMetodos.cpp
+	$(CPP) -c src/Tabelas/TabMetodos.cpp -o src/Tabelas/TabMetodos.o $(CXXFLAGS)
+
+src/Tabelas/TabSimbolos.o: src/Tabelas/TabSimbolos.cpp
+	$(CPP) -c src/Tabelas/TabSimbolos.cpp -o src/Tabelas/TabSimbolos.o $(CXXFLAGS)
+
+src/JVM/Carregador.o: src/JVM/Carregador.cpp
+	$(CPP) -c src/JVM/Carregador.cpp -o src/JVM/Carregador.o $(CXXFLAGS)
+
+src/JVM/Interpretador.o: src/JVM/Interpretador.cpp
+	$(CPP) -c src/JVM/Interpretador.cpp -o src/JVM/Interpretador.o $(CXXFLAGS)
+
+src/JVM/Maquina_Virtual.o: src/JVM/Maquina_Virtual.cpp
+	$(CPP) -c src/JVM/Maquina_Virtual.cpp -o src/JVM/Maquina_Virtual.o $(CXXFLAGS)
+
+src/Interfaces/InterAtributo.o: src/Interfaces/InterAtributo.cpp
+	$(CPP) -c src/Interfaces/InterAtributo.cpp -o src/Interfaces/InterAtributo.o $(CXXFLAGS)

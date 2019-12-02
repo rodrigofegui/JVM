@@ -671,11 +671,11 @@ void manipulador_xaload (Frame *frame, u1 tag){
 
     Operando *a_empilhar = lista->lista_operandos->at(ind);
 
-    if ((a_empilhar->tag != tag) && (a_empilhar->tag != TAG_BYTE)){
-        std::cout << "Não foi possível carregar: o operando é do tipo errado," << std::endl;
-        std::cout << "\tdeveria ser " << get_tag(tag) << std::endl;
-        return;
-    }
+//    if ((a_empilhar->tag != tag) && (a_empilhar->tag != TAG_BYTE)){
+//        std::cout << "Não foi possível carregar: o operando é do tipo errado," << std::endl;
+//        std::cout << "\tdeveria ser " << get_tag(tag) << std::endl;
+//        return;
+//    }
 
     // indice->deletar();
 	// delete indice;
@@ -1120,6 +1120,7 @@ void manipulador_ldc2_w (Frame *frame){
     u1 byte_1 = frame->get_prox_byte();
     u1 byte_2 = frame->get_prox_byte();
     u2 indice = (byte_1 << 8) | byte_2;
+    
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
 
@@ -1134,10 +1135,10 @@ void manipulador_ldc2_w (Frame *frame){
         std::cout << " ou " << get_tag(TAG_LNG) << std::endl;
         return;
     }
-
+    
     Operando *op = new Operando();
     op->tag = c_dados->tag;
-
+    
     switch(op->tag) {
         case TAG_DBL:
             op->tipo_double = std::stod((dynamic_cast<InfoDouble*>(c_dados))->get());
@@ -1145,7 +1146,9 @@ void manipulador_ldc2_w (Frame *frame){
 
         default:
             op->tipo_long = std::stol((dynamic_cast<InfoLong*>(c_dados))->get());
+            break;
     }
+    
 
     frame->empilhar(op);
     frame->pc++;
@@ -3344,6 +3347,7 @@ void manipulador_i2s (Frame *frame){
 void manipulador_lcmp (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
+    Operando *op = new Operando();
 
     int resultado = 0;
 
@@ -3353,8 +3357,8 @@ void manipulador_lcmp (Frame *frame){
     else if (valor_1->tipo_long > valor_2->tipo_long)
         resultado = -1;
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+    op->tag = TAG_INT;    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -3375,6 +3379,7 @@ void manipulador_lcmp (Frame *frame){
 void manipulador_fcmpl (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
+    Operando *op = new Operando();
 
     int resultado = 0;
 
@@ -3385,8 +3390,8 @@ void manipulador_fcmpl (Frame *frame){
     else if ((int)valor_1->tipo_float > (int)valor_2->tipo_float)
         resultado = -1;
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+    op->tag = TAG_INT;    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -3408,6 +3413,7 @@ void manipulador_fcmpl (Frame *frame){
 void manipulador_fcmpg (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
+    Operando *op = new Operando();
 
     int resultado = 0;
 
@@ -3418,8 +3424,8 @@ void manipulador_fcmpg (Frame *frame){
     else if ((float)valor_1->tipo_float > (float)valor_2->tipo_float)
         resultado = -1;
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+    op->tag = TAG_INT;    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -3440,6 +3446,7 @@ void manipulador_fcmpg (Frame *frame){
 void manipulador_dcmpl (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
+    Operando *op = new Operando();
 
     int resultado = 0;
 
@@ -3450,8 +3457,8 @@ void manipulador_dcmpl (Frame *frame){
     else if ((long)valor_1->tipo_double > (long)valor_2->tipo_double)
         resultado = -1;
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+    op->tag = TAG_INT;    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -3472,6 +3479,7 @@ void manipulador_dcmpl (Frame *frame){
 void manipulador_dcmpg (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
+    Operando *op = new Operando();
 
     int resultado = 0;
     if (std::isnan(valor_1->tipo_double) || std::isnan(valor_2->tipo_double))
@@ -3481,8 +3489,8 @@ void manipulador_dcmpg (Frame *frame){
     else if (valor_1->tipo_double > valor_2->tipo_double)
         resultado = -1;
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
-    valor_1->tag = TAG_INT;    frame->empilhar(valor_1);
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+    op->tag = TAG_INT;    frame->empilhar(op);
     frame->pc++;
 }
 

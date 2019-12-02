@@ -46,7 +46,7 @@ int get_padding(const int num_max){
     int padding = 1;
 
     do{
-       if ((num_max >= pow10(padding - 1)) && (num_max < pow10(padding)))
+       if ((num_max >= pow(10, padding - 1)) && (num_max < pow(10, padding)))
             break;
 
         padding++;
