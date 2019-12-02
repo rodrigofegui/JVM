@@ -1141,7 +1141,7 @@ void manipulador_caload (Frame *frame){
 
 // 53 (0x35)
 void manipulador_saload (Frame *frame){
-    manipulador_xaload(frame, TAG_SHT);
+    manipulador_xaload(frame, TAG_INT);
 }
 
 // 54 (0x36)
@@ -1301,12 +1301,12 @@ void manipulador_bastore (Frame *frame){
 
 // 85 (0x55)
 void manipulador_castore (Frame *frame){
-    manipulador_xastore(frame, TAG_CHR);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 86 (0x56)
 void manipulador_sastore (Frame *frame){
-    manipulador_xastore(frame, TAG_SHT);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 87 (0x57)
@@ -1891,15 +1891,15 @@ void manipulador_lneg (Frame *frame){
 // 118 (0x76)
 void manipulador_fneg (Frame *frame){
     Operando *valor = frame->desempilhar();
-    u4 fvalor_neg;
+    float valor1, valor2;
 
-    std::memcpy(&fvalor_neg, &valor->tipo_float, sizeof(u4));
+    std::memcpy(&valor1, &valor->tipo_float, sizeof(float));
 
-    fvalor_neg = (~fvalor_neg) + 1;
+    valor2 = -valor1;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_FLT;
-    std::memcpy(&resultado->tipo_float, &fvalor_neg, sizeof(float));
+    std::memcpy(&resultado->tipo_float, &valor2, sizeof(float));
 
     valor->deletar();
 	delete valor;
@@ -1931,11 +1931,11 @@ void manipulador_ishl (Frame *frame){
     u4 ivalor1 = valor_1->tipo_int;
     u4 ivalor2 = valor_2->tipo_int;
 
-    ivalor2 &= 0x0000003F;
+    ivalor1 &= 0x0000001F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = ivalor1 << ivalor2;
+    resultado->tipo_int = ivalor2 << ivalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -1954,11 +1954,11 @@ void manipulador_lshl (Frame *frame){
     u8 lvalor1 = valor_1->tipo_long;
     u8 lvalor2 = valor_2->tipo_long;
 
-    lvalor2 &= 0x0000003F;
+    lvalor1 &= 0x0000003F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = lvalor1 << lvalor2;
+    resultado->tipo_long = lvalor2 << lvalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -1967,6 +1967,7 @@ void manipulador_lshl (Frame *frame){
 
     frame->empilhar(resultado);
     frame->pc++;
+
 }
 
 // 122 (0x7A)
@@ -1977,11 +1978,11 @@ void manipulador_ishr (Frame *frame){
     u4 ivalor1 = valor_1->tipo_int;
     u4 ivalor2 = valor_2->tipo_int;
 
-    ivalor2 &= 0x0000003F;
+    ivalor1 &= 0x0000001F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = ivalor1 >> ivalor2;
+    resultado->tipo_int = ivalor2 >> ivalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -2000,11 +2001,11 @@ void manipulador_lshr (Frame *frame){
     u8 lvalor1 = valor_1->tipo_long;
     u8 lvalor2 = valor_2->tipo_long;
 
-    lvalor2 &= 0x0000003F;
+    lvalor1 &= 0x0000003F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = lvalor1 >> lvalor2;
+    resultado->tipo_long = lvalor2 >> lvalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -2349,7 +2350,8 @@ void manipulador_d2f (Frame *frame){
 void manipulador_i2b (Frame *frame){
     Operando *op = frame->desempilhar();
 
-    u4 valor = (u4) op->tipo_int;
+    int valor = (int8_t) op->tipo_int;
+
     std::memcpy(&op->tipo_byte, &valor, sizeof(u4));
 
     frame->empilhar(op);
@@ -2358,24 +2360,33 @@ void manipulador_i2b (Frame *frame){
 
 // 146 (0x92)
 void manipulador_i2c (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    char valor = (char) op->tipo_int;
-    std::memcpy(&op->tipo_char, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para char");
+
+    char valor_convertido =  (char) topo->tipo_int;
+
+    memcpy(&op->tipo_char,&valor_convertido,sizeof(char));
+
+    op->tag = TAG_CHR;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;         
 }
 
 // 147 (0x93)
 void manipulador_i2s (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    short valor = (short) op->tipo_int;
-    std::memcpy(&op->tipo_short, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para short");
+
+    op->tipo_int = (short) ((int) topo->tipo_int);
+    op->tag = TAG_INT;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;    
 }
 
 // 148 (0x94)
@@ -2922,10 +2933,12 @@ void manipulador_getfield (Frame *frame){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
     }
+
     std::string campo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_campo();
     Operando* instancia_classe = frame->desempilhar();
+    std::cout << "tamanho: " << instancia_classe->obj->referencias.size() << std::endl;
     frame->empilhar(instancia_classe->obj->referencias[campo]);
-    frame->pc++;
+    // frame->pc++;
 }
 
 // 181 (0xB5)
@@ -2998,7 +3011,7 @@ void manipulador_invokevirtual (Frame *frame){
     u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
-
+    
     if (!c_dados){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
@@ -3018,12 +3031,11 @@ void manipulador_invokevirtual (Frame *frame){
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
 
-        frame->pc++;
         return;
     }
 
-    frame->a_empilhar = c_dados;
     frame->pc++;
+    frame->a_empilhar = c_dados;
 }
 
 // 183 (0xB7)
