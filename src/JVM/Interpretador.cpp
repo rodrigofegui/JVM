@@ -33,7 +33,7 @@ void Interpretador::executar (){
         }
 
         else if (c_frame->pode_desempilhar){
-            desempilhar()->deletar();
+            desempilhar();
             exibir_se_verboso("\n");
         }
 
@@ -197,7 +197,7 @@ void Interpretador::deletar(){
 
     std::vector<Frame *>().swap(this->pilha_frames);
 
-    std::map<Campo*, Operando *>().swap(this->link_campo_operando);
+    // std::map<Campo*, Operando *>().swap(this->link_campo_operando);
 
     this->area_metodos = nullptr;
 

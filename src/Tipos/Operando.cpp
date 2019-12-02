@@ -13,7 +13,7 @@ std::string Operando::get (){
         case TAG_DBL: op = std::to_string(this->tipo_double); break;
         case TAG_LNG: op = std::to_string((long) this->tipo_long); break;
         case TAG_STR: op = this->tipo_string; break;
-        case TAG_BYTE: op = get_hex_2(this->tipo_byte); break;
+        case TAG_BYTE: op = get_hex_4(this->tipo_byte); break;
         case TAG_ARR:
             op += "[";
             for (u2 cnt = 0; cnt < this->lista_operandos->size(); cnt++){
@@ -55,9 +55,29 @@ Operando* Operando::duplicar(){
     return novo;
 }
 
+void Operando::atualizar_tipo (u1 tag){
+    if (this->tag != TAG_BYTE)
+        return;
+
+    this->tag = tag;
+
+    switch (tag){
+        case TAG_CHR:
+            this->tipo_char = (char) this->tipo_byte; break;
+        case TAG_SHT:
+            this->tipo_short = (short) this->tipo_byte; break;
+        case TAG_INT:
+            this->tipo_int = (int) this->tipo_byte; break;
+        case TAG_LNG:
+            this->tipo_long = (long) this->tipo_byte; break;
+        case TAG_FLT:
+            this->tipo_float = (float) this->tipo_byte; break;
+    }
+}
+
 void Operando::deletar (){
-    if (this->obj)
-        this->obj->deletar();
+    // if (this->obj)
+    //     this->obj->deletar();
 }
 
 Objeto* Objeto::duplicar(){

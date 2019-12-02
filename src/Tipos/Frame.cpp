@@ -48,7 +48,10 @@ InterCPDado* Frame::buscar_simbolo(u2 indice){
 }
 
 Operando* Frame::desempilhar(){
-    if (this->pilha_operandos.empty()) return nullptr;
+    if (this->pilha_operandos.empty()){
+        std::cout << "A pilha de operando já está vazia para poder desempilhar" << std::endl;
+        return nullptr;
+    }
 
     Operando *topo = this->pilha_operandos.top();
 
@@ -63,12 +66,6 @@ void Frame::empilhar(Operando *op){
     this->pilha_operandos.push(op);
 
     exibir_se_verboso("\tEmpilhou: " + this->pilha_operandos.top()->get());
-}
-
-std::string Frame::get_tipo_parametros(){
-    std::string descritivo = this->referencia_metodo->get_descritor();
-
-    return descritivo.substr(1, descritivo.rfind(")") - 1);
 }
 
 std::string Frame::get_tipo_retorno(){
@@ -87,7 +84,7 @@ void Frame::deletar (){
     //     var_local->deletar();    
     // }
 
-    std::stack<Operando *>().swap(pilha_operandos);
+    // std::stack<Operando *>().swap(pilha_operandos);
 
     this->tab_simbolos = nullptr;
     this->referencia_metodo = nullptr;
