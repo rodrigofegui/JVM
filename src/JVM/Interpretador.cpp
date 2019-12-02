@@ -79,7 +79,10 @@ void Interpretador::empilhar (std::string const &nome_metodo, std::string const 
             argumentos_instancia.insert(argumentos_instancia.begin() + 1, op_vazio);
         }
     }
-
+    if((int)metodo->flag_acesso != 8) {
+        Operando* classe_atual = this->topo()->desempilhar();
+        argumentos_instancia.insert(argumentos_instancia.begin(), classe_atual);
+    }
     Frame *novo_frame = new Frame(metodo);
 
     for(int i = 0; i < argumentos_instancia.size(); i++){
@@ -87,7 +90,7 @@ void Interpretador::empilhar (std::string const &nome_metodo, std::string const 
     }
 
     exibir_se_verboso("\tQuant. de argumentos configurados: "
-        + std::to_string(novo_frame->var_locais.size()));
+        + std::to_string(argumentos_instancia.size()));
 
     empilhar(novo_frame);
 }

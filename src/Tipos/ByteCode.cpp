@@ -550,7 +550,6 @@ void manipulador_xstorex_n (Frame *frame, int ind, u1 tag){
         std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
         return;
     }
-
     exibir_se_verboso("\tVar[" + std::to_string((int)ind) + "]: " + op->get());
 
     frame->var_locais[ind] = op;
@@ -596,26 +595,31 @@ void manipulador_xastore (Frame *frame, u1 tag){
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
     // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
 
-    indice->deletar();
-	delete indice;
+    // indice->deletar();
+	// delete indice;
 
     lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
 
 void manipulador_xloadx_n (Frame *frame, int ind, u1 tag){
+    if(!frame->var_locais[ind]) {
+        std::cout << "Não existe var local" << std::endl;
+    }
+
     exibir_se_verboso("\tA carregar a Var[" + std::to_string(ind)
         + "]: ");
 
     Operando *op = frame->var_locais[ind];
 
-    if (op->tag != tag){
-        std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
-        std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
-        return;
-    }
+    // if (op->tag != tag){
+    //     std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
+    //     std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
+    //     return;
+    // }
 
-    frame->empilhar(op->duplicar());
+    // Perdendo referencia para objeto quando usa op->duplicar()
+    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -651,8 +655,8 @@ void manipulador_xaload (Frame *frame, u1 tag){
         return;
     }
 
-    indice->deletar();
-	delete indice;
+    // indice->deletar();
+	// delete indice;
 
     frame->empilhar(a_empilhar);
     frame->pc++;
@@ -688,6 +692,8 @@ void manipulador_iincx (Frame *frame, int ind, int valor){
     if (frame->var_locais.at(ind)->tag != TAG_INT){
         std::cout << "Não é possível somar a um não inteiro, é ";
         std::cout << get_tag(frame->var_locais.at(ind)->tag) << std::endl;
+
+        std::cout << (int)frame->var_locais.at(ind)->tipo_int << std::endl;
         return;
     }
 
@@ -2623,10 +2629,10 @@ void manipulador_if_icmpeq (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
+    // op_1->deletar();
+	// delete op_1;
+    // op_2->deletar();
+	// delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2648,10 +2654,10 @@ void manipulador_if_icmpne (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
+    // op_1->deletar();
+	// delete op_1;
+    // op_2->deletar();
+	// delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2673,10 +2679,10 @@ void manipulador_if_icmplt (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
+    // op_1->deletar();
+	// delete op_1;
+    // op_2->deletar();
+	// delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2698,10 +2704,10 @@ void manipulador_if_icmpge (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
+    // op_1->deletar();
+	// delete op_1;
+    // op_2->deletar();
+	// delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2723,10 +2729,10 @@ void manipulador_if_icmpgt (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
+    // op_1->deletar();
+	// delete op_1;
+    // op_2->deletar();
+	// delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2748,10 +2754,10 @@ void manipulador_if_icmple (Frame *frame){
     exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
         + " vai para " + std::to_string(frame->pc + deslocamento));
 
-    op_1->deletar();
-	delete op_1;
-    op_2->deletar();
-	delete op_2;
+    // op_1->deletar();
+	// delete op_1;
+    // op_2->deletar();
+	// delete op_2;
 
     frame->pc += deslocamento;
 }
@@ -2767,10 +2773,10 @@ void manipulador_if_acmpeq (Frame *frame){
         deslocamento = get_deslocamento(frame);
     }
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    // valor_1->deletar();
+	// delete valor_1;
+    // valor_2->deletar();
+	// delete valor_2;
 
     frame->pc += deslocamento;
 }
@@ -2787,10 +2793,10 @@ void manipulador_if_acmpne (Frame *frame){
         deslocamento = get_deslocamento(frame);
     }
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    // valor_1->deletar();
+	// delete valor_1;
+    // valor_2->deletar();
+	// delete valor_2;
 
     frame->pc += deslocamento;
 }
@@ -2943,9 +2949,8 @@ void manipulador_getfield (Frame *frame){
 
     std::string campo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_campo();
     Operando* instancia_classe = frame->desempilhar();
-    std::cout << "tamanho: " << instancia_classe->obj->referencias.size() << std::endl;
     frame->empilhar(instancia_classe->obj->referencias[campo]);
-    // frame->pc++;
+    frame->pc++;
 }
 
 // 181 (0xB5)
@@ -3033,11 +3038,13 @@ void manipulador_invokevirtual (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/io/PrintStream")){
+        std::cout << "\tStdout: ";
         std::cout << frame->desempilhar()->get();
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
 
+        frame->pc++;
         return;
     }
 
@@ -3095,7 +3102,6 @@ void manipulador_invokestatic (Frame *frame){
     frame->pc++;
 }
 
-// rever-
 // 185 (0xB9)
 void manipulador_invokeinterface (Frame *frame){
     u1 byte_1 = frame->get_prox_byte();

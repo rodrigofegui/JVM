@@ -78,14 +78,14 @@ std::string Frame::get_tipo_retorno(){
 }
 
 void Frame::deletar (){
-    if (this->retorno){
-        this->retorno->deletar();
-        delete this->retorno;
-    }
+    // if (this->retorno){
+    //     this->retorno->deletar();
+    //     delete this->retorno;
+    // }
 
-    for (auto &var_local : this->var_locais){
-        var_local->deletar();
-    }
+    // for (auto &var_local : this->var_locais){
+    //     var_local->deletar();    
+    // }
 
     std::stack<Operando *>().swap(pilha_operandos);
 
