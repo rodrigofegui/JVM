@@ -1128,7 +1128,7 @@ void manipulador_caload (Frame *frame){
 
 // 53 (0x35)
 void manipulador_saload (Frame *frame){
-    manipulador_xaload(frame, TAG_SHT);
+    manipulador_xaload(frame, TAG_INT);
 }
 
 // 54 (0x36)
@@ -1288,12 +1288,12 @@ void manipulador_bastore (Frame *frame){
 
 // 85 (0x55)
 void manipulador_castore (Frame *frame){
-    manipulador_xastore(frame, TAG_CHR);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 86 (0x56)
 void manipulador_sastore (Frame *frame){
-    manipulador_xastore(frame, TAG_SHT);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 87 (0x57)
@@ -1898,15 +1898,15 @@ void manipulador_lneg (Frame *frame){
 // 118 (0x76)
 void manipulador_fneg (Frame *frame){
     Operando *valor = frame->desempilhar();
-    u4 fvalor_neg;
+    float valor1, valor2;
 
-    std::memcpy(&fvalor_neg, &valor->tipo_float, sizeof(u4));
+    std::memcpy(&valor1, &valor->tipo_float, sizeof(float));
 
-    fvalor_neg = (~fvalor_neg) + 1;
+    valor2 = -valor1;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_FLT;
-    std::memcpy(&resultado->tipo_float, &fvalor_neg, sizeof(float));
+    std::memcpy(&resultado->tipo_float, &valor2, sizeof(float));
 
     valor->deletar();
 	delete valor;
@@ -1961,11 +1961,11 @@ void manipulador_lshl (Frame *frame){
     u8 lvalor1 = valor_1->tipo_long;
     u8 lvalor2 = valor_2->tipo_long;
 
-    lvalor2 &= 0x0000003F;
+    lvalor1 &= 0x0000003F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = lvalor1 << lvalor2;
+    resultado->tipo_long = lvalor2 << lvalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -1974,6 +1974,7 @@ void manipulador_lshl (Frame *frame){
 
     frame->empilhar(resultado);
     frame->pc++;
+
 }
 
 // 122 (0x7A)
@@ -2007,11 +2008,11 @@ void manipulador_lshr (Frame *frame){
     u8 lvalor1 = valor_1->tipo_long;
     u8 lvalor2 = valor_2->tipo_long;
 
-    lvalor2 &= 0x0000003F;
+    lvalor1 &= 0x0000003F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = lvalor1 >> lvalor2;
+    resultado->tipo_long = lvalor2 >> lvalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -2388,8 +2389,8 @@ void manipulador_i2s (Frame *frame){
 
     exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para short");
 
-    op->tipo_short = (short) ((int) topo->tipo_int);
-    op->tag = TAG_SHT;
+    op->tipo_int = (short) ((int) topo->tipo_int);
+    op->tag = TAG_INT;
 
     frame->empilhar(op);
     frame->pc++;    
@@ -2939,10 +2940,12 @@ void manipulador_getfield (Frame *frame){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
     }
+
     std::string campo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_campo();
     Operando* instancia_classe = frame->desempilhar();
+    std::cout << "tamanho: " << instancia_classe->obj->referencias.size() << std::endl;
     frame->empilhar(instancia_classe->obj->referencias[campo]);
-    frame->pc++;
+    // frame->pc++;
 }
 
 // 181 (0xB5)
@@ -3015,7 +3018,7 @@ void manipulador_invokevirtual (Frame *frame){
     u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
-
+    
     if (!c_dados){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
@@ -3038,8 +3041,8 @@ void manipulador_invokevirtual (Frame *frame){
         return;
     }
 
-    frame->a_empilhar = c_dados;
     frame->pc++;
+    frame->a_empilhar = c_dados;
 }
 
 // 183 (0xB7)
