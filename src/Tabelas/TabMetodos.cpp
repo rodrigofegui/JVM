@@ -17,6 +17,15 @@ u1 TabMetodos::decodificar (FILE *const arq){
     return 0;
 }
 
+Campo* TabMetodos::buscar (const std::string &nome){
+    for (u1 cnt = 0; cnt < this->registros.size(); cnt++){
+        if (!this->registros[cnt].get_nome().compare(nome))
+            return &this->registros[cnt];
+    }
+
+    return nullptr;
+}
+
 void TabMetodos::exibir (const u1 qnt_tabs){
     std::string tabs(qnt_tabs, '\t');
 

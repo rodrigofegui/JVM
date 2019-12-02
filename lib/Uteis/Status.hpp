@@ -32,6 +32,4 @@
     enum avisos {
         W_SEM_MODO = 100,
     };
-
-    #define SUCESSO 0
 #endif

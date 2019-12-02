@@ -72,3 +72,9 @@ std::string get_hex_4(const u4 fonte){
 
     return hex_str.str();
 }
+
+void exibir_se_verboso (std::string const &mensagem){
+    #ifdef E_VERBOSO
+        std::cout << mensagem << std::endl;
+    #endif
+}

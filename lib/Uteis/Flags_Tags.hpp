@@ -8,6 +8,11 @@
     #include <string>
     #include "../Tipos/Basicos.hpp"
 
+
+    /** Flags de controle */
+    enum flags {ERRO, INVALIDO, SUCESSO, ARQ_MAIN, JA_EXISTIA};
+
+
     /** Versionamento do JAVAC */
     #define V1_1 45
     #define V1_2 46
@@ -37,6 +42,13 @@
     #define TAG_REF_MTD 10
     #define TAG_REF_MTD_ITF 11
     #define TAG_NOM_TIP 12
+    #define TAG_BYTE 13
+    #define TAG_REF 14
+    #define TAG_CHR 15
+    #define TAG_SHT 16
+    #define TAG_BLN 17
+    #define TAG_ARR 18
+    #define TAG_END 19
 
     /** Flags de acesso */
     #define FLG_PBC 0x0001
@@ -53,9 +65,23 @@
     #define FLG_STT 0x0800
     #define FLG_SNT 0X1000
 
+    /** Tipos de array */
+    #define ARR_BLN 4
+    #define ARR_CHR 5
+    #define ARR_FLT 6
+    #define ARR_DBL 7
+    #define ARR_BYTE 8
+    #define ARR_SHT 9
+    #define ARR_INT 10
+    #define ARR_LNG 11
+
     /**
      *  Recuperação de uma flag traduzida
      *  @param a_verificar Flag a ser analisada
      */
-    std::string get_flag(u2 a_verificar);
+    std::string get_flag (u2 a_verificar);
+
+    std::string get_tag (u1 a_verificar);
+
+    u1 to_tag (char a_verificar);
 #endif

@@ -16,34 +16,51 @@
     class Carregador{
         private:
             /** Arquivo .class com a função main */
-            ArqClass *pontoEntrada = nullptr;
+            std::string nome_arq_main;
 
             /** Arquivos .class em memória */
-            std::vector<ArqClass> arquivos;
+            std::vector<ArqClass *> arquivos;
 
         public:
             /** Construtor padrão */
             Carregador (){};
 
             /**
-             *  Carregamento dos arquivos .class para a memória, 1 ou mais
-             *  @param nomes_arqs Nomes dos arquivos a serem carregados
+             *  Verifica se os arquivos passados podem ser considerados arquivos .class,
+             *  um feedback é disponibilizado na saída padrão
+             *  @param nomes_arqs Nomes dos arquivos a serem analisados
              */
-            void carregar (std::vector<std::string> const &nomes_arqs);
+            void analise_semantica (std::vector<std::string> const &nomes_arqs);
 
             /**
-             *  Exibição dos arquivos .class carregados em memória na saída padrão
+             *  Decodifica e carrega o arquivo em memória
+             *  @param nome_arq Nome do arquivo a ser carregado
+             */
+            u1 carregar (std::string const &nome_arq);
+
+            /**
+             *  Exibição dos arquivos carregados em memória na saída padrão
              */
             void exibir ();
 
             /**
              *  Dentre os arquivos considerados pelo sistema, o primeiro que possuir a função
-             *  `main` definida será considerado como o arquivo de entrada pelo interpretador
-             *  @param arq Arquivo .class que pode conter um método main
+             *  `main` definida será considerado como o arquivo de entrada
+             *  @param nome_arq Nome do arquivo .class que contém o método main
              */
-            void set_pontoEntrada (ArqClass *const arq);
+            void set_nome_arq_main (std::string const &nome_arq);
 
-            ArqClass * get_pontoEntrada ();
+            /**
+             *  Recuperação do nome do arquivo de entrada
+             *  @return Nome do arquivo
+             */
+            std::string get_nome_arq_main ();
+
+            ArqClass* get_pontoEntrada();
+
+            ArqClass* topo();
+
+            ArqClass* localizar(std::string const &nome_arq);
 
             /**
              *  Destrutor do carregador e suas dependências

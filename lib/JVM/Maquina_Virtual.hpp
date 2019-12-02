@@ -2,6 +2,7 @@
     #define JVM_MAQUINA_VIRTUAL_HPP
 
     #include "Carregador.hpp"
+    #include "Interpretador.hpp"
     #include "../Uteis/Parametros.hpp"
     #include "../Tipos/ByteCode.hpp"
 
@@ -9,6 +10,7 @@
         private:
             Parametros parametros;
             Carregador carregador;
+            Interpretador *interpretador = nullptr;
 
         public:
             MaquinaVirtual (){};

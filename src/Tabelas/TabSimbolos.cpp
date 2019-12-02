@@ -41,7 +41,7 @@ u1 TabSimbolos::decodificar (FILE *const arq){
             c_dados->decodificar(arq);
 
             if (dynamic_cast<InfoUTF8*>(c_dados)
-                    && !(dynamic_cast<InfoUTF8*>(c_dados))->get_string().compare("main"))
+                    && !(dynamic_cast<InfoUTF8*>(c_dados))->get().compare("main"))
                 tem_main = 1;
 
             this->registros.push_back(c_dados);
@@ -84,19 +84,10 @@ InterCPDado* TabSimbolos::buscar (u2 ind){
 std::string TabSimbolos::get_string (u2 ind_nome){
     InterCPDado *c_dados = buscar(ind_nome);
 
-    if (dynamic_cast<InfoUTF8*>(c_dados))
-        return (dynamic_cast<InfoUTF8*>(c_dados))->get_string();
+    if (!c_dados)
+        return "";
 
-    if (dynamic_cast<InfoClasse*>(c_dados)){
-        return get_string((dynamic_cast<InfoClasse*>(c_dados))->ind_nome);
-    }
-
-    if (dynamic_cast<InfoNomeTipo*>(c_dados)){
-        return get_string((dynamic_cast<InfoNomeTipo*>(c_dados))->ind_nome)
-                + " : " + get_string((dynamic_cast<InfoNomeTipo*>(c_dados))->ind_descritor);
-    }
-
-    return "";
+    return c_dados->get();
 }
 
 void TabSimbolos::deletar (){

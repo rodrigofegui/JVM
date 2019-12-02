@@ -7,7 +7,6 @@
 #include "../../lib/Tipos/ArqClass.hpp"
 #include "../../lib/Uteis/Arquivos.hpp"
 #include "../../lib/Uteis/Flags_Tags.hpp"
-#include "../../lib/Uteis/Status.hpp"
 
 
 ArqClass::ArqClass (const std::string &nome_arq) : ArqClass() {
@@ -40,16 +39,19 @@ std::string ArqClass::get_versao_java (const u2 versao){
     }
 }
 
-ArqClass* ArqClass::decodificar (){
+u1 ArqClass::decodificar (){
     u1 tem_main = 0;
 
-    this->arq = abrir(nome_arq.c_str());
+    this->arq = abrir(this->nome_arq.c_str());
 
-    if (!this->arq) return nullptr;
+    if (!this->arq) return ERRO;
 
     check_validade();
 
-    if (!this->e_valido) return nullptr;
+    if (!this->e_valido){
+        deletar();
+        return INVALIDO;
+    }
 
     ler_u2(this->arq, &this->versao_min);
     ler_u2(this->arq, &this->versao_max);
@@ -95,19 +97,29 @@ ArqClass* ArqClass::decodificar (){
     fclose(this->arq);
     this->arq = nullptr;
 
-    if (!tem_main) return nullptr;
+    if (tem_main)
+        return ARQ_MAIN;
 
-    return this;
+    return SUCESSO;
+}
+
+Campo* ArqClass::get_metodo (const std::string &nome){
+    return (dynamic_cast<TabMetodos*>(this->tab_metodos))->buscar(nome);
+}
+
+Campo* ArqClass::get_campo (const std::string &nome){
+    return (dynamic_cast<TabCampos*>(this->tab_campos))->buscar(nome);
 }
 
 void ArqClass::exibir (){
-    std::cout << "Nome do arquivo .class: " << this->nome_arq << std::endl;
-    std::cout << "Código indentificador: " << get_hex_4(this->codigo) << std::endl;
+    std::cout << "Nome do arquivo: " << this->nome_arq << std::endl;
 
     if (!this->e_valido){
         std::cout << "Não é um arquivo válido!" << std::endl;
         return;
     }
+
+    std::cout << "Código indentificador: " << get_hex_4(this->codigo) << std::endl;
 
     std::cout << "Versão mínima compilador: ";
     std::cout << get_versao_java(this->versao_min) << std::endl;
@@ -145,7 +157,7 @@ void ArqClass::exibir (){
 
     if (this->tab_atributos) this->tab_atributos->exibir(1);
 
-    std::cout << "Fim dos dados sobre: " << this->nome_arq << std::endl;
+    std::cout << std::endl << "Fim dos dados sobre: " << this->nome_arq << std::endl;
 }
 
 void ArqClass::deletar (){
@@ -164,6 +176,8 @@ void ArqClass::deletar (){
     if (this->tab_atributos)
         this->tab_atributos->deletar();
 
-    if (this->arq) fclose(this->arq);
+    if (this->arq){
+        fclose(this->arq);
+        this->arq = nullptr;
+    }
 }
-

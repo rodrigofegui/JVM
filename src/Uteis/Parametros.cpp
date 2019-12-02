@@ -89,10 +89,6 @@ u1 Parametros::tem_arqs_cli (int argc, char *argv[]){
     return this->nome_arqs.size();
 }
 
-void Parametros::deletar (){
-    std::vector<std::string>().swap(nome_arqs);
-}
-
 void Parametros::set_modo (std::string modo){
     if (!modo.compare("-e"))
         this->flags &= 0xF1;
@@ -103,6 +99,10 @@ void Parametros::set_modo (std::string modo){
 u1 Parametros::e_leitura (){
     if (this->flags & 0x01)
         return 1;
-    
+
     return 0;
+}
+
+void Parametros::deletar (){
+    std::vector<std::string>().swap(nome_arqs);
 }

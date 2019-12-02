@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include "../lib/JVM/Maquina_Virtual.hpp"
+#include "../lib/Principal.hpp"
 
 
 int main(int argc, char *argv[]){

@@ -24,17 +24,47 @@ void Campo::decodificar (FILE *const arq){
     }
 }
 
+std::string Campo::get_nome (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome);
+}
+
+std::string Campo::get_descritor (){
+    return (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_descritor);
+}
+
+int Campo::get_quantidade_argumentos (){
+    std::string descritor = get_descritor();
+    int qnt_args = 0;
+
+    for (int pos = 1; pos < descritor.size(); pos++){
+        if (descritor[pos] == ')') break;
+
+        if (descritor[pos] == 'L'){
+            qnt_args++;
+            pos++;
+
+            while (descritor[pos++] != ';');
+        }
+
+        qnt_args++;
+
+        if (descritor[pos] == '[') break;
+    }
+
+    return qnt_args;
+}
+
 void Campo::exibir (const u1 qnt_tabs){
     if (!this) return;
 
     std::string tabs(qnt_tabs, '\t');
 
-    std::cout << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_nome) << std::endl;
+    std::cout << get_nome() << std::endl;
 
     std::cout << tabs + "Flag de acesso: " << get_flag(this->flag_acesso) << std::endl;
     std::cout << tabs + "Índice para o nome: " << this->ind_nome << std::endl;
     std::cout << tabs + "Índice para o descritor: " << this->ind_descritor;
-    std::cout << " -> " << (dynamic_cast<TabSimbolos*>(this->tab_simbolos))->get_string(this->ind_descritor) << std::endl;
+    std::cout << " -> " << get_descritor() << std::endl;
     std::cout << tabs + "Qnt. de entradas na tabela de atributos: " << this->tam_tab_atributos << std::endl;
 
     if (this->tab_atributos)

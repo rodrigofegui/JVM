@@ -8,22 +8,39 @@
     #include <stack>
     #include "Basicos.hpp"
     #include "../Interfaces/InterTabela.hpp"
+    #include "../Interfaces/InterCPDado.hpp"
     #include "../Tipos/Campo.hpp"
     #include "../Tipos/Atributos.hpp"
     #include "../Tipos/Operando.hpp"
 
     class Frame{
         public:
-            u4 pc;
+            u4 pc = 0;
             std::vector<Operando *> var_locais;
             std::stack<Operando *> pilha_operandos;
             InterTabela *tab_simbolos = nullptr;
             Campo *referencia_metodo = nullptr;
-            AttrCodigo* attr_codigo = nullptr;
-            Frame(InterTabela *, Campo *);
+            AttrCodigo *attr_codigo = nullptr;
+
+            InterCPDado *a_empilhar = nullptr;
+            u1 pode_desempilhar = false;
+            Operando *retorno = nullptr;
+
+            Frame () {};
+            explicit Frame (Campo *const metodo);
+
             void executar();
+
+            u1 get_prox_byte ();
+
             InterCPDado* buscar_simbolo (u2 indice);
-            void a_empilhar (Frame *frame) {};
+
+            Operando* desempilhar();
+
+            void empilhar(Operando *);
+
+            std::string get_tipo_retorno();
+
             void deletar();
     };
 #endif

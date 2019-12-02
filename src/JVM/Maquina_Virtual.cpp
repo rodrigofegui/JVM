@@ -7,22 +7,33 @@ void MaquinaVirtual::iniciar (int argc, char *argv[]){
 
     this->parametros.get_entradas(argc, argv);
 
-    this->carregador.carregar(this->parametros.nome_arqs);
+    this->carregador.analise_semantica(this->parametros.nome_arqs);
 }
 
 void MaquinaVirtual::executar (){
     if (this->parametros.e_leitura()){
-        this->carregador.exibir();
-    } else{
-        // std::cout << "operando como interpretador" << std::endl;
+        for (auto &nome_arq : this->parametros.nome_arqs){
+            this->carregador.carregar(nome_arq);
+        }
 
-        // for (auto &arq_class : arqs_class){
-        //     arq_class.deletar();
-        // }
+        this->carregador.exibir();
+
+    } else {
+        if (this->carregador.get_nome_arq_main().empty())
+            return;
+
+        this->carregador.carregar(this->carregador.get_nome_arq_main());
+
+        this->interpretador = new Interpretador(&this->carregador);
+
+        this->interpretador->executar();
     }
 }
 
 void MaquinaVirtual::deletar(){
+    if (this->interpretador)
+        this->interpretador->deletar();
+
     this->carregador.deletar();
 
     this->parametros.deletar();
