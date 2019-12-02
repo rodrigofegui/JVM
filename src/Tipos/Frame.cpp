@@ -48,7 +48,10 @@ InterCPDado* Frame::buscar_simbolo(u2 indice){
 }
 
 Operando* Frame::desempilhar(){
-    if (this->pilha_operandos.empty()) return nullptr;
+    if (this->pilha_operandos.empty()){
+        std::cout << "A pilha de operando já está vazia para poder desempilhar" << std::endl;
+        return nullptr;
+    }
 
     Operando *topo = this->pilha_operandos.top();
 

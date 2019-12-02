@@ -42,6 +42,8 @@
         // VERIFICAR: ESTAR CAUSANDO MEMORY LEAK
         void deletar ();
 
+        void atualizar_tipo (u1 tag);
+
         Operando* duplicar();
     };
 

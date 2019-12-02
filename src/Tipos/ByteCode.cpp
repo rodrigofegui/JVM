@@ -545,11 +545,13 @@ void manipulador_iconst (Frame *frame, int valor){
 void manipulador_xstorex_n (Frame *frame, int ind, u1 tag){
     Operando *op = frame->desempilhar();
 
-    if (op->tag != tag){
+    if ((op->tag != tag) && (op->tag != TAG_BYTE)){
         std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
         std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
         return;
     }
+
+    op->atualizar_tipo(tag);
 
     exibir_se_verboso("\tVar[" + std::to_string((int)ind) + "]: " + op->get());
 
@@ -588,7 +590,7 @@ void manipulador_xastore (Frame *frame, u1 tag){
         return;
     }
 
-    if (valor->tag != tag){
+    if ((valor->tag != tag) && (valor->tag != TAG_BYTE)){
         std::cout << "Não foi possível armazenar no array: o operando não é do tipo correto" << std::endl;
         return;
     }
@@ -596,6 +598,7 @@ void manipulador_xastore (Frame *frame, u1 tag){
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
     // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
 
+    valor->atualizar_tipo(tag);
     indice->deletar();
 	delete indice;
 
@@ -604,16 +607,18 @@ void manipulador_xastore (Frame *frame, u1 tag){
 }
 
 void manipulador_xloadx_n (Frame *frame, int ind, u1 tag){
-    exibir_se_verboso("\tA carregar a Var[" + std::to_string(ind)
-        + "]: ");
+    exibir_se_verboso("\tA empilhar a Var[" + std::to_string(ind)
+        + "]: " + frame->var_locais[ind]->get());
 
     Operando *op = frame->var_locais[ind];
 
-    if (op->tag != tag){
+    if ((op->tag != tag) && (op->tag != TAG_BYTE)){
         std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
         std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
         return;
     }
+
+    op->atualizar_tipo(tag);
 
     frame->empilhar(op->duplicar());
     frame->pc++;
@@ -638,6 +643,11 @@ void manipulador_xaload (Frame *frame, u1 tag){
         return;
     }
 
+    if (lista->tag != TAG_ARR){
+        std::cout << "Um " << get_tag(lista->tag) << " não é um " << get_tag(TAG_ARR) << std::endl;
+        return;
+    }
+
     if(ind < 0 || ind >= lista->lista_operandos->size()) {
         std::cout << "Exceção indice de array fora dos limites" << std::endl;
         return;
@@ -645,11 +655,13 @@ void manipulador_xaload (Frame *frame, u1 tag){
 
     Operando *a_empilhar = lista->lista_operandos->at(ind);
 
-    if (a_empilhar->tag != tag){
+    if ((a_empilhar->tag != tag) && (a_empilhar->tag != TAG_BYTE)){
         std::cout << "Não foi possível carregar: o operando é do tipo errado," << std::endl;
         std::cout << "\tdeveria ser " << get_tag(tag) << std::endl;
         return;
     }
+
+    a_empilhar->atualizar_tipo(tag);
 
     indice->deletar();
 	delete indice;
@@ -706,6 +718,7 @@ int16_t get_deslocamento (Frame *frame){
 
     return deslocamento;
 }
+
 
 /**
  *  Manipuladores dos bytecodes
@@ -834,8 +847,8 @@ void manipulador_bipush (Frame *frame){
     u1 byte = frame->get_prox_byte();
 
     Operando *op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = byte;
+    op->tag = TAG_BYTE;
+    op->tipo_byte = byte;
 
     frame->empilhar(op);
     frame->pc++;
@@ -847,8 +860,8 @@ void manipulador_sipush (Frame *frame){
     u1 byte2 = frame->get_prox_byte();
 
     Operando *op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = (byte1 << 8) | byte2;
+    op->tag = TAG_BYTE;
+    op->tipo_byte = (byte1 << 8) | byte2;
 
     frame->empilhar(op);
     frame->pc++;
@@ -988,7 +1001,7 @@ void manipulador_dload (Frame *frame){
 
 // 25 (0x19)
 void manipulador_aload (Frame *frame){
-    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_REF);
+    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_ARR);
 }
 
 // 26 (0x1A)
@@ -1153,7 +1166,7 @@ void manipulador_dstore (Frame *frame){
 
 // 58 (0x3A)
 void manipulador_astore (Frame *frame){
-    manipulador_xstore(frame, TAG_REF);
+    manipulador_xstore(frame, TAG_ARR);
 }
 
 // 59 (0x3B)
@@ -1238,22 +1251,22 @@ void manipulador_dstore_3 (Frame *frame){
 
 // 75 (0x4B)
 void manipulador_astore_0 (Frame *frame){
-    manipulador_xstore_n(frame, 0, TAG_REF);
+    manipulador_xstore_n(frame, 0, TAG_ARR);
 }
 
 // 76 (0x4C)
 void manipulador_astore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 1, TAG_REF);
+    manipulador_xstore_n(frame, 1, TAG_ARR);
 }
 
 // 77 (0x4D)
 void manipulador_astore_2 (Frame *frame){
-    manipulador_xstore_n(frame, 2, TAG_REF);
+    manipulador_xstore_n(frame, 2, TAG_ARR);
 }
 
 // 78 (0x4E)
 void manipulador_astore_3 (Frame *frame){
-    manipulador_xstore_n(frame, 3, TAG_REF);
+    manipulador_xstore_n(frame, 3, TAG_ARR);
 }
 
 // 79 (0x4F)
@@ -3144,6 +3157,7 @@ void manipulador_newarray (Frame *frame){
 
     u1 tipo_array = frame->get_prox_byte();
 
+
     int qnt = (int) quantidade->tipo_int;
 
     Operando *array = new Operando();
@@ -3175,6 +3189,9 @@ void manipulador_newarray (Frame *frame){
 
     quantidade->deletar();
     delete quantidade;
+
+    exibir_se_verboso("\tCriado um vetor com " + std::to_string(qnt) + " itens do tipo "
+        + std::to_string(tipo_array));
 
     frame->empilhar(array);
     frame->pc++;

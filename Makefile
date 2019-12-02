@@ -18,7 +18,8 @@ ESTATICO_FLAGS = --platform=unix64 --enable=warning,style,performance,portabilit
 # Responsável pela análise dinâmica do programa
 DINAMICO = valgrind
 # Flags do analisador dinâmico
-DINAMICO_FLAGS = --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes
+# DINAMICO_FLAGS = --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes
+DINAMICO_FLAGS =
 
 ###################
 # Manipuladores de arquivos
@@ -61,7 +62,9 @@ arq7 = CasosTestes/OtherClass.class
 arq8 = CasosTestes/ThrowExcep.class
 arq9 = CasosTestes/Fibonacci.class
 arq10 = CasosTestes/Harmonica.class
-arqs = $(arq1)
+arq11 = CasosTestes/testeArray.class
+arq12 = CasosTestes/vetor.class
+arqs = $(arq12)
 
 ###################
 # Regras
@@ -186,6 +189,7 @@ executar:
 	@echo "\t- Busca de memória não liberada, relatório resumido"
 	@echo "\t- Informe das perdas definitivas"
 	@echo "\t- Busca pela origem de valores indefinido"
+	@echo "${DESTAQUE}"
 	@echo ""
 	@$(DINAMICO) $(DINAMICO_FLAGS) ./$(EXECUTAVEL) -$(modo) --arqs $(arqs)
 
