@@ -599,8 +599,8 @@ void manipulador_xastore (Frame *frame, u1 tag){
     // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
 
     valor->atualizar_tipo(tag);
-    indice->deletar();
-	delete indice;
+    // indice->deletar();
+	// delete indice;
 
     lista->lista_operandos->at(ind) = valor;
     frame->pc++;
@@ -1497,14 +1497,14 @@ void manipulador_iadd (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
+    int i1 = valor_1->tipo_int,
+        i2 = valor_2->tipo_int;
+
+    exibir_se_verboso("\tA somar " + std::to_string(i2) + " e " + std::to_string(i1));
+
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = valor_2->tipo_int + valor_1->tipo_int;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    resultado->tipo_int = i2 + i1;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1515,14 +1515,14 @@ void manipulador_ladd (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
+    long l2 = (long) valor_2->tipo_long,
+         l1 = (long) valor_1->tipo_long;
+
+    exibir_se_verboso("\tA somar " + std::to_string(l2) + " e " + std::to_string(l1));
+
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = valor_2->tipo_long + valor_1->tipo_long;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    resultado->tipo_long = l2 + l1;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1542,11 +1542,6 @@ void manipulador_fadd (Frame *frame){
     resultado->tag = TAG_FLT;
     resultado->tipo_float = f1 + f2;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1556,14 +1551,14 @@ void manipulador_dadd (Frame *frame){
     Operando *valor_2 = frame->desempilhar();
     Operando *valor_1 = frame->desempilhar();
 
+    double d1 = valor_1->tipo_double,
+           d2 = valor_2->tipo_double;
+
+    exibir_se_verboso("\tA somar " + std::to_string(d1) + " e " + std::to_string(d2));
+
     Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-    resultado->tipo_double = valor_1->tipo_double + valor_2->tipo_double;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    resultado->tipo_double = d1 + d2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1578,11 +1573,6 @@ void manipulador_isub (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = valor_2->tipo_int - valor_1->tipo_int;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -1595,11 +1585,6 @@ void manipulador_lsub (Frame *frame){
     Operando* resultado = new Operando();
     resultado->tag = TAG_LNG;
     resultado->tipo_long = valor_2->tipo_long - valor_1->tipo_long;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -1619,11 +1604,6 @@ void manipulador_fsub (Frame *frame){
     resultado->tag = TAG_FLT;
 
     memcpy(&resultado->tipo_float, &fvalor_2, sizeof(float));
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
