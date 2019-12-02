@@ -545,11 +545,11 @@ void manipulador_iconst (Frame *frame, int valor){
 void manipulador_xstorex_n (Frame *frame, int ind, u1 tag){
     Operando *op = frame->desempilhar();
 
-    if ((op->tag != tag) && (op->tag != TAG_BYTE)){
-        std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
-        std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
-        return;
-    }
+    // if ((op->tag != tag) && (op->tag != TAG_BYTE)){
+    //     std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
+    //     std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
+    //     return;
+    // }
     exibir_se_verboso("\tVar[" + std::to_string((int)ind) + "]: " + op->get());
 
     frame->var_locais[ind] = op;
