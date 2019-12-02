@@ -22,7 +22,7 @@
         union {
             u4 tipo_bool;
             u4 tipo_byte;
-            u4 tipo_char;
+            char tipo_char;
             u4 tipo_short;
             u4 tipo_int;
             float tipo_float;
@@ -41,6 +41,8 @@
 
         // VERIFICAR: ESTAR CAUSANDO MEMORY LEAK
         void deletar ();
+
+        void atualizar_tipo (u1 tag);
 
         Operando* duplicar();
     };

@@ -21,6 +21,7 @@ Frame::Frame (Campo *const metodo) : Frame() {
 
 void Frame::executar(){
     if (this->a_empilhar) this->a_empilhar = nullptr;
+    if (this->retorno) this->retorno = nullptr;
 
     u4 pc_anterior = pc;
 
@@ -34,7 +35,7 @@ void Frame::executar(){
         this->pode_desempilhar = true;
 
     #ifdef E_VERBOSO
-        getchar();
+        // getchar();
     #endif
 }
 
@@ -47,6 +48,11 @@ InterCPDado* Frame::buscar_simbolo(u2 indice){
 }
 
 Operando* Frame::desempilhar(){
+    if (this->pilha_operandos.empty()){
+        std::cout << "A pilha de operando já está vazia para poder desempilhar" << std::endl;
+        return nullptr;
+    }
+
     Operando *topo = this->pilha_operandos.top();
 
     exibir_se_verboso("\tDesempilhou: " + topo->get());
@@ -59,7 +65,7 @@ Operando* Frame::desempilhar(){
 void Frame::empilhar(Operando *op){
     this->pilha_operandos.push(op);
 
-    exibir_se_verboso("\tEmpilhou: " + op->get());
+    exibir_se_verboso("\tEmpilhou: " + this->pilha_operandos.top()->get());
 }
 
 std::string Frame::get_tipo_parametros(){

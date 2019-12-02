@@ -545,11 +545,13 @@ void manipulador_iconst (Frame *frame, int valor){
 void manipulador_xstorex_n (Frame *frame, int ind, u1 tag){
     Operando *op = frame->desempilhar();
 
-    if (op->tag != tag){
+    if ((op->tag != tag) && (op->tag != TAG_BYTE)){
         std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
         std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
         return;
     }
+
+    op->atualizar_tipo(tag);
 
     exibir_se_verboso("\tVar[" + std::to_string((int)ind) + "]: " + op->get());
 
@@ -588,7 +590,7 @@ void manipulador_xastore (Frame *frame, u1 tag){
         return;
     }
 
-    if (valor->tag != tag){
+    if ((valor->tag != tag) && (valor->tag != TAG_BYTE)){
         std::cout << "Não foi possível armazenar no array: o operando não é do tipo correto" << std::endl;
         return;
     }
@@ -596,21 +598,27 @@ void manipulador_xastore (Frame *frame, u1 tag){
     // VERIFICAR: QUAL A MELHOR ABORDAGEM?
     // memcpy(&lista->lista_operandos->at(indice->tipo_int), &valor->tipo_float, sizeof(u8));
 
-    indice->deletar();
-	delete indice;
+    valor->atualizar_tipo(tag);
+    // indice->deletar();
+	// delete indice;
 
     lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
 
 void manipulador_xloadx_n (Frame *frame, int ind, u1 tag){
+    exibir_se_verboso("\tA empilhar a Var[" + std::to_string(ind)
+        + "]: " + frame->var_locais[ind]->get());
+
     Operando *op = frame->var_locais[ind];
 
-    if (op->tag != tag){
+    if ((op->tag != tag) && (op->tag != TAG_BYTE)){
         std::cout << "Não foi possível armazenar: o operando é do tipo errado" << std::endl;
         std::cout << "\t" << get_tag(op->tag) << " não é " << get_tag(tag) << std::endl;
         return;
     }
+
+    op->atualizar_tipo(tag);
 
     frame->empilhar(op->duplicar());
     frame->pc++;
@@ -635,6 +643,11 @@ void manipulador_xaload (Frame *frame, u1 tag){
         return;
     }
 
+    if (lista->tag != TAG_ARR){
+        std::cout << "Um " << get_tag(lista->tag) << " não é um " << get_tag(TAG_ARR) << std::endl;
+        return;
+    }
+
     if(ind < 0 || ind >= lista->lista_operandos->size()) {
         std::cout << "Exceção indice de array fora dos limites" << std::endl;
         return;
@@ -642,11 +655,13 @@ void manipulador_xaload (Frame *frame, u1 tag){
 
     Operando *a_empilhar = lista->lista_operandos->at(ind);
 
-    if (a_empilhar->tag != tag){
+    if ((a_empilhar->tag != tag) && (a_empilhar->tag != TAG_BYTE)){
         std::cout << "Não foi possível carregar: o operando é do tipo errado," << std::endl;
         std::cout << "\tdeveria ser " << get_tag(tag) << std::endl;
         return;
     }
+
+    a_empilhar->atualizar_tipo(tag);
 
     indice->deletar();
 	delete indice;
@@ -703,6 +718,7 @@ int16_t get_deslocamento (Frame *frame){
 
     return deslocamento;
 }
+
 
 /**
  *  Manipuladores dos bytecodes
@@ -952,8 +968,8 @@ void manipulador_bipush (Frame *frame){
     u1 byte = frame->get_prox_byte();
 
     Operando *op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = byte;
+    op->tag = TAG_BYTE;
+    op->tipo_byte = byte;
 
     frame->empilhar(op);
     frame->pc++;
@@ -972,8 +988,8 @@ void manipulador_sipush (Frame *frame){
     u1 byte2 = frame->get_prox_byte();
 
     Operando *op = new Operando();
-    op->tag = TAG_INT;
-    op->tipo_int = (byte1 << 8) | byte2;
+    op->tag = TAG_BYTE;
+    op->tipo_byte = (byte1 << 8) | byte2;
 
     frame->empilhar(op);
     frame->pc++;
@@ -1177,7 +1193,7 @@ void manipulador_dload (Frame *frame){
  * O índice (passsado para manipulador_xload_n como o próximo byte do frame) é um byte sem sinal que deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter uma referência. O objectref na posição do índice é colocado no topo da pilha de operandos.
  */
 void manipulador_aload (Frame *frame){
-    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_REF);
+    manipulador_xload_n(frame, frame->get_prox_byte(), TAG_ARR);
 }
 
 // 26 (0x1A)
@@ -1381,7 +1397,7 @@ void manipulador_dload_3 (Frame *frame){
  * O índice (0) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter uma referêmcia. O objectref na variável local na posição do índice é colocado no topo da pilha de operandos.
  */
 void manipulador_aload_0 (Frame *frame){
-    manipulador_xload_n(frame, 0, TAG_REF);
+    manipulador_xload_n(frame, 0, TAG_ARR);
 }
 
 // 43 (0x2B)
@@ -1393,7 +1409,7 @@ void manipulador_aload_0 (Frame *frame){
  * O índice (1) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter uma referêmcia. O objectref na variável local na posição do índice é colocado no topo da pilha de operandos.
  */
 void manipulador_aload_1 (Frame *frame){
-    manipulador_xload_n(frame, 1, TAG_REF);
+    manipulador_xload_n(frame, 1, TAG_ARR);
 }
 
 // 44 (0x2C)
@@ -1405,7 +1421,7 @@ void manipulador_aload_1 (Frame *frame){
  * O índice (2) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter uma referêmcia. O objectref na variável local na posição do índice é colocado no topo da pilha de operandos.
  */
 void manipulador_aload_2 (Frame *frame){
-    manipulador_xload_n(frame, 2, TAG_REF);
+    manipulador_xload_n(frame, 2, TAG_ARR);
 }
 
 // 45 (0x2D)
@@ -1417,7 +1433,7 @@ void manipulador_aload_2 (Frame *frame){
  * O índice (3) deve ser um indíce para o vetor de variáveis locais do frame atual. A variável local na posição do índice deve conter uma referêmcia. O objectref na variável local na posição do índice é colocado no topo da pilha de operandos.
  */
 void manipulador_aload_3 (Frame *frame){
-    manipulador_xload_n(frame, 3, TAG_REF);
+    manipulador_xload_n(frame, 3, TAG_ARR);
 }
 
 // 46 (0x2E)
@@ -1513,7 +1529,7 @@ void manipulador_caload (Frame *frame){
  * O arrayref deve ser do tipo referência e precisa referenciar um vetor cujos componentes são do tipo short. O índice precisa ser do tipo inteiro. Tanto arrayref quanto o índice são removidos do topo da pilha de operandos. O byte na posição do índice é encontrado, extendido com sinal para tipo inteiro e colocado no topo da pilha de operandos.
  */
 void manipulador_saload (Frame *frame){
-    manipulador_xaload(frame, TAG_SHT);
+    manipulador_xaload(frame, TAG_INT);
 }
 
 // 54 (0x36)
@@ -1573,7 +1589,7 @@ void manipulador_dstore (Frame *frame){
  * O índice é um byte sem sinal que deve ser um índice para o vetor de variáveis locais do frame atual. O elemento no topo da pilha de operandos deve ser do tipo returnAddress ou referência. Esse elemento é retirado do topo da pilha, e o valor da variável no índice recebe objectref.
  */
 void manipulador_astore (Frame *frame){
-    manipulador_xstore(frame, TAG_REF);
+    manipulador_xstore(frame, TAG_ARR);
 }
 
 // 59 (0x3B)
@@ -1777,7 +1793,7 @@ void manipulador_dstore_3 (Frame *frame){
  * O índice (0) é um byte sem sinal que deve ser um índice para o vetor de variáveis locais do frame atual. O elemento no topo da pilha de operandos deve ser do tipo returnAddress ou referência. Esse elemento é retirado do topo da pilha, e o valor da variável no índice recebe objectref.
  */
 void manipulador_astore_0 (Frame *frame){
-    manipulador_xstore_n(frame, 0, TAG_REF);
+    manipulador_xstore_n(frame, 0, TAG_ARR);
 }
 
 // 76 (0x4C)
@@ -1789,7 +1805,7 @@ void manipulador_astore_0 (Frame *frame){
  * O índice (1) é um byte sem sinal que deve ser um índice para o vetor de variáveis locais do frame atual. O elemento no topo da pilha de operandos deve ser do tipo returnAddress ou referência. Esse elemento é retirado do topo da pilha, e o valor da variável no índice recebe objectref.
  */
 void manipulador_astore_1 (Frame *frame){
-    manipulador_xstore_n(frame, 1, TAG_REF);
+    manipulador_xstore_n(frame, 1, TAG_ARR);
 }
 
 // 77 (0x4D)
@@ -1801,7 +1817,7 @@ void manipulador_astore_1 (Frame *frame){
  * O índice (2) é um byte sem sinal que deve ser um índice para o vetor de variáveis locais do frame atual. O elemento no topo da pilha de operandos deve ser do tipo returnAddress ou referência. Esse elemento é retirado do topo da pilha, e o valor da variável no índice recebe objectref.
  */
 void manipulador_astore_2 (Frame *frame){
-    manipulador_xstore_n(frame, 2, TAG_REF);
+    manipulador_xstore_n(frame, 2, TAG_ARR);
 }
 
 // 78 (0x4E)
@@ -1813,7 +1829,7 @@ void manipulador_astore_2 (Frame *frame){
  * O índice (3) é um byte sem sinal que deve ser um índice para o vetor de variáveis locais do frame atual. O elemento no topo da pilha de operandos deve ser do tipo returnAddress ou referência. Esse elemento é retirado do topo da pilha, e o valor da variável no índice recebe objectref.
  */
 void manipulador_astore_3 (Frame *frame){
-    manipulador_xstore_n(frame, 3, TAG_REF);
+    manipulador_xstore_n(frame, 3, TAG_ARR);
 }
 
 // 79 (0x4F)
@@ -1897,7 +1913,7 @@ void manipulador_bastore (Frame *frame){
  * O arrayref deve ser do tipo referência e deve referenciar um vetor cujos componentes são do tipo char. O índice e o valor devem ser tipo inteiro. Arrayref, índice e o valor são retirados do topo da pilha de operandos. O valor do tipo inteiro é truncado para um char e armazenado no vetor na posição índice.
  */
 void manipulador_castore (Frame *frame){
-    manipulador_xastore(frame, TAG_CHR);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 86 (0x56)
@@ -1909,7 +1925,7 @@ void manipulador_castore (Frame *frame){
  * O arrayref deve ser do tipo referência e deve referenciar um vetor cujos componentes são do tipo short. O índice e o valor devem ser tipo inteiro. Arrayref, índice e o valor são retirados do topo da pilha de operandos. O valor do tipo inteiro é truncado para um short e armazenado no vetor na posição índice.
  */
 void manipulador_sastore (Frame *frame){
-    manipulador_xastore(frame, TAG_SHT);
+    manipulador_xastore(frame, TAG_INT);
 }
 
 // 87 (0x57)
@@ -2170,14 +2186,14 @@ void manipulador_iadd (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
+    int i1 = valor_1->tipo_int,
+        i2 = valor_2->tipo_int;
+
+    exibir_se_verboso("\tA somar " + std::to_string(i2) + " e " + std::to_string(i1));
+
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = valor_2->tipo_int + valor_1->tipo_int;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    resultado->tipo_int = i2 + i1;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -2195,14 +2211,14 @@ void manipulador_ladd (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
+    long l2 = (long) valor_2->tipo_long,
+         l1 = (long) valor_1->tipo_long;
+
+    exibir_se_verboso("\tA somar " + std::to_string(l2) + " e " + std::to_string(l1));
+
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = valor_2->tipo_long + valor_1->tipo_long;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    resultado->tipo_long = l2 + l1;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -2229,11 +2245,6 @@ void manipulador_fadd (Frame *frame){
     resultado->tag = TAG_FLT;
     resultado->tipo_float = f1 + f2;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -2250,14 +2261,14 @@ void manipulador_dadd (Frame *frame){
     Operando *valor_2 = frame->desempilhar();
     Operando *valor_1 = frame->desempilhar();
 
+    double d1 = valor_1->tipo_double,
+           d2 = valor_2->tipo_double;
+
+    exibir_se_verboso("\tA somar " + std::to_string(d1) + " e " + std::to_string(d2));
+
     Operando *resultado = new Operando();
     resultado->tag = TAG_DBL;
-    resultado->tipo_double = valor_1->tipo_double + valor_2->tipo_double;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
+    resultado->tipo_double = d1 + d2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -2279,11 +2290,6 @@ void manipulador_isub (Frame *frame){
     resultado->tag = TAG_INT;
     resultado->tipo_int = valor_2->tipo_int - valor_1->tipo_int;
 
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
-
     frame->empilhar(resultado);
     frame->pc++;
 }
@@ -2303,11 +2309,6 @@ void manipulador_lsub (Frame *frame){
     Operando* resultado = new Operando();
     resultado->tag = TAG_LNG;
     resultado->tipo_long = valor_2->tipo_long - valor_1->tipo_long;
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -2334,11 +2335,6 @@ void manipulador_fsub (Frame *frame){
     resultado->tag = TAG_FLT;
 
     memcpy(&resultado->tipo_float, &fvalor_2, sizeof(float));
-
-    valor_1->deletar();
-	delete valor_1;
-    valor_2->deletar();
-	delete valor_2;
 
     frame->empilhar(resultado);
     frame->pc++;
@@ -2738,15 +2734,15 @@ void manipulador_lneg (Frame *frame){
  */
 void manipulador_fneg (Frame *frame){
     Operando *valor = frame->desempilhar();
-    u4 fvalor_neg;
+    float valor1, valor2;
 
-    std::memcpy(&fvalor_neg, &valor->tipo_float, sizeof(u4));
+    std::memcpy(&valor1, &valor->tipo_float, sizeof(float));
 
-    fvalor_neg = (~fvalor_neg) + 1;
+    valor2 = -valor1;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_FLT;
-    std::memcpy(&resultado->tipo_float, &fvalor_neg, sizeof(float));
+    std::memcpy(&resultado->tipo_float, &valor2, sizeof(float));
 
     valor->deletar();
 	delete valor;
@@ -2792,11 +2788,11 @@ void manipulador_ishl (Frame *frame){
     u4 ivalor1 = valor_1->tipo_int;
     u4 ivalor2 = valor_2->tipo_int;
 
-    ivalor2 &= 0x0000003F;
+    ivalor1 &= 0x0000001F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = ivalor1 << ivalor2;
+    resultado->tipo_int = ivalor2 << ivalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -2822,11 +2818,11 @@ void manipulador_lshl (Frame *frame){
     u8 lvalor1 = valor_1->tipo_long;
     u8 lvalor2 = valor_2->tipo_long;
 
-    lvalor2 &= 0x0000003F;
+    lvalor1 &= 0x0000003F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = lvalor1 << lvalor2;
+    resultado->tipo_long = lvalor2 << lvalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -2835,6 +2831,7 @@ void manipulador_lshl (Frame *frame){
 
     frame->empilhar(resultado);
     frame->pc++;
+
 }
 
 // 122 (0x7A)
@@ -2852,11 +2849,11 @@ void manipulador_ishr (Frame *frame){
     u4 ivalor1 = valor_1->tipo_int;
     u4 ivalor2 = valor_2->tipo_int;
 
-    ivalor2 &= 0x0000003F;
+    ivalor1 &= 0x0000001F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_INT;
-    resultado->tipo_int = ivalor1 >> ivalor2;
+    resultado->tipo_int = ivalor2 >> ivalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -2882,11 +2879,11 @@ void manipulador_lshr (Frame *frame){
     u8 lvalor1 = valor_1->tipo_long;
     u8 lvalor2 = valor_2->tipo_long;
 
-    lvalor2 &= 0x0000003F;
+    lvalor1 &= 0x0000003F;
 
     Operando *resultado = new Operando();
     resultado->tag = TAG_LNG;
-    resultado->tipo_long = lvalor1 >> lvalor2;
+    resultado->tipo_long = lvalor2 >> lvalor1;
 
     valor_1->deletar();
 	delete valor_1;
@@ -3404,7 +3401,8 @@ void manipulador_d2f (Frame *frame){
 void manipulador_i2b (Frame *frame){
     Operando *op = frame->desempilhar();
 
-    u4 valor = (u4) op->tipo_int;
+    int valor = (int8_t) op->tipo_int;
+
     std::memcpy(&op->tipo_byte, &valor, sizeof(u4));
 
     frame->empilhar(op);
@@ -3420,13 +3418,19 @@ void manipulador_i2b (Frame *frame){
  * O valor do topo da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos, truncado para char e estendido em zero a um resultado int. Esse resultado é enviado para a pilha de operandos.
  */
 void manipulador_i2c (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    char valor = (char) op->tipo_int;
-    std::memcpy(&op->tipo_char, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para char");
+
+    char valor_convertido =  (char) topo->tipo_int;
+
+    memcpy(&op->tipo_char,&valor_convertido,sizeof(char));
+
+    op->tag = TAG_CHR;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;         
 }
 
 // 147 (0x93)
@@ -3438,13 +3442,16 @@ void manipulador_i2c (Frame *frame){
  * O valor na parte superior da pilha de operandos deve ser do tipo inteiro. Ele é retirado da pilha de operandos, truncado para um short e estendido para um resultado inteiro. Esse resultado é empilhado na pilha de operandos.
  */
 void manipulador_i2s (Frame *frame){
-    Operando *op = frame->desempilhar();
+    Operando *op = new Operando();
+    Operando *topo = frame->desempilhar();
 
-    short valor = (short) op->tipo_int;
-    std::memcpy(&op->tipo_short, &valor, sizeof(u4));
+    exibir_se_verboso("\tA converter " + std::to_string((int) topo->tipo_int) + " para short");
+
+    op->tipo_int = (short) ((int) topo->tipo_int);
+    op->tag = TAG_INT;
 
     frame->empilhar(op);
-    frame->pc++;
+    frame->pc++;    
 }
 
 // 148 (0x94)
@@ -3839,10 +3846,16 @@ void manipulador_if_icmpeq (Frame *frame){
     Operando *op_1 = frame->desempilhar();
     Operando *op_2 = frame->desempilhar();
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int) op_1->tipo_int;
 
-    if ((int)op_2->tipo_int == (int)op_1->tipo_int) {
+    if (i2 == i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " == " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -3875,10 +3888,16 @@ void manipulador_if_icmpne (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int) op_1->tipo_int;
 
-    if ((int)op_2->tipo_int != (int)op_1->tipo_int) {
+    if (i2 != i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " != " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -3911,10 +3930,16 @@ void manipulador_if_icmplt (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int < (int)op_1->tipo_int) {
+    if (i2 < i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " < " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -3947,10 +3972,16 @@ void manipulador_if_icmpge (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int >= (int)op_1->tipo_int) {
+    if (i2 >= i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " >= " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -3983,10 +4014,16 @@ void manipulador_if_icmpgt (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int > (int)op_1->tipo_int) {
+    if (i2 > i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " > " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -4019,10 +4056,16 @@ void manipulador_if_icmple (Frame *frame){
     Operando *op_2 = frame->desempilhar();
 
     int16_t deslocamento = 3;
+    int i2 = (int) op_2->tipo_int,
+        i1 = (int)op_1->tipo_int;
 
-    if ((int)op_2->tipo_int <= (int)op_1->tipo_int) {
+    if (i2 <= i1) {
         deslocamento = get_deslocamento(frame);
     }
+
+    exibir_se_verboso("\tVerificando se " + std::to_string(i2) + " <= " + std::to_string(i1));
+    exibir_se_verboso("\tCom deslocamento de " + std::to_string(deslocamento)
+        + " vai para " + std::to_string(frame->pc + deslocamento));
 
     op_1->deletar();
 	delete op_1;
@@ -4344,6 +4387,8 @@ void manipulador_getstatic (Frame *frame){
         return;
     }
 
+    exibir_se_verboso("\tInd: " + std::to_string((int) indice));
+
     frame->a_empilhar = c_dados;
     frame->pc++;
 }
@@ -4414,10 +4459,12 @@ void manipulador_getfield (Frame *frame){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
     }
+
     std::string campo = (dynamic_cast<InfoRefCampo*>(c_dados))->get_nome_campo();
     Operando* instancia_classe = frame->desempilhar();
+    std::cout << "tamanho: " << instancia_classe->obj->referencias.size() << std::endl;
     frame->empilhar(instancia_classe->obj->referencias[campo]);
-    frame->pc++;
+    // frame->pc++;
 }
 
 // 181 (0xB5)
@@ -4535,7 +4582,7 @@ void manipulador_invokevirtual (Frame *frame){
     u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
-
+    
     if (!c_dados){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
         return;
@@ -4550,21 +4597,16 @@ void manipulador_invokevirtual (Frame *frame){
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
 
     if (!nome_classe.compare("java/io/PrintStream")){
-        Operando *op = frame->desempilhar();
-        std::cout << op->get();
+        std::cout << frame->desempilhar()->get();
 
         if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
             std::cout << std::endl;
 
-        op->deletar();
-	delete op;
-
-        frame->pc++;
         return;
     }
 
-    frame->a_empilhar = c_dados;
     frame->pc++;
+    frame->a_empilhar = c_dados;
 }
 
 // 183 (0xB7)
@@ -4653,8 +4695,8 @@ void manipulador_invokespecial (Frame *frame){
  * 
  */
 void manipulador_invokestatic (Frame *frame){
-    u1 byte_1 = frame->attr_codigo->codigo[frame->pc+1];
-    u1 byte_2 = frame->attr_codigo->codigo[frame->pc+2];
+    u1 byte_1 = frame->get_prox_byte();
+    u1 byte_2 = frame->get_prox_byte();
     u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
@@ -4836,79 +4878,53 @@ void manipulador_new (Frame *frame){
  * 
  */
 void manipulador_newarray (Frame *frame){
-    Operando* quantidade = frame->desempilhar();
-    u4 indice = quantidade->tipo_int;
+    Operando *quantidade = frame->desempilhar();
 
-    Operando* array = new Operando();
+    if (!quantidade){
+        std::cout << "Não houve o que desempilhar" << std::endl;
+        return;
+    }
+
+    u1 tipo_array = frame->get_prox_byte();
+
+
+    int qnt = (int) quantidade->tipo_int;
+
+    Operando *array = new Operando();
     array->tag = TAG_ARR;
 
     array->lista_operandos = new std::vector<Operando*>();
 
+    for (int cnt = 0; cnt < qnt; cnt++){
+        Operando *op = new Operando();
 
-    u1 tipo = frame->attr_codigo->codigo[++frame->pc];
+        switch (tipo_array){
+            case ARR_BLN: op->tag = TAG_BLN; break;
+            case ARR_CHR: op->tag = TAG_CHR; break;
+            case ARR_FLT: op->tag = TAG_FLT; break;
+            case ARR_DBL: op->tag = TAG_DBL; break;
+            case ARR_BYTE: op->tag = TAG_BYTE; break;
+            case ARR_SHT: op->tag = TAG_SHT; break;
+            case ARR_INT: op->tag = TAG_INT; break;
+            case ARR_LNG: op->tag = TAG_LNG; break;
+            default: op->tag = TAG_VAZ;
+        }
 
-    switch (tipo){
-    case 4:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_BLN;
-            array->lista_operandos->emplace_back(op);
+        if (op->tag == TAG_VAZ)
+            delete op;
+        else{
+            array->lista_operandos->push_back(op);
         }
-        break;
-    case 5:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_CHR;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 6:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_FLT;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 7:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_DBL;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 8:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_BYTE;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 9:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_SHT;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 10:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_INT;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    case 11:
-        for(int i=0; i<(int)indice; i++) {
-            Operando* op = new Operando();
-            op->tag = TAG_LNG;
-            array->lista_operandos->emplace_back(op);
-        }
-        break;
-    default:
-        break;
     }
-    frame->pc++;
+
+    quantidade->deletar();
+    delete quantidade;
+
+    exibir_se_verboso("\tCriado um vetor com " + std::to_string(qnt) + " itens do tipo "
+        + std::to_string(tipo_array));
+
     frame->empilhar(array);
+    frame->pc++;
 }
 
 // 189 (0xBD)

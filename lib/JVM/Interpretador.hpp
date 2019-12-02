@@ -9,6 +9,7 @@
         private:
             Carregador *area_metodos = nullptr;
             std::vector<Frame *> pilha_frames;
+            std::map<Campo*, Operando *> link_campo_operando;
 
             void empilhar (Frame *const frame);
 
