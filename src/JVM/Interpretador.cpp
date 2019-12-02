@@ -72,14 +72,14 @@ void Interpretador::empilhar (std::string const &nome_metodo, std::string const 
 
         argumentos_instancia.insert(argumentos_instancia.begin(), argumento);
 
-        if((argumento->tag == TAG_DBL) || (argumento->tag == TAG_LNG)){
-            Operando *op_vazio = new Operando();
-            op_vazio->tag = TAG_VAZ;
+        // if((argumento->tag == TAG_DBL) || (argumento->tag == TAG_LNG)){
+        //     Operando *op_vazio = new Operando();
+        //     op_vazio->tag = TAG_VAZ;
 
-            argumentos_instancia.insert(argumentos_instancia.begin() + 1, op_vazio);
-        }
+        //     argumentos_instancia.insert(argumentos_instancia.begin() + 1, op_vazio);
+        // }
     }
-    if((int)metodo->flag_acesso != 8) {
+    if((int)metodo->flag_acesso != 8 && (int)metodo->flag_acesso != 9) {
         Operando* classe_atual = this->topo()->desempilhar();
         argumentos_instancia.insert(argumentos_instancia.begin(), classe_atual);
     }
@@ -88,6 +88,7 @@ void Interpretador::empilhar (std::string const &nome_metodo, std::string const 
     for(int i = 0; i < argumentos_instancia.size(); i++){
         novo_frame->var_locais.at(i) = argumentos_instancia.at(i);
     }
+
 
     exibir_se_verboso("\tQuant. de argumentos configurados: "
         + std::to_string(argumentos_instancia.size()));
@@ -166,8 +167,9 @@ void Interpretador::manipular_estaticos(InterCPDado *const dados){
 
     Campo *campo = this->area_metodos->localizar(nome_classe)->get_campo(nome_campo);
 
-    if (!this->topo()->retorno)
+    if (!this->topo()->retorno) {
         this->topo()->empilhar(this->link_campo_operando[campo]);
+    }
     else{
         this->link_campo_operando[campo] = this->topo()->retorno;
         exibir_se_verboso("\tO campo " + nome_classe + ":" + nome_campo

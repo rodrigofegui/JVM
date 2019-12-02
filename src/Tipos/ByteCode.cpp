@@ -598,7 +598,24 @@ void manipulador_xastore (Frame *frame, u1 tag){
     // indice->deletar();
 	// delete indice;
 
-    lista->lista_operandos->at(ind) = valor;
+    switch(valor->tag) {
+        case TAG_INT:
+            lista->lista_operandos->at(ind)->tipo_int = valor->tipo_int;
+            break;
+        case TAG_LNG:
+            lista->lista_operandos->at(ind)->tipo_long = valor->tipo_long;
+            break;
+        case TAG_FLT:
+            lista->lista_operandos->at(ind)->tipo_float = valor->tipo_float;
+            break;
+        case TAG_DBL:
+            lista->lista_operandos->at(ind)->tipo_double = valor->tipo_double;
+            break;
+        default:
+            break;
+    }
+
+    // lista->lista_operandos->at(ind) = valor;
     frame->pc++;
 }
 
@@ -966,8 +983,8 @@ void manipulador_bipush (Frame *frame){
     u1 byte = frame->get_prox_byte();
 
     Operando *op = new Operando();
-    op->tag = TAG_BYTE;
-    op->tipo_byte = byte;
+    op->tag = TAG_INT;
+    op->tipo_int = byte;
 
     frame->empilhar(op);
     frame->pc++;
@@ -2839,14 +2856,16 @@ void manipulador_iand (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
-    int resultado = valor_1->tipo_int & valor_2->tipo_int;
+    Operando *op = new Operando();
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(int));
+    u8 resultado = valor_1->tipo_int & valor_2->tipo_int;
 
-    frame->empilhar(valor_1);
+    op->tag = TAG_INT;
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+
+    frame->empilhar(op);
     frame->pc++;
 }
-
 // 127 (0x7F)
 /**
  * @brief Realiza a operação and com variáveis de tipo longo
@@ -2859,11 +2878,14 @@ void manipulador_land (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
+    Operando *op = new Operando();
+
     u8 resultado = valor_1->tipo_long & valor_2->tipo_long;
 
-    std::memcpy(&valor_1->tipo_long, &resultado, sizeof(u8));
+    op->tag = TAG_LNG;
+    std::memcpy(&op->tipo_long, &resultado, sizeof(u8));
 
-    frame->empilhar(valor_1);
+    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -2879,11 +2901,14 @@ void manipulador_ior (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
-    int resultado = valor_1->tipo_int | valor_2->tipo_int;
+    Operando *op = new Operando();
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
+    u8 resultado = valor_1->tipo_int | valor_2->tipo_int;
 
-    frame->empilhar(valor_1);
+    op->tag = TAG_INT;
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+
+    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -2899,11 +2924,14 @@ void manipulador_lor (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
+    Operando *op = new Operando();
+
     u8 resultado = valor_1->tipo_long | valor_2->tipo_long;
 
-    std::memcpy(&valor_1->tipo_long, &resultado, sizeof(u8));
+    op->tag = TAG_LNG;
+    std::memcpy(&op->tipo_long, &resultado, sizeof(u8));
 
-    frame->empilhar(valor_1);
+    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -2919,11 +2947,14 @@ void manipulador_ixor (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
-    int resultado = valor_1->tipo_int ^ valor_2->tipo_int;
+    Operando *op = new Operando();
 
-    std::memcpy(&valor_1->tipo_int, &resultado, sizeof(u4));
+    u8 resultado = valor_1->tipo_int ^ valor_2->tipo_int;
 
-    frame->empilhar(valor_1);
+    op->tag = TAG_INT;
+    std::memcpy(&op->tipo_int, &resultado, sizeof(u4));
+
+    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -2939,11 +2970,14 @@ void manipulador_lxor (Frame *frame){
     Operando *valor_1 = frame->desempilhar();
     Operando *valor_2 = frame->desempilhar();
 
+    Operando *op = new Operando();
+
     u8 resultado = valor_1->tipo_long ^ valor_2->tipo_long;
 
-    std::memcpy(&valor_1->tipo_long, &resultado, sizeof(u8));
+    op->tag = TAG_LNG;
+    std::memcpy(&op->tipo_long, &resultado, sizeof(u8));
 
-    frame->empilhar(valor_1);
+    frame->empilhar(op);
     frame->pc++;
 }
 
@@ -4369,6 +4403,8 @@ void manipulador_invokevirtual (Frame *frame){
     u2 indice = (byte_1 << 8) | byte_2;
 
     InterCPDado *c_dados = frame->buscar_simbolo(indice);
+    
+    frame->pc++;
 
     if (!c_dados){
         std::cout << "Não existe dados no índice: " << (int) indice << std::endl;
@@ -4382,19 +4418,23 @@ void manipulador_invokevirtual (Frame *frame){
     }
 
     std::string nome_classe = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_classe();
+    std::string descritor = (dynamic_cast<InfoRefMetodo*>(c_dados))->get_str_nome_tipo();
+
 
     if (!nome_classe.compare("java/io/PrintStream")){
-        std::cout << "\tStdout: ";
-        std::cout << frame->desempilhar()->get();
 
-        if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println"))
+        if(descritor.find("()") == std::string::npos) {
+            std::cout << "\tStdout: ";
+            std::cout << frame->desempilhar()->get();
+        }
+
+        if (!(dynamic_cast<InfoRefMetodo*>(c_dados))->get_nome_metodo().compare("println")) 
             std::cout << std::endl;
 
-        frame->pc++;
+        // frame->pc++;
         return;
     }
 
-    frame->pc++;
     frame->a_empilhar = c_dados;
 }
 
